@@ -98,6 +98,7 @@ public class ProjectionFactory {
             register("STG", STG.class);
             register("SZP", SZP.class);
             register("TAN", TAN.class);
+            register("TPV", TPV.class);
             register("ZEA", ZEA.class);
             register("ZPN", ZPN.class);              
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {

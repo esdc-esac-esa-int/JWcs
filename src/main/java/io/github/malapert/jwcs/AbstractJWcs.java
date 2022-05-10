@@ -30,6 +30,7 @@ import io.github.malapert.jwcs.crs.AbstractCrs;
 import io.github.malapert.jwcs.proj.AbstractProjection;
 import io.github.malapert.jwcs.proj.AbstractProjection.ProjectionParameter;
 import io.github.malapert.jwcs.proj.SZP;
+import io.github.malapert.jwcs.proj.TPV;
 import io.github.malapert.jwcs.proj.ZPN;
 import io.github.malapert.jwcs.proj.exception.BadProjectionParameterException;
 import io.github.malapert.jwcs.proj.exception.JWcsException;
@@ -78,73 +79,73 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
     /**
      * Maximum longitude value in degrees.
      */
-    public final static int MAX_LONGITUDE = 360;
+    public static final int MAX_LONGITUDE = 360;
 
     /**
      * Minimum longitude value in degrees.
      */
-    public final static int MIN_LONGITUDE = 0;
+    public static final int MIN_LONGITUDE = 0;
 
     /**
      * Minimum latitude value in degrees.
      */
-    public final static int MIN_LATITUDE = -90;
+    public static final int MIN_LATITUDE = -90;
 
     /**
      * Maximum latitude value in degrees.
      */
-    public final static int MAX_LATITUDE = 90;
+    public static final int MAX_LATITUDE = 90;
 
     /**
      * Number of axes. 
      * 
      * <p>2 for an image
      */
-    public final static String NAXIS = "NAXIS";
+    public static final String NAXIS = "NAXIS";
     /**
      * Number of pixels along X axis.
      */
-    public final static String NAXIS1 = "NAXIS1";
+    public static final String NAXIS1 = "NAXIS1";
     /**
      * Number of pixels along Y axis.
      */
-    public final static String NAXIS2 = "NAXIS2";
+    public static final String NAXIS2 = "NAXIS2";
     /**
      * Reference along X axis in pixel frame. 
      * 
      * <p>This keyword is required for projection computation.
      */
-    public final static String CRPIX1 = "CRPIX1";
+    public static final String CRPIX1 = "CRPIX1";
     /**
      * Reference along Y axis in pixel frame. 
      * 
      * <p>This keyword is required for projection computation.
      */
-    public final static String CRPIX2 = "CRPIX2";
+    public static final String CRPIX2 = "CRPIX2";
     /**
      * Reference along longitude in degrees in celestial frame. 
      * 
      * <p>This keyword is required for projection computation.
      */
-    public final static String CRVAL1 = "CRVAL1";
+    public static final String CRVAL1 = "CRVAL1";
     /**
      * Reference along latitude in degrees in celestial frame. 
      * 
      * <p>This keyword is required for projection computation.
      */
-    public final static String CRVAL2 = "CRVAL2";
+    public static final String CRVAL2 = "CRVAL2";
     /**
      * AbstractProjection type along X axis. 
      * 
      * <p>This keyword is required for projection computation.
      */
-    public final static String CTYPE1 = "CTYPE1";
+    public static final String CTYPE1 = "CTYPE1";
     /**
      * AbstractProjection type along Y axis. 
      * 
      * <p>This keyword is required for projection computation.
      */
-    public final static String CTYPE2 = "CTYPE2";
+    public static final String CTYPE2 = "CTYPE2";
     /**
      * Scale (degrees / pixel) and rotation matrix. 
      * 
@@ -152,7 +153,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * needed. Either the CD matrix is provided or the following element 
      * (CDELT1, CDELT2, CROTA2) or (PC matrix, CDELT1, CDELT2).
      */
-    public final static String CD11 = "CD1_1";
+    public static final String CD11 = "CD1_1";
     /**
      * Scale (degrees / pixel) and rotation matrix. 
      * 
@@ -160,7 +161,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * needed. Either the CD matrix is provided or the following element 
      * (CDELT1, CDELT2, CROTA2) or (PC matrix, CDELT1, CDELT2).
      */
-    public final static String CD12 = "CD1_2";
+    public static final String CD12 = "CD1_2";
     /**
      * Scale (degrees / pixel) and rotation matrix. 
      * 
@@ -168,7 +169,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * needed. Either the CD matrix is provided or the following element 
      * (CDELT1, CDELT2, CROTA2) or (PC matrix, CDELT1, CDELT2).
      */
-    public final static String CD21 = "CD2_1";
+    public static final String CD21 = "CD2_1";
     /**
      * Scale (degrees / pixel) and rotation matrix. 
      * 
@@ -176,15 +177,15 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * needed. Either the CD matrix is provided or the following element 
      * (CDELT1, CDELT2, CROTA2) or (PC matrix, CDELT1, CDELT2).
      */
-    public final static String CD22 = "CD2_2";
+    public static final String CD22 = "CD2_2";
     /**
      * Unit along X axis.
      */
-    public final static String CUNIT1 = "CUNIT1";
+    public static final String CUNIT1 = "CUNIT1";
     /**
      * Unit along Y axis.
      */
-    public final static String CUNIT2 = "CUNIT2";
+    public static final String CUNIT2 = "CUNIT2";
     /**
      * Scale (degrees / pixel) along X axis when CD matrix is not defined. 
      * 
@@ -192,7 +193,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * Either the CD matrix is provided or the following element (CDELT1,
      * CDELT2, CROTA2) or (PC matrix, CDELT1, CDELT2).
      */
-    public final static String CDELT1 = "CDELT1";
+    public static final String CDELT1 = "CDELT1";
     /**
      * Scale (degrees / pixel) along X axis when CD matrix is not defined. 
      * 
@@ -200,7 +201,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * Either the CD matrix is provided or the following element (CDELT1,
      * CDELT2, CROTA2) or (PC matrix, CDELT1, CDELT2).
      */
-    public final static String CDELT2 = "CDELT2";
+    public static final String CDELT2 = "CDELT2";
     /**
      * For projection computation, information about scale and rotation are
      * needed. 
@@ -208,11 +209,11 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * <p>Either the CD matrix is provided or the following element
      * (CDELT1, CDELT2, CROTA2) or (PC matrix, CDELT1, CDELT2).
      */
-    public final static String CROTA2 = "CROTA2";
+    public static final String CROTA2 = "CROTA2";
     /**
      * Equinox value.
      */
-    public final static String EQUINOX = "EQUINOX";
+    public static final String EQUINOX = "EQUINOX";
     /**
      * Deformation matrix. 
      * 
@@ -221,7 +222,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * following element (CDELT1, CDELT2, CROTA2) or (PC matrix, CDELT1,
      * CDELT2).
      */
-    public final static String PC11 = "PC1_1";
+    public static final String PC11 = "PC1_1";
     /**
      * Deformation matrix. 
      * 
@@ -230,7 +231,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * following element (CDELT1, CDELT2, CROTA2) or (PC matrix, CDELT1,
      * CDELT2).
      */
-    public final static String PC12 = "PC1_2";
+    public static final String PC12 = "PC1_2";
     /**
      * Deformation matrix. 
      * 
@@ -239,7 +240,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * following element (CDELT1, CDELT2, CROTA2) or (PC matrix, CDELT1,
      * CDELT2).
      */
-    public final static String PC21 = "PC2_1";
+    public static final String PC21 = "PC2_1";
     /**
      * Deformation matrix. 
      * 
@@ -248,51 +249,51 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * following element (CDELT1, CDELT2, CROTA2) or (PC matrix, CDELT1,
      * CDELT2).
      */
-    public final static String PC22 = "PC2_2";
+    public static final String PC22 = "PC2_2";
     /**
      * Deformation matrix.
      */
-    public final static String PV11 = "PV1_1";
+    public static final String PV11 = "PV1_1";
     /**
      * Deformation matrix.
      */
-    public final static String PV12 = "PV1_2";
+    public static final String PV12 = "PV1_2";
     /**
      * Deformation matrix.
      */
-    public final static String PV13 = "PV1_3";
+    public static final String PV13 = "PV1_3";
     /**
      * Deformation matrix.
      */
-    public final static String PV14 = "PV1_4";
+    public static final String PV14 = "PV1_4";
     /**
      * Deformation matrix.
      */
-    public final static String PV20 = "PV2_0";
+    public static final String PV20 = "PV2_0";
     /**
      * Deformation matrix.
      */
-    public final static String PV21 = "PV2_1";
+    public static final String PV21 = "PV2_1";
     /**
      * Deformation matrix.
      */
-    public final static String PV22 = "PV2_2";
+    public static final String PV22 = "PV2_2";
     /**
      * Deformation matrix.
      */
-    public final static String PV23 = "PV2_3";
+    public static final String PV23 = "PV2_3";
     /**
      * lontpole.
      */
-    public final static String LONPOLE = "LONPOLE";
+    public static final String LONPOLE = "LONPOLE";
     /**
      * latpole.
      */
-    public final static String LATPOLE = "LATPOLE";
+    public static final String LATPOLE = "LATPOLE";
     /**
      * Reference system.
      */
-    public final static String RADESYS = "RADESYS";
+    public static final String RADESYS = "RADESYS";
 
     /**
      * AbstractProjection object.
@@ -312,7 +313,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
     /**
      * LOG.
      */
-    protected final static Logger LOG = Logger.getLogger(AbstractJWcs.class.getName());
+    protected static final Logger LOG = Logger.getLogger(AbstractJWcs.class.getName());
 
     /**
      * Initialize the WCS Object.
@@ -667,7 +668,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * @param crota rotation
      * @return the cd matrix as array
      */
-    protected final static double[][] computeCdFromCdelt(final double[] cdelt, final double crota) {
+    protected static final double[][] computeCdFromCdelt(final double[] cdelt, final double crota) {
         final double cos0 = FastMath.cos(FastMath.toRadians(crota));
         final double sin0 = FastMath.sin(FastMath.toRadians(crota));
         final double cd11 = cdelt[0] * cos0;
@@ -865,13 +866,13 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
             final String unit_lc = cunit.toLowerCase(Locale.ENGLISH);
             switch (unit_lc) {
                 case "acmin":
-                    cx = 1 / 60;
+                    cx = 1 / 60.0;
                     break;
                 case "arcsec":
-                    cx = 1 / 3600;
+                    cx = 1 / 3600.0;
                     break;
                 case "mas":
-                    cx = 1 / 3600000;
+                    cx = 1 / 3600000.0;
                     break;
                 case "rad":
                     cx = 180 / FastMath.PI;
@@ -924,6 +925,9 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
         switch (projectionCode) {
             case "ZPN":
                 projection = createZPNProjection(cx, cy);
+                break;
+            case "TPV":
+                projection = createTPVProjection(cx, cy);
                 break;
             case "BON":
                 LOG.log(Level.INFO, "Creates a AIT projection with (crval1,crval2)=({0},{1}) theta1={2}", new Object[]{crval(1) * cx, crval(2) * cx, getValueAsDouble(PV21, 0)});
@@ -1114,6 +1118,57 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
         return new ZPN(crval(1) * cx, crval(2) * cy, pvsPrimitif);
     }
 
+    /**
+     * Creates TPV projection.
+     *
+     * @param cx the scale factor along X
+     * @param cy the scale factor along Y
+     * @return the TPV projection
+     * @throws BadProjectionParameterException when a bad parameter is provided
+     * to the projection
+     */
+    private AbstractProjection createTPVProjection(final double cx, final double cy) throws BadProjectionParameterException {
+        final Iterator iter = iterator();
+        final Map<String, Double> pvMap_a = new HashMap<>();
+        final Map<String, Double> pvMap_b = new HashMap<>();
+        while (iter.hasNext()) {
+            final Object keyObj = iter.next();
+            if (keyObj instanceof HeaderCard) {
+                final HeaderCard card = (HeaderCard) keyObj;
+                final String key = card.getKey();
+                if (key.startsWith("PV1_"))
+                    pvMap_a.put(key, getValueAsDouble(key));
+                if (key.startsWith("PV2_"))
+                    pvMap_b.put(key, getValueAsDouble(key));
+            } else {
+                final String key = (String) keyObj;
+                if (key.startsWith("PV1_"))
+                    pvMap_a.put(key, getValueAsDouble(key));
+                if (key.startsWith("PV2_"))
+                    pvMap_b.put(key, getValueAsDouble(key));
+            }
+        }
+        
+        int pv_size = 40;
+        final double[] pv_a = new double[pv_size];
+        for (int i = 0; i < pv_a.length; i++) {
+            pv_a[i] = (i == 1) ? 1 : 0;
+            String key = "PV1_" + i;
+            if (pvMap_a.containsKey(key))
+                pv_a[i] = pvMap_a.get(key);
+        }
+        final double[] pv_b = new double[pv_size];
+        for (int i = 0; i < pv_b.length; i++) {
+            pv_b[i] = (i == 1) ? 1 : 0;
+            String key = "PV2_" + i;
+            if (pvMap_b.containsKey(key))
+                pv_b[i] = pvMap_b.get(key);
+        }
+        
+        LOG.log(Level.INFO, "Creates a TPV projection with (crval1,crval2)=({0},{1} PV_a={2} PV_b={3})", new Object[]{crval(1) * cx, crval(2) * cx, Arrays.toString(pv_a), Arrays.toString(pv_b)});
+        return new TPV(crval(1) * cx, crval(2) * cy, pv_a, pv_b);
+    }
+    
     /**
      * Sets the Native longitude of the fiducial point to the projection.
      *

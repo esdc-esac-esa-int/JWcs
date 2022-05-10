@@ -71,7 +71,7 @@ public abstract class AbstractCrs {
     /**
      * Logger.
      */
-    private final static Logger LOG = Logger.getLogger(AbstractCrs.class.getName());
+    private static final Logger LOG = Logger.getLogger(AbstractCrs.class.getName());
 
     /**
      * List of supported CoordinateReferenceSystem. 
@@ -168,7 +168,7 @@ public abstract class AbstractCrs {
             }
             return result;
         }
-    };
+    }
 
     /**
      * Computes the rotation matrix to apply from a reference frame to another one.
@@ -357,7 +357,7 @@ public abstract class AbstractCrs {
      * @param position position in a CRS
      * @return a SkyPosition to a target CRS
      */
-    public final static SkyPosition convertTo(final AbstractCrs targetCrs, final SkyPosition position) {
+    public static final SkyPosition convertTo(final AbstractCrs targetCrs, final SkyPosition position) {
         final double longitude = position.getLongitude();
         final double latitude = position.getLatitude();
         final AbstractCrs sourceCrs = position.getCrs();
@@ -370,7 +370,7 @@ public abstract class AbstractCrs {
      * @param positions the difference position in different CRS
      * @return an array of sky positions to a target CRS
      */
-    public final static SkyPosition[] convertTo(final AbstractCrs targetCrs, final SkyPosition[] positions) {
+    public static final SkyPosition[] convertTo(final AbstractCrs targetCrs, final SkyPosition[] positions) {
         final SkyPosition[] targetPositions = new SkyPosition[positions.length];
         int i =0;
         for (final SkyPosition position:positions) {
@@ -799,7 +799,7 @@ public abstract class AbstractCrs {
      *
      * @return 3x3 RealMatrix M as in XYZgal = M * XYZb1950
      */
-    protected final static RealMatrix convertMatrixEqB19502Gal() {
+    protected static final RealMatrix convertMatrixEqB19502Gal() {
         return rotZ(180d - 123.0d).multiply(rotY(90d - 27.4d)).multiply(rotZ(192.25d));
     }
 
@@ -833,7 +833,7 @@ public abstract class AbstractCrs {
      *
      * @return RealMatrix M as in <code>XYZsgal = M * XYZgal</code>
      */
-    protected final static RealMatrix convertMatrixGal2Sgal() {
+    protected static final RealMatrix convertMatrixGal2Sgal() {
         return rotZ(90.0d).multiply(rotY(90d - 6.32d)).multiply(rotZ(47.37d));
     }
 
@@ -953,7 +953,7 @@ public abstract class AbstractCrs {
      * or J coordinates
      * @return 3x3 RealMatrix M as in <code>XYZecl = M * XYZeq</code>
      */
-    protected final static RealMatrix convertMatrixEq2Ecl(final double epoch, final CoordinateReferenceFrame.ReferenceFrame refSystem) {
+    protected static final RealMatrix convertMatrixEq2Ecl(final double epoch, final CoordinateReferenceFrame.ReferenceFrame refSystem) {
         final double jd;
         if (CoordinateReferenceFrame.ReferenceFrame.FK4.equals(refSystem)) {
             jd = convertEpochBessel2JD(epoch);

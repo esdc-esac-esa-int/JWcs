@@ -172,14 +172,14 @@ public class AbstractProjectionTest {
                         }
 
                         if (deltaLatitude > tolerance) {
-                            System.out.printf("longitude = %d lat = %d\n", longitude, latitude);
-                            System.out.printf("poject: x = %20.15f y = %20.15f\n", pixels[0], pixels[1]);
-                            System.out.printf("Unproject : longitude = %20.15f latitude = %20.15f\n", skyPos[0], skyPos[1]);
+                            System.out.printf("longitude = %d LATITUDE = %d\n", longitude, latitude);
+                            System.out.printf("project: x = %20.15f y = %20.15f\n", pixels[0], pixels[1]);
+                            System.out.printf("unproject: longitude = %20.15f latitude = %20.15f\n", skyPos[0], skyPos[1]);
                             System.out.println();
                         } else if (Math.abs(latitude) != 90 && deltaLongitude > tolerance) {
-                            System.out.printf("longitue = %d lat = %d\n", longitude, latitude);
-                            System.out.printf("poject: x = %20.15f y = %20.15f\n", pixels[0], pixels[1]);
-                            System.out.printf("Unproject : longitude = %20.15f latitude = %20.15f\n", skyPos[0], skyPos[1]);
+                            System.out.printf("LONGITUDE = %d latitude = %d\n", longitude, latitude);
+                            System.out.printf("project: x = %20.15f y = %20.15f\n", pixels[0], pixels[1]);
+                            System.out.printf("unproject: longitude = %20.15f latitude = %20.15f\n", skyPos[0], skyPos[1]);
                             System.out.println();
                         }
                     } 
