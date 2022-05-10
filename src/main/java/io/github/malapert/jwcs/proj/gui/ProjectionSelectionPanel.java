@@ -24,6 +24,7 @@ import io.github.malapert.jwcs.proj.AbstractProjection.ProjectionParameter;
 import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.proj.exception.ProjectionException;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -413,7 +414,8 @@ public class ProjectionSelectionPanel extends javax.swing.JPanel {
         phipLabel = new javax.swing.JLabel();
         thetapLabel = new javax.swing.JLabel();
 
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        //setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setLayout(new FlowLayout());
 
         selectionPanel.setPreferredSize(new java.awt.Dimension(100, 40));
         selectionPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 5, 10));
@@ -445,10 +447,10 @@ public class ProjectionSelectionPanel extends javax.swing.JPanel {
         });
         selectionPanel.add(nextProjectionButton);
 
-        add(selectionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 604, -1));
+        add(selectionPanel); //, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 604, -1));
 
         map.setPreferredSize(new java.awt.Dimension(400, 300));
-        add(map, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 604, 210));
+        add(map); //, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 604, 210));
 
         infoPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(""), javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10)));
         infoPanel.setMinimumSize(new java.awt.Dimension(400, 96));
@@ -693,7 +695,7 @@ public class ProjectionSelectionPanel extends javax.swing.JPanel {
                 .addGap(23, 23, 23))
         );
 
-        add(infoPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 268, 604, 250));
+        add(infoPanel); //, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 268, 604, 250));
     }// </editor-fold>//GEN-END:initComponents
 
     private void lon0SliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_lon0SliderStateChanged
