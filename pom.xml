@@ -21,7 +21,7 @@
         </developer>
     </developers>    
     <artifactId>JWcs</artifactId>
-    <version>1.2.2</version>  
+    <version>1.2.3</version>  
     <repositories>
         <repository>
             <id>maven-netbeans</id>
