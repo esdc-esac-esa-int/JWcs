@@ -17,7 +17,7 @@ JAVA >= 8
 ### Getting the sources
 
 ```console
-$ git clone https://github.com/malapert/JWcs.git
+$ git clone https://github.com/esdc-esac-esa-int/JWcs.git
 ```
 	
 ### Building the sources
