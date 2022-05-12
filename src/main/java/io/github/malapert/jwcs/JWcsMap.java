@@ -200,6 +200,7 @@ public class JWcsMap extends AbstractJWcs {
         switch (projectionCode) {
             case "ZEA":
             case "TAN":
+            case "TPV":
                 wcsKeywords.put(AbstractJWcs.CRVAL2, "90");
                 break;
             case "BON":

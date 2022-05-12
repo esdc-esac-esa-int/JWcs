@@ -84,10 +84,10 @@ public class TPVTest extends AbstractProjectionTest{
     public void testProjectTPV() throws ProjectionException {
         System.out.println("project TPV");
         final double expectedResults[][] = {
-            { 52.569137057557676, -28.274196597880323},
-            { 52.56840998779473, -28.259643617568347},
-            { 52.58460990938416, -28.259540964068968},
-            { 52.58533937152373, -28.274093739721163}
+            { 52.53381848351462, -28.76060542329203},
+            { 52.5332441513107, -28.746942356860124},
+            { 52.54889662414678, -28.74710423659045},
+            { 52.549452988200024, -28.760785077567455}
         };
         double[] result = wcs.pix2wcs(1, 1);
         assertArrayEquals(expectedResults[0], result, 1e-13);

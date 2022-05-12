@@ -124,12 +124,11 @@ public class TPV extends AbstractZenithalProjection {
      */      
     @Override
     public double[] project(final double x, final double y) {
-        final double xr = FastMath.toRadians(x);
-        final double yr = FastMath.toRadians(y);
-        final double r_theta = computeRadius(xr, yr);
+        final double[] xy = applyPoly(x, y);
         
-        final double[] xy = applyPoly(xr, yr, r_theta);
-        final double r_theta_corrected = computeRadius(xy[0], xy[1]);
+        final double xr = FastMath.toRadians(xy[0]);
+        final double yr = FastMath.toRadians(xy[1]);
+        final double r_theta_corrected = computeRadius(xr, yr);
         
         final double phi = computePhi(xy[0], xy[1], r_theta_corrected);       
         final double theta = NumericalUtility.aatan2(1, r_theta_corrected);        
@@ -150,24 +149,22 @@ public class TPV extends AbstractZenithalProjection {
      * @param phi the native spherical coordinate (\u03D5) in radians along longitude
      * @param theta the native spherical coordinate (\u03B8) in radians along latitude
      * @return the projection plane coordinates
-     * @throws io.github.malapert.jwcs.proj.exception.PixelBeyondProjectionException No valid solution for (\u03D5, \u03B8)
-     * @throws io.github.malapert.jwcs.proj.exception.ProjectionException Inexistent solution for (\u03D5, \u03B8), or did
-     * not converge
+     * @throws io.github.malapert.jwcs.proj.exception.ProjectionException No valid solution for (\u03D5, \u03B8), or 
+     * inexistent solution for (\u03D5, \u03B8), or did not converge
      */     
     @Override
-    public double[] projectInverse(final double phi, final double theta) throws PixelBeyondProjectionException, 
-        ProjectionException {        
+    public double[] projectInverse(final double phi, final double theta) throws ProjectionException {        
         final double s = FastMath.sin(theta);
         if (NumericalUtility.equal(s, 0)) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);
         }
         final double r_theta = FastMath.cos(theta) / s;
-        final double x = computeX(r_theta, phi);
-        final double y = computeY(r_theta, phi);
+        final double x = FastMath.toDegrees(computeX(r_theta, phi));
+        final double y = FastMath.toDegrees(computeY(r_theta, phi));
         
         double[] xy = applyPolyInverse(x, y);
         
-        return new double[] {FastMath.toDegrees(xy[0]), FastMath.toDegrees(xy[1])};
+        return new double[] {xy[0], xy[1]};
     }       
 
     @Override
@@ -243,7 +240,7 @@ public class TPV extends AbstractZenithalProjection {
     
     // Implementation below to apply the distortion terms follows the C code at
     // https://github.com/Starlink/ast/blob/master/wcslib/tpn.c
-    private double[] applyPoly(double x, double y, double r) {
+    private double[] applyPoly(double x, double y) {
         if (a == null || a.length == 0) return new double[] {x, y};
         
         double x2 = x*x;
@@ -251,6 +248,7 @@ public class TPV extends AbstractZenithalProjection {
         double y2 = y*y;
 
         double r2 = x2 + y2;
+        double r = FastMath.sqrt(r2);
 
         double x3 = x2*x;
         double x2y = x2*y;

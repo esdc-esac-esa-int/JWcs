@@ -1175,6 +1175,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * @param projection the projection
      */
     private void setNativeLongitudeOfFiducialPoint(final AbstractProjection projection) {
+        if (projection instanceof TPV) return;
         if (hasKeyword(PV11)) {
             LOG.log(Level.INFO, "Sets phi0 to {0}", getValueAsDouble(PV11));
             projection.setPhi0(getValueAsDouble(PV11));
@@ -1187,6 +1188,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * @param projection the projection
      */
     private void setNativeLatitudeOfFiducialPoint(final AbstractProjection projection) {
+        if (projection instanceof TPV) return;
         if (hasKeyword(PV12)) {
             LOG.log(Level.INFO, "Sets theta0 to {0}", getValueAsDouble(PV12));
             projection.setTheta0(getValueAsDouble(PV12));
