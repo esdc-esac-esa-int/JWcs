@@ -157,17 +157,17 @@ public class JWcsTools {
      * @param to Coordinate system for the output position.
      * @return Output position in degrees.
      */
-    public static double[] convert(SkyPosition input, COORD_SYS to) {
+    public static SkyPosition convert(SkyPosition input, COORD_SYS to) {
         switch (to) {
         case EQUATORIAL:
-            return AbstractCrs.convertTo(new Equatorial(new FK5()), input).getDoubleArray();
+            return AbstractCrs.convertTo(new Equatorial(new FK5()), input);
         case ECLIPTIC:
-            return AbstractCrs.convertTo(new Ecliptic(), input).getDoubleArray();
+            return AbstractCrs.convertTo(new Ecliptic(), input);
         case GALACTIC:
-            return AbstractCrs.convertTo(new Galactic(), input).getDoubleArray();
+            return AbstractCrs.convertTo(new Galactic(), input);
         }
         
-        return new double[] {}; // Will never happen
+        return null; // Will never happen
     }
     
     /**
@@ -223,12 +223,7 @@ public class JWcsTools {
      * @return Output ICRS position in degrees.
      */
     public static double[] convertB1950ToICRS(double ra, double dec) {
-        if (ra < 0 || ra > 360)
-            ra = Math.toDegrees(NumericalUtility.normalizeLongitude(Math.toRadians(ra)));
-        SkyPosition pB1950 = new SkyPosition(ra, dec, new Equatorial(new FK4()));
-        SkyPosition pICRS = AbstractCrs.convertTo(new Equatorial(new ICRS()), pB1950);
-
-        return new double[] {pICRS.getLongitude(), pICRS.getLatitude()};
+        return convertBxxxToICRS(ra, dec, 1950);
     }
 
     /**
