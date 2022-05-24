@@ -70,7 +70,7 @@ public class ProjectionSelectionPanel extends javax.swing.JPanel {
      */
     public ProjectionSelectionPanel() {
         initComponents();
-        Object[] projNames = new Object[]{"ARC", "AZP", "SIN", "STG", "SZP", "TAN", "ZEA", "ZPN",
+        Object[] projNames = new Object[]{"ARC", "AZP", "SIN", "STG", "SZP", "TAN", "TPV", "ZEA", "ZPN",
             "AIT", "CAR", "CEA", "CYP", "MER", "MOL", "PAR", "SFL",
             "COD", "COE", "COO", "COP",
             "BON", "PCO","AIR"
