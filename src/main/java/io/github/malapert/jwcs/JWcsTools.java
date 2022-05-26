@@ -19,7 +19,8 @@
  */
 package io.github.malapert.jwcs;
 
-import java.io.IOException;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
@@ -280,17 +281,17 @@ public class JWcsTools {
     /**
      * Reads a fits file and returns the {@linkplain JWcsMap} object to perform 
      * pixel <--> sky coordinate conversions.
-     * @param file Path to the fits.
+     * @param url Path to the fits as a url, with file:// or http://.
      * @param hdu HDU number.
      * @return The instance of {@linkplain JWcsMap}.
      * @throws JWcsException
      * @throws URISyntaxException
-     * @throws IOException
+     * @throws FileNotFoundException
      */
-    public static JWcsMap readFits(String file, int hdu) throws JWcsException, URISyntaxException, 
-        IOException {
+    public static JWcsMap readFits(String url, int hdu) throws JWcsException, URISyntaxException, 
+        FileNotFoundException {
         final Map<String, String> keyMap = new HashMap<>();
-        final URI uri = new URI(file);
+        final URI uri = new URI(url);
         try (Fits fits = new Fits(uri.toURL())) {
             final Header hdr = fits.getHDU(hdu).getHeader();
             final Cursor<String, HeaderCard> c = hdr.iterator();
@@ -298,8 +299,41 @@ public class JWcsTools {
                 final HeaderCard card = c.next();
                 keyMap.put(card.getKey(), card.getValue());
             }
-        } catch (nom.tam.fits.FitsException | IOException ex) {
-            final HeaderFitsReader hdr = new HeaderFitsReader(uri.toURL());
+        } catch (NoSuchMethodError | Exception ex) {
+            ex.printStackTrace();
+            final HeaderFitsReader hdr = new HeaderFitsReader(uri);
+            final List<List<String>> listKeywords = hdr.readKeywords();
+            listKeywords.stream().forEach(keywordLine -> 
+                keyMap.put(keywordLine.get(0), keywordLine.get(1))
+            );
+        }
+        final JWcsMap wcs = new JWcsMap(keyMap);
+        wcs.doInit();
+        return wcs;
+    }
+    
+    /**
+     * Reads a fits file and returns the {@linkplain JWcsMap} object to perform 
+     * pixel <--> sky coordinate conversions.
+     * @param file The fits file to read.
+     * @param hdu HDU number.
+     * @return The instance of {@linkplain JWcsMap}.
+     * @throws JWcsException
+     * @throws FileNotFoundException
+     */
+    public static JWcsMap readFits(File file, int hdu) throws JWcsException, 
+        FileNotFoundException {
+        final Map<String, String> keyMap = new HashMap<>();
+        try (Fits fits = new Fits(file)) {
+            final Header hdr = fits.getHDU(hdu).getHeader();
+            final Cursor<String, HeaderCard> c = hdr.iterator();
+            while (c.hasNext()) {
+                final HeaderCard card = c.next();
+                keyMap.put(card.getKey(), card.getValue());
+            }
+        } catch (NoSuchMethodError | Exception ex) {
+            ex.printStackTrace();
+            final HeaderFitsReader hdr = new HeaderFitsReader(file);
             final List<List<String>> listKeywords = hdr.readKeywords();
             listKeywords.stream().forEach(keywordLine -> 
                 keyMap.put(keywordLine.get(0), keywordLine.get(1))
