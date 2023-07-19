@@ -28,8 +28,6 @@ import io.github.malapert.jwcs.datum.FK4NoEterms;
 import io.github.malapert.jwcs.datum.FK5;
 import io.github.malapert.jwcs.datum.ICRS;
 import io.github.malapert.jwcs.datum.J2000;
-import static io.github.malapert.jwcs.datum.CoordinateReferenceFrame.ReferenceFrame.FK5;
-import static io.github.malapert.jwcs.datum.CoordinateReferenceFrame.ReferenceFrame.J2000;
 import io.github.malapert.jwcs.position.SkyPosition;
 import io.github.malapert.jwcs.crs.AbstractCrs;
 import io.github.malapert.jwcs.crs.CrsFactory;
@@ -37,24 +35,19 @@ import io.github.malapert.jwcs.crs.gui.ConvertSelectionPanel;
 import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.proj.exception.ProjectionException;
 import io.github.malapert.jwcs.proj.gui.ProjectionSelectionPanel;
-import io.github.malapert.jwcs.utility.HeaderFitsReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nom.tam.fits.Fits;
-import nom.tam.fits.Header;
-import nom.tam.fits.HeaderCard;
-import nom.tam.util.Cursor;
+import nom.tam.fits.FitsException;
 import io.github.malapert.jwcs.datum.CoordinateReferenceFrame;
 
 /**
@@ -198,31 +191,42 @@ public class Main {
      * @throws URISyntaxException an error when loading the FITS file
      */
     private static void projectToSkyFromCommandLine(final String pos, final String file, final int extension, final String precision) throws ProjectionException, JWcsException, IOException, URISyntaxException {
-        final Map<String, String> keyMap = new HashMap();
         final String[] argumentsPos = pos.split(",");
-        if (argumentsPos.length != 2) {
+        if (argumentsPos.length != 2)
             throw new IllegalArgumentException("The position " + pos + " is not correct");
-        }
-        if (file == null) {
+        if (file == null)
             throw new IllegalArgumentException("--file argument is required");
-        } else {
-            final URI uri = new URI(file);
-            try {
-                final Fits fits = new Fits(uri.toURL());
-                final Header hdr = fits.getHDU(extension).getHeader();
-                final Cursor c = hdr.iterator();
-                while (c.hasNext()) {
-                    final HeaderCard card = (HeaderCard) c.next();
-                    keyMap.put(card.getKey(), card.getValue());
-                }
-            } catch (nom.tam.fits.FitsException | IOException ex) {
-                final HeaderFitsReader hdr = new HeaderFitsReader(uri.toURL());
-                final List<List<String>> listKeywords = hdr.readKeywords();
-                listKeywords.stream().forEach((keywordLine) -> {
-                    keyMap.put(keywordLine.get(0), keywordLine.get(1));
-                });
-            }
+
+        final URI uri = new URI(file);
+        try {
+            JWcsFits jf = new JWcsFits(new Fits(uri.toURL()), extension);
+            jf.doInit();
+            LOG.log(Level.INFO, "Executing pix2wcs(%s,%s)", argumentsPos);
+            final double[] result = jf.pix2wcs(Double.valueOf(argumentsPos[0]), Double.valueOf(argumentsPos[1]));
+
+            System.out.printf("(ra,dec)=(" + precision + ", " + precision + ")\n", result[0], result[1]);
+            LOG.log(Level.INFO, "(ra,dec) = (%s,%s)", result);
+        } catch (FitsException e) {
+            throw new IOException(e.getMessage(), e);
         }
+        
+        /*
+        final Map<String, String> keyMap = new HashMap<>();
+        try (Fits fits = new Fits(uri.toURL())) {
+            final Header hdr = fits.getHDU(extension).getHeader();
+            final Cursor<String, HeaderCard> c = hdr.iterator();
+            while (c.hasNext()) {
+                final HeaderCard card = (HeaderCard) c.next();
+                keyMap.put(card.getKey(), card.getValue());
+            }
+        } catch (nom.tam.fits.FitsException | IOException ex) {
+            final HeaderFitsReader hdr = new HeaderFitsReader(uri.toURL());
+            final List<List<String>> listKeywords = hdr.readKeywords();
+            listKeywords.stream().forEach((keywordLine) -> {
+                keyMap.put(keywordLine.get(0), keywordLine.get(1));
+            });
+        }
+
         final JWcsMap wcs = new JWcsMap(keyMap);
         wcs.doInit();
         LOG.log(Level.INFO, "Executing pix2wcs(%s,%s)", argumentsPos);
@@ -230,7 +234,7 @@ public class Main {
 
         System.out.printf("(ra,dec)=(" + precision + ", " + precision + ")\n", result[0], result[1]);
         LOG.log(Level.INFO, "(ra,dec) = (%s,%s)", result);
-
+        */
     }
 
     /**
@@ -245,30 +249,39 @@ public class Main {
      * @throws URISyntaxException Exception
      */ 
     private static void projectToCameraFromCommandLine(final String pos, final String file, final int extension, final String precision) throws JWcsException, IOException, URISyntaxException {
-        final Map<String, String> keyMap = new HashMap();
         final String[] argumentsPos = pos.split(",");
-        if (argumentsPos.length != 2) {
+        if (argumentsPos.length != 2)
             throw new IllegalArgumentException("The position " + pos + " is not correct");
-        }
-        if (file == null) {
+        if (file == null)
             throw new IllegalArgumentException("--file argument is required");
-        } else {
-            final URI uri = new URI(file);
-            try {
-                final Fits fits = new Fits(uri.toURL());
-                final Header hdr = fits.getHDU(extension).getHeader();
-                final Cursor c = hdr.iterator();
-                while (c.hasNext()) {
-                    final HeaderCard card = (HeaderCard) c.next();
-                    keyMap.put(card.getKey(), card.getValue());
-                }
-            } catch (nom.tam.fits.FitsException | IOException ex) {
-                final HeaderFitsReader hdr = new HeaderFitsReader(uri.toURL());
-                final List<List<String>> listKeywords = hdr.readKeywords();
-                listKeywords.stream().forEach((keywordLine) -> {
-                    keyMap.put(keywordLine.get(0), keywordLine.get(1));
-                });
+        
+        final URI uri = new URI(file);
+        try {
+            JWcsFits jf = new JWcsFits(new Fits(uri.toURL()), extension);
+            jf.doInit();
+            LOG.log(Level.INFO, "Executing wcs2pix(%s,%s)", argumentsPos);
+            final double[] result = jf.wcs2pix(Double.valueOf(argumentsPos[0]), Double.valueOf(argumentsPos[1]));
+            System.out.printf("(x,y)=(" + precision + ", " + precision + ")\n", result[0], result[1]);
+            LOG.log(Level.INFO, "(x,y) = (%s,%s)", result);
+        } catch (FitsException e) {
+            throw new IOException(e.getMessage(), e);
+        }
+
+        /*
+        final Map<String, String> keyMap = new HashMap<>();
+        try (Fits fits = new Fits(uri.toURL())) {
+            final Header hdr = fits.getHDU(extension).getHeader();
+            final Cursor<String, HeaderCard> c = hdr.iterator();
+            while (c.hasNext()) {
+                final HeaderCard card = (HeaderCard) c.next();
+                keyMap.put(card.getKey(), card.getValue());
             }
+        } catch (nom.tam.fits.FitsException | IOException ex) {
+            final HeaderFitsReader hdr = new HeaderFitsReader(uri.toURL());
+            final List<List<String>> listKeywords = hdr.readKeywords();
+            listKeywords.stream().forEach((keywordLine) -> {
+                keyMap.put(keywordLine.get(0), keywordLine.get(1));
+            });
         }
         final JWcsMap wcs = new JWcsMap(keyMap);
         wcs.doInit();
@@ -276,6 +289,7 @@ public class Main {
         final double[] result = wcs.wcs2pix(Double.valueOf(argumentsPos[0]), Double.valueOf(argumentsPos[1]));
         System.out.printf("(x,y)=(" + precision + ", " + precision + ")\n", result[0], result[1]);
         LOG.log(Level.INFO, "(x,y) = (%s,%s)", result);
+        */
     }
 
     /**
@@ -451,16 +465,26 @@ public class Main {
      * --to arguments are required
      */
     private static void convertFromCommandLine(final String pos, final String file, final String from, final String to, final int extension, final String precision) throws URISyntaxException, IOException, JWcsException {
-        final Map<String, String> keyMap = new HashMap();
         final AbstractCrs crsFrom;
-        if (file == null && from == null && to == null) {
+        if (file == null && from == null && to == null)
             throw new IllegalArgumentException("Either --file argument or --from and --to arguments are required");
-        } else if (file != null) {
+        
+        if (file != null) {
             final URI uri = new URI(file);
+            try {
+                JWcsFits jf = new JWcsFits(new Fits(uri.toURL()), extension);
+                jf.doInit();
+                crsFrom = jf.getCrs();
+            } catch (FitsException e) {
+                throw new IOException(e.getMessage(), e);
+            }            
+            
+            /*
+            final Map<String, String> keyMap = new HashMap<>();
             try {
                 final Fits fits = new Fits(uri.toURL());
                 final Header hdr = fits.getHDU(extension).getHeader();
-                final Cursor c = hdr.iterator();
+                final Cursor<String, HeaderCard> c = hdr.iterator();
                 while (c.hasNext()) {
                     final HeaderCard card = (HeaderCard) c.next();
                     keyMap.put(card.getKey(), card.getValue());
@@ -475,10 +499,11 @@ public class Main {
             final JWcsMap wcs = new JWcsMap(keyMap);
             wcs.doInit();
             crsFrom = wcs.getCrs();
-
+            */
         } else {
             crsFrom = getCrs(from);
         }
+        
         final String crsTarget = to;
         final double[] skyPos = Arrays.stream(pos.split(","))
                 .mapToDouble(Double::parseDouble)
@@ -515,7 +540,7 @@ public class Main {
      *
      * @param args the command line arguments
      */
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         EXIT returnedCode = EXIT.OK;
         boolean isGui = false;
         int c;
