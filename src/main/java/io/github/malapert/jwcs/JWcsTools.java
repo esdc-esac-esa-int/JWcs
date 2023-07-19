@@ -19,7 +19,7 @@
  */
 package io.github.malapert.jwcs;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.ParseException;
@@ -65,7 +65,10 @@ import nom.tam.util.Cursor;
 public class JWcsTools {
     
     private static final String B1950 = "B1950";
-    
+    private static final int FIFTEEN = 15;
+    private static final int SIXTY = 60;
+    private static final int ONE = 1;
+
     private JWcsTools() {}
 
     /**
@@ -90,15 +93,15 @@ public class JWcsTools {
      * Angle units to convert between units or arc and time.
      */
     public enum ANGLE {
-        DEG(15.0),
-        ARCMIN(15 * 60.0),
-        ARCSEC(15 * 3600.0),
-        HOUR(1.0),
-        MIN(60.0),
-        SEC(3600.0),
-        RAD(Math.toRadians(15.0))
+        DEGREES (FIFTEEN),
+        ARCMINUTES ((double) FIFTEEN * SIXTY),
+        ARCSECONDS ((double) FIFTEEN * SIXTY * SIXTY),
+        HOURS (ONE),
+        MINUTES (SIXTY),
+        SECONDS ((double) SIXTY * SIXTY),
+        RADIANS (Math.toRadians(FIFTEEN))
         ;
-        
+                
         private double relativeConversionFactor;
         
         private ANGLE(double c) {
@@ -280,17 +283,17 @@ public class JWcsTools {
     /**
      * Reads a fits file and returns the {@linkplain JWcsMap} object to perform 
      * pixel <--> sky coordinate conversions.
-     * @param file Path to the fits.
+     * @param url Path to the fits as a url, with file:// or http://.
      * @param hdu HDU number.
      * @return The instance of {@linkplain JWcsMap}.
      * @throws JWcsException
      * @throws URISyntaxException
-     * @throws IOException
+     * @throws FileNotFoundException
      */
-    public static JWcsMap readFits(String file, int hdu) throws JWcsException, URISyntaxException, 
-        IOException {
+    public static JWcsMap readFits(String url, int hdu) throws JWcsException, URISyntaxException, 
+        FileNotFoundException {
         final Map<String, String> keyMap = new HashMap<>();
-        final URI uri = new URI(file);
+        final URI uri = new URI(url);
         try (Fits fits = new Fits(uri.toURL())) {
             final Header hdr = fits.getHDU(hdu).getHeader();
             final Cursor<String, HeaderCard> c = hdr.iterator();
@@ -298,8 +301,8 @@ public class JWcsTools {
                 final HeaderCard card = c.next();
                 keyMap.put(card.getKey(), card.getValue());
             }
-        } catch (nom.tam.fits.FitsException | IOException ex) {
-            final HeaderFitsReader hdr = new HeaderFitsReader(uri.toURL());
+        } catch (NoSuchMethodError | Exception ex) {
+            final HeaderFitsReader hdr = new HeaderFitsReader(uri);
             final List<List<String>> listKeywords = hdr.readKeywords();
             listKeywords.stream().forEach(keywordLine -> 
                 keyMap.put(keywordLine.get(0), keywordLine.get(1))
@@ -309,7 +312,7 @@ public class JWcsTools {
         wcs.doInit();
         return wcs;
     }
-    
+
     /**
      * Reads a String with degrees, minutes, and arcseconds to get those 
      * individual fields. Format can be ddd mm ss.ss, ddd:mm:ss.ss, or d.ddd.

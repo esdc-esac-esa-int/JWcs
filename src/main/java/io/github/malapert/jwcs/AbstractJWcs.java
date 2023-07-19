@@ -1093,7 +1093,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * to the projection
      */
     private AbstractProjection createZPNProjection(final double cx, final double cy) throws BadProjectionParameterException {
-        final Iterator iter = iterator();
+        final Iterator<Object> iter = iterator();
         final Map<String, Double> pvMap = new HashMap<>();
         while (iter.hasNext()) {
             final Object keyObj = iter.next();
@@ -1112,7 +1112,9 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
         }
         final double[] pvsPrimitif = new double[pvMap.size()];
         for (int i = 0; i < pvMap.size(); i++) {
-            pvsPrimitif[i] = pvMap.get("PV2_" + i);
+            String key = "PV2_" + i;
+            if (pvMap.containsKey(key))
+                pvsPrimitif[i] = pvMap.get(key);
         }
         LOG.log(Level.INFO, "Creates a ZPN projection with (crval1,crval2)=({0},{1} PV={2})", new Object[]{crval(1) * cx, crval(2) * cx, Arrays.toString(pvsPrimitif)});
         return new ZPN(crval(1) * cx, crval(2) * cy, pvsPrimitif);
@@ -1128,7 +1130,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * to the projection
      */
     private AbstractProjection createTPVProjection(final double cx, final double cy) throws BadProjectionParameterException {
-        final Iterator iter = iterator();
+        final Iterator<Object> iter = iterator();
         final Map<String, Double> pvMap_a = new HashMap<>();
         final Map<String, Double> pvMap_b = new HashMap<>();
         while (iter.hasNext()) {

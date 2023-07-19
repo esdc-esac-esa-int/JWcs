@@ -74,10 +74,10 @@ public class JWcsToolsTest {
    
    @Test
    public void convertAngleTest() {
-       assertEquals(1, ANGLE.DEG.getConversionFactorTo(ANGLE.DEG), 1E-12);
-       assertEquals(60, ANGLE.DEG.getConversionFactorTo(ANGLE.ARCMIN), 1E-12);
-       assertEquals(3600, ANGLE.DEG.getConversionFactorTo(ANGLE.ARCSEC), 1E-12);
-       assertEquals(1.0 / 15.0, ANGLE.DEG.getConversionFactorTo(ANGLE.HOUR), 1E-12);
+       assertEquals(1, ANGLE.DEGREES.getConversionFactorTo(ANGLE.DEGREES), 1E-12);
+       assertEquals(60, ANGLE.DEGREES.getConversionFactorTo(ANGLE.ARCMINUTES), 1E-12);
+       assertEquals(3600, ANGLE.DEGREES.getConversionFactorTo(ANGLE.ARCSECONDS), 1E-12);
+       assertEquals(1.0 / 15.0, ANGLE.DEGREES.getConversionFactorTo(ANGLE.HOURS), 1E-12);
    }
    
    @Test
