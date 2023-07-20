@@ -114,9 +114,6 @@ public final class ZPN extends AbstractZenithalProjection {
         if (!NumericalUtility.equal(getPhi0(), 0) || !NumericalUtility.equal(getTheta0(), HALF_PI)) {
             throw new JWcsError("Non-standard PVi_1 and/or PVi_2 values");
         }
-        if (this.getPv().length < 8) {
-            throw new ArrayIndexOutOfBoundsException("Need at least 10 projection parameters");
-        }
     }
 
     /**
