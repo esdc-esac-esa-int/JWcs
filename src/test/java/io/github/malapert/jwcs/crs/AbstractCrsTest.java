@@ -31,7 +31,6 @@ import static io.github.malapert.jwcs.crs.AbstractCrs.convertMatrixEpoch12Epoch2
 import static io.github.malapert.jwcs.crs.AbstractCrs.convertMatrixEqB19502Gal;
 import io.github.malapert.jwcs.proj.exception.JWcsError;
 import io.github.malapert.jwcs.proj.exception.JWcsException;
-import io.github.malapert.jwcs.proj.exception.ProjectionException;
 import io.github.malapert.jwcs.utility.NumericalUtility;
 import static io.github.malapert.jwcs.utility.NumericalUtility.createRealIdentityMatrix;
 import java.io.IOException;
@@ -54,7 +53,7 @@ import org.apache.commons.math3.linear.RealMatrix;
  */
 public class AbstractCrsTest {
 
-    private final static double EPSILON_SINGLE = 1e-12;
+    private static final double EPSILON_SINGLE = 1e-12;
 
     /**
      *
@@ -283,8 +282,8 @@ public class AbstractCrsTest {
         final AbstractCrs eqFk5J2000 = new Equatorial(fk5);
         final SkyPosition posInFk5J2000 = sysEqIcrs.convertTo(eqFk5J2000, 10.68458d, 41.26917d);
         final CoordinateReferenceFrame fk5_1975 = new FK5("J1975");
-        final AbstractCrs EqFk5J1975 = new Equatorial(fk5_1975);
-        final SkyPosition posInFk5J1975 = eqFk5J2000.convertTo(EqFk5J1975, posInFk5J2000.getLongitude(), posInFk5J2000.getLatitude());
+        final AbstractCrs eqFk5J1975 = new Equatorial(fk5_1975);
+        final SkyPosition posInFk5J1975 = eqFk5J2000.convertTo(eqFk5J1975, posInFk5J2000.getLongitude(), posInFk5J2000.getLatitude());
         final double expectedLongitude = 10.3420913461d;
         final double expectedLatitude = 41.1323211229d;
         assertEquals(expectedLongitude, posInFk5J1975.getLongitude(), 0.00002);
@@ -431,7 +430,7 @@ public class AbstractCrsTest {
     @Test
     public void testICRS2GAL() {
         System.out.println("ICRS <--> GAL");
-        final double coordinates[][] = new double[][]{
+        final double[][] coordinates = new double[][]{
             {0, 0},
             {180, 60},
             {359, 60},
@@ -452,7 +451,7 @@ public class AbstractCrsTest {
     @Test
     public void testICRS2SUPERGAL() {
         System.out.println("ICRS <--> SUPERGAL");
-        final double coordinates[][] = new double[][]{
+        final double[][] coordinates = new double[][]{
             {0, 0},
             {180, 60},
             {359, 60},
@@ -473,7 +472,7 @@ public class AbstractCrsTest {
     @Test
     public void testGAL2SUPERGAL() {
         System.out.println("GAL <--> SUPERGAL");
-        final double coordinates[][] = new double[][]{
+        final double[][] coordinates = new double[][]{
             {0, 0},
             {180, 60},
             {359, 60},
@@ -494,7 +493,7 @@ public class AbstractCrsTest {
     @Test
     public void testICRS2FK5() {
         System.out.println("ICRS <--> FK5");
-        final double coordinates[][] = new double[][]{
+        final double[][] coordinates = new double[][]{
             {0, 0},
             {180, 60},
             {359, 60},
@@ -515,7 +514,7 @@ public class AbstractCrsTest {
     @Test
     public void testFK5J20002FK5J1950() {
         System.out.println("FK5(J2000) <--> FK5(1950)");
-        final double coordinates[][] = new double[][]{
+        final double[][] coordinates = new double[][]{
             {1, 0},
             {180, 60},
             {359, 60},
@@ -536,7 +535,7 @@ public class AbstractCrsTest {
     @Test
     public void testFK5J20002FK4() {
         System.out.println("FK5(J2000) <--> FK4");
-        final double coordinates[][] = new double[][]{
+        final double[][] coordinates = new double[][]{
             {1, 0},
             {180, 60},
             {359, 60},
@@ -558,25 +557,26 @@ public class AbstractCrsTest {
     public void testCurrentSkySystemToGalacticFromFITS() {
         System.out.println("From Fits <--> Gal");
         try {
-            final AbstractJWcs wcs = new JWcsFits(new Fits(new URL("http://fits.gsfc.nasa.gov/samples/WFPC2ASSNu5780205bx.fits")));
+
+            URL url = getClass().getClassLoader().getResource("WFPC2ASSNu5780205bx.fits");
+            assertNotNull(url);
+            final AbstractJWcs wcs = new JWcsFits(new Fits(url));
             wcs.doInit();
             // convert pixel(1,1) to Sky
             final double[] posOrigin = wcs.pix2wcs(1, 1);
             //convert (ra,dec) To galactic
             final AbstractCrs sysOrigin = wcs.getCrs();
             final AbstractCrs sysTarget = new Galactic();
-            assertEquals(sysOrigin.getCoordinateReferenceSystem().name(), "EQUATORIAL");
+            assertEquals("EQUATORIAL", sysOrigin.getCoordinateReferenceSystem().name());
             final SkyPosition skyPosTarget = sysOrigin.convertTo(sysTarget, posOrigin[0], posOrigin[1]);
             
-            //convert skyPos (galatic frame) to Equatorial
+            //convert skyPos (galactic frame) to Equatorial
             final SkyPosition newPosOrigin = sysTarget.convertTo(sysOrigin, skyPosTarget.getLongitude(), skyPosTarget.getLatitude());
             assertArrayEquals(posOrigin, newPosOrigin.getDoubleArray(), EPSILON_SINGLE);
             // convert newPos to camera
             final double[] returnedPosCamera = wcs.wcs2pix(newPosOrigin.getLongitude(), newPosOrigin.getLatitude());
             assertArrayEquals(new double[]{1, 1}, returnedPosCamera, 0.5);//Set the precision at the half pixel
-        } catch (FitsException | IOException | ProjectionException ex) {
-            Logger.getLogger(AbstractCrsTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (JWcsException ex) {
+        } catch (FitsException | IOException | JWcsException ex) {
             Logger.getLogger(AbstractCrsTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -598,7 +598,7 @@ public class AbstractCrsTest {
         assertArrayEquals(new double[]{1.11814832e-02,   9.99937485e-01,  -2.71625947e-05}, rotationMatrix.getRow(1), 1e-9);
         assertArrayEquals(new double[]{4.85900377e-03,  -2.71702937e-05,   9.99988195e-01}, rotationMatrix.getRow(2), 1e-9);
         assertArrayEquals(new double[]{-1.6255503575995309e-06,-3.1918587795578522e-07,-1.3842701121066153e-07}, etermsIn.getRow(0),1e-20);
-        assertEquals(null, etermsOut);        
+        assertNull(etermsOut);
     }
     
     /**
@@ -617,7 +617,7 @@ public class AbstractCrsTest {
         assertArrayEquals(new double[]{0.,   1.,  0.}, rotationMatrix.getRow(1), 1e-9);
         assertArrayEquals(new double[]{0.,  0.,   1.}, rotationMatrix.getRow(2), 1e-9);
         assertArrayEquals(new double[]{-1.6255503575995309e-06,-3.1918587795578522e-07,-1.3842701121066153e-07}, etermsOut.getRow(0),1e-20);
-        assertEquals(null, etermsIn);        
+        assertNull(etermsIn);
     }    
     
     /**
@@ -636,7 +636,7 @@ public class AbstractCrsTest {
         assertArrayEquals(new double[]{1.11818699e-02,   9.99937481e-01,  -2.71546879e-05}, rotationMatrix.getRow(1), 1e-9);
         assertArrayEquals(new double[]{4.85829648e-03,  -2.71721706e-05,   9.99988198e-01}, rotationMatrix.getRow(2), 1e-9);
         assertArrayEquals(new double[]{-1.6255503575995309e-06,-3.1918587795578522e-07,-1.3842701121066153e-07}, etermsIn.getRow(0),1e-20);
-        assertEquals(null, etermsOut);        
+        assertNull(etermsOut);
     } 
     
     /**
@@ -664,7 +664,7 @@ public class AbstractCrsTest {
         final double epoch2 = 1960d;
         final CoordinateReferenceFrame.ReferenceFrame s1 = CoordinateReferenceFrame.ReferenceFrame.FK4;
         final CoordinateReferenceFrame.ReferenceFrame s2 = CoordinateReferenceFrame.ReferenceFrame.FK5;
-        final Double epobs = 1950d;
+        final double epobs = 1950d;
         final RealMatrix result = convertMatrixEpoch12Epoch2(epoch1, epoch2, s1, s2, epobs);
         assertArrayEquals(new double[]{9.99988107e-01,  -4.47301372e-03,  -1.94362889e-03}, result.getRow(0), 1e-9);
         assertArrayEquals(new double[]{4.47301372e-03,   9.99989996e-01,  -4.34712255e-06}, result.getRow(1), 1e-9);

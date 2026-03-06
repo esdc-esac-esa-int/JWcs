@@ -49,9 +49,16 @@ public class AbstractJWcsTest {
      * @throws JWcsException
      */
     public AbstractJWcsTest() throws FitsException, IOException, JWcsException {
-        wcs = new JWcsFits(new Fits(new URL("http://fits.gsfc.nasa.gov/samples/WFPC2ASSNu5780205bx.fits")));
+
+        URL url = getClass().getClassLoader().getResource("WFPC2ASSNu5780205bx.fits");
+        assertNotNull(url);
+        Fits simpleFits = new Fits(url.toString());
+        wcs = new JWcsFits(simpleFits);
         wcs.doInit();
-        wcs1 = new JWcsFits(new Fits(new URL("http://fits.gsfc.nasa.gov/samples/FOCx38i0101t_c0f.fits")), 0);
+        url = getClass().getClassLoader().getResource("FOCx38i0101t_c0f.fits");
+        assertNotNull(url);
+        Fits fits = new Fits(url.toString());
+        wcs1 = new JWcsFits(fits, 0);
         wcs1.doInit();
     }
     
@@ -102,18 +109,18 @@ public class AbstractJWcsTest {
         if (Double.isNaN(epoch)) {
             epoch = null;
         }
-        assertEquals(null, epoch);
+        assertNull(epoch);
         assertEquals("FK5", refSystem);
         
         result = wcs1.getCrs();
         equinox = ((Equatorial)result).getEquinox();
         epoch = ((Equatorial)result).getEpochObs();
-        refSystem = ((Equatorial)result).getCoordinateReferenceFrame().getReferenceFrame().name();
+        refSystem = result.getCoordinateReferenceFrame().getReferenceFrame().name();
         assertEquals(2000.0, equinox, 1e-12);
         if (Double.isNaN(epoch)) {
             epoch = null;
-        }        
-        assertEquals(null, epoch);
+        }
+        assertNull(epoch);
         assertEquals("FK5", refSystem);        
     }
 

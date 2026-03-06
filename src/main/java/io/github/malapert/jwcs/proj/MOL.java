@@ -95,8 +95,7 @@ public class MOL extends AbstractCylindricalProjection {
         final double phi = phis[0];
         final double s = phis[1];
         final double theta = computeTheta(xr, yr, s);
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     /**
@@ -166,8 +165,7 @@ public class MOL extends AbstractCylindricalProjection {
         final double gamma = computeGamma(theta);
         final double x = FastMath.toDegrees((FastMath.sqrt(2.0d) / HALF_PI) * phi * FastMath.cos(gamma));
         final double y = FastMath.toDegrees(FastMath.sqrt(2.0d) * FastMath.sin(gamma));
-        final double[] coord = {x, y};
-        return coord;
+        return new double[] { x, y};
     }
 
     /**

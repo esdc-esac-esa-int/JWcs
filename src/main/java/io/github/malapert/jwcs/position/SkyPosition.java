@@ -38,13 +38,13 @@ public class SkyPosition {
     /**
      * Logger.
      */
-    private final static Logger LOG = Logger.getLogger(SkyPosition.class.getName());
+    private static final Logger LOG = Logger.getLogger(SkyPosition.class.getName());
     
     
     /**
      * Factor to convert degrees to hours.
      */
-    public final static double TO_HOURS = 24d/360d;
+    public static final double TO_HOURS = 24d/360d;
     
     /**
      * Longitude in decimal degrees of the position.
@@ -169,7 +169,7 @@ public class SkyPosition {
      * @param pos2 sky position in a coordinate Reference System
      * @return angular separation in decimal degrees.
      */
-    public final static double separation(final SkyPosition pos1, final SkyPosition pos2) {
+    public static double separation(final SkyPosition pos1, final SkyPosition pos2) {
         final AbstractCrs crs = pos1.getCrs();
         final SkyPosition pos1InRefFramePos2 = crs.convertTo(pos2.getCrs(), pos1.getLongitude(), pos1.getLatitude());
         final double[] pos1XYZ = pos1InRefFramePos2.getCartesian();

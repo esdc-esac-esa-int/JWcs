@@ -44,12 +44,12 @@ public class STG extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Stereographic";
+    private static final String NAME_PROJECTION = "Stereographic";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";    
+    private static final String DESCRIPTION = "no limits";
 
    /**
      * Constructs a STG projection based on the default celestial longitude and latitude
@@ -94,9 +94,8 @@ public class STG extends AbstractZenithalProjection {
         final double yr = FastMath.toRadians(y);
         final double r_theta = computeRadius(xr, yr);
         final double phi = computePhi(x, y, r_theta);        
-        final double theta = HALF_PI - 2 * FastMath.atan(r_theta * 0.5);       
-        final double[] pos = {phi, theta};
-        return pos;       
+        final double theta = HALF_PI - 2 * FastMath.atan(r_theta * 0.5);
+        return new double[] { phi, theta};
     }
 
     /**
@@ -119,8 +118,7 @@ public class STG extends AbstractZenithalProjection {
         final double r = 2 * FastMath.tan((HALF_PI-theta)*0.5d);
         final double x = computeX(r, phi);
         final double y = computeY(r, phi);
-        final double[] pos = {FastMath.toDegrees(x),FastMath.toDegrees(y)};
-        return pos;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }   
     
     @Override

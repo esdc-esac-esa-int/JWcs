@@ -111,7 +111,7 @@ public class COP extends AbstractConicProjection {
     }    
 
     @Override
-    protected double[] project(final double x, final double y) throws BadProjectionParameterException {
+    protected double[] project(final double x, final double y) {
         final double xr = FastMath.toRadians(x);
         final double yr = FastMath.toRadians(y);
         final double d = FastMath.cos(getEta());
@@ -119,18 +119,16 @@ public class COP extends AbstractConicProjection {
         final double r_theta = FastMath.signum(getThetaA()) * FastMath.sqrt(FastMath.pow(xr, 2) + FastMath.pow(y0 - yr, 2));
         final double phi = computePhi(xr, yr, r_theta, y0, c);
         final double theta = getThetaA() + FastMath.atan(1.0 / FastMath.tan(getThetaA()) - r_theta / FastMath.cos(getEta()));
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     @Override
-    protected double[] projectInverse(final double phi, final double theta) throws BadProjectionParameterException {
+    protected double[] projectInverse(final double phi, final double theta) {
         final double y0 = FastMath.cos(getEta()) / FastMath.tan(getThetaA());
         final double r_theta = y0 - FastMath.cos(getEta()) * FastMath.tan(theta - getThetaA());
         final double x = computeX(phi, r_theta, c);
         final double y = computeY(phi, r_theta, c, y0);
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
 
     @Override

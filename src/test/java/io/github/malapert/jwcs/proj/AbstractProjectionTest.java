@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -24,12 +24,14 @@ import io.github.malapert.jwcs.JWcsFits;
 import io.github.malapert.jwcs.JWcsMap;
 import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.proj.exception.ProjectionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Projection test.
@@ -58,7 +60,7 @@ public class AbstractProjectionTest {
      *
      */
     protected double tolerance;
-    
+
     static final Logger LOG = Logger.getLogger("");
 
     public static final double TOLERANCE = 1.0e-10;
@@ -68,10 +70,9 @@ public class AbstractProjectionTest {
      * @throws JWcsException
      */
     public AbstractProjectionTest() throws JWcsException {
-    
+
     }
-           
-    
+
     /**
      *
      * @param wcs
@@ -80,7 +81,7 @@ public class AbstractProjectionTest {
     public AbstractProjectionTest(final JWcsFits wcs) throws JWcsException {
         this(wcs, TOLERANCE);
     }
-    
+
     /**
      *
      * @param wcs
@@ -88,8 +89,8 @@ public class AbstractProjectionTest {
      */
     public AbstractProjectionTest(final JWcsMap wcs) throws JWcsException {
         this(wcs, TOLERANCE);
-    }    
-    
+    }
+
     /**
      *
      * @param wcs
@@ -97,7 +98,7 @@ public class AbstractProjectionTest {
      */
     public AbstractProjectionTest(final AbstractJWcs wcs) throws JWcsException {
         this(wcs, TOLERANCE);
-    }     
+    }
 
     /**
      *
@@ -111,7 +112,7 @@ public class AbstractProjectionTest {
         this.wcs.doInit();
         LOG.setLevel(Level.OFF);
     }
-    
+
     /**
      *
      * @param wcs
@@ -123,8 +124,8 @@ public class AbstractProjectionTest {
         this.tolerance = tolerance;
         this.wcs.doInit();
         LOG.setLevel(Level.OFF);
-    }    
-    
+    }
+
     /**
      *
      * @param wcs
@@ -136,7 +137,7 @@ public class AbstractProjectionTest {
         this.tolerance = tolerance;
         this.wcs.doInit();
         LOG.setLevel(Level.OFF);
-    }        
+    }
 
     @BeforeClass
     public static void setUpClass() {
@@ -149,7 +150,7 @@ public class AbstractProjectionTest {
      */
     @Test
     public void testProjUnproj() {
-        System.out.println("project & inverse project "+this.wcs.getName()+" on the whole sphere");
+        System.out.println("project & inverse project " + this.wcs.getName() + " on the whole sphere");
         double deltaLongitudeMax = 0.0;
         double deltaLatitudeMax = 0.0;
 
@@ -174,25 +175,25 @@ public class AbstractProjectionTest {
                         if (deltaLatitude > tolerance) {
                             System.out.printf("longitude = %d LATITUDE = %d\n", longitude, latitude);
                             System.out.printf("project: x = %20.15f y = %20.15f\n", pixels[0], pixels[1]);
-                            System.out.printf("unproject: longitude = %20.15f latitude = %20.15f\n", skyPos[0], skyPos[1]);
+                            System.out.printf("unproject: longitude = %20.15f latitude = %20.15f\n", skyPos[0],
+                                              skyPos[1]);
                             System.out.println();
                         } else if (Math.abs(latitude) != 90 && deltaLongitude > tolerance) {
                             System.out.printf("LONGITUDE = %d latitude = %d\n", longitude, latitude);
                             System.out.printf("project: x = %20.15f y = %20.15f\n", pixels[0], pixels[1]);
-                            System.out.printf("unproject: longitude = %20.15f latitude = %20.15f\n", skyPos[0], skyPos[1]);
+                            System.out.printf("unproject: longitude = %20.15f latitude = %20.15f\n", skyPos[0],
+                                              skyPos[1]);
                             System.out.println();
                         }
-                    } 
+                    }
                 } catch (ProjectionException err) {
-                    System.out.printf("Error: lng = %d  lat = %d\n",
-                            longitude, latitude);
+                    System.out.printf("Error: lng = %d  lat = %d\n", longitude, latitude);
                     System.out.println(err.getMessage());
                 }
 
             }
         }
-        System.out.printf("  Maximum residual (sky): lng: %12.6e  lat: %12.6e\n",
-                deltaLongitudeMax, deltaLatitudeMax);
+        System.out.printf("  Maximum residual (sky): lng: %12.6e  lat: %12.6e\n", deltaLongitudeMax, deltaLatitudeMax);
         assertEquals(1e-12, deltaLongitudeMax, tolerance);
         assertEquals(1e-12, deltaLatitudeMax, tolerance);
     }

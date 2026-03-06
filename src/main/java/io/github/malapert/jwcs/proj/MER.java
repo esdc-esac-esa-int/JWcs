@@ -79,8 +79,7 @@ public class MER extends AbstractCylindricalProjection {
         final double yr = FastMath.toRadians(y);
         final double phi = xr;
         final double theta = 2*FastMath.atan(FastMath.exp(yr)) - HALF_PI;
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     @Override
@@ -98,8 +97,7 @@ public class MER extends AbstractCylindricalProjection {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);     
         }
         final double y = FastMath.log(d);
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;        
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
 
     @Override

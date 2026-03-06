@@ -88,7 +88,7 @@ public class ARCTest extends AbstractProjectionTest {
     @Test
     public void testProjectARC() throws ProjectionException {
         System.out.println("project ARC for particular points");
-        final double expectedResults[][] = {
+        final double[][] expectedResults = {
             {269.056730777738039,  -73.468299585347012},
             {269.467149632953806,  -60.735941026372636},
             {293.066101937638564,  -58.194463838114913},
@@ -114,7 +114,7 @@ public class ARCTest extends AbstractProjectionTest {
     @Test
     public void testProjectInverseARC() throws ProjectionException {
         System.out.println("projectInverse ARC");
-        final double expectedResults[][] = {
+        final double[][] expectedResults = {
             {1.0d, 1.0d},
             {192.d, 1.0d},
             {192.d, 192d},

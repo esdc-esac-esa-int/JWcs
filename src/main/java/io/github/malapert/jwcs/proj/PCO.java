@@ -127,8 +127,7 @@ public class PCO extends AbstractPolyConicProjection {
             theta = position[1];
         }
 
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     @Override
@@ -146,8 +145,7 @@ public class PCO extends AbstractPolyConicProjection {
             x = cotthe * FastMath.sin(a);
             y = cotthe * (1.0 - FastMath.cos(a)) + theta;
         }
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
     
     /**
@@ -157,9 +155,8 @@ public class PCO extends AbstractPolyConicProjection {
      * @param xr projection plane coordinate along X in radians
      * @param yr projection plane coordinate along Y in radians
      * @return an array representing in the order phi and theta
-     * @throws PixelBeyondProjectionException Not defined for (x,y) value
      */
-    private double[] computeIterativeSolution(final double xr, final double yr) throws PixelBeyondProjectionException {
+    private double[] computeIterativeSolution(final double xr, final double yr) {
         final double min;
         final double max;        
         if (yr > 0.0) {

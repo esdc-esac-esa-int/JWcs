@@ -77,16 +77,14 @@ public class PAR extends AbstractCylindricalProjection {
             throw new PixelBeyondProjectionException(this, x, y, true);
         }
         final double phi = xr / (1 - 4 * FastMath.pow(yr / FastMath.PI, 2));
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     @Override
     protected double[] projectInverse(final double phi, final double theta) {
         final double y = FastMath.toDegrees(FastMath.PI * FastMath.sin(theta / 3d));
         final double x = FastMath.toDegrees(phi * (2d * FastMath.cos(theta / 1.5d) - 1d));
-        final double[] coord = {x, y};
-        return coord;
+        return new double[] { x, y};
     }
 
     @Override

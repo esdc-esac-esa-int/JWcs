@@ -92,9 +92,8 @@ public class TAN extends AbstractZenithalProjection {
         final double yr = FastMath.toRadians(y);
         final double r_theta = computeRadius(xr, yr);        
         final double phi = computePhi(x, y, r_theta);       
-        final double theta = NumericalUtility.aatan2(1, r_theta);        
-        final double[] pos = {phi, theta};
-        return pos;
+        final double theta = NumericalUtility.aatan2(1, r_theta);
+        return new double[] { phi, theta};
     }
 
     /**
@@ -122,8 +121,7 @@ public class TAN extends AbstractZenithalProjection {
         final double r_theta = FastMath.cos(theta) / s;
         final double x = computeX(r_theta, phi);
         final double y = computeY(r_theta, phi);
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }       
 
     @Override

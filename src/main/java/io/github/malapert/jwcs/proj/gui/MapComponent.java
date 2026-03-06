@@ -45,7 +45,7 @@ public class MapComponent extends JComponent {
     /**
      * The percentage of space that is added around the lines when drawing them.
      */
-    private final static double BORDER_PERCENTAGE = 3;
+    private static final double BORDER_PERCENTAGE = 3;
 
     /**
      * Replaces the current lines by the passed lines.
@@ -76,11 +76,9 @@ public class MapComponent extends JComponent {
         Rectangle2D totalExt = null;
 
         // loop over all lines
-        final int nbrLines = lines.size();
-        for (int i = 0; i < nbrLines; i++) {
-            final MapLine line = (MapLine) lines.get(i);
+        for (MapLine mapLine : lines) {
             // ask the line for its bounding box
-            final Rectangle2D lineExt = line.getExtension();
+            final Rectangle2D lineExt = mapLine.getExtension();
             // if we have not yet found a valid bounding box, use the 
             // bounding box of the current line.
             if (totalExt == null) {
@@ -154,10 +152,8 @@ public class MapComponent extends JComponent {
         g2d.setColor(Color.black);
 
         // draw each line
-        final int nbrLines = lines.size();
-        for (int lineID = 0; lineID < nbrLines; lineID++) {
-            final MapLine line = (MapLine) lines.get(lineID);
-            final GeneralPath path = line.getPath();
+        for (MapLine mapLine : lines) {
+            final GeneralPath path = mapLine.getPath();
             g2d.draw(path);
         }
         g2d.dispose();

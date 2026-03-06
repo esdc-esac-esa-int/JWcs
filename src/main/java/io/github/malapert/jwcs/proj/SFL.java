@@ -77,16 +77,14 @@ public class SFL extends AbstractCylindricalProjection {
         } else {
             phi = FastMath.toRadians(x) / FastMath.cos(theta);
         }
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     @Override
     protected double[] projectInverse(final double phi, final double theta) {
         final double x = FastMath.toDegrees(phi * FastMath.cos(theta));
         final double y = FastMath.toDegrees(theta);
-        final double[] coord = {x, y};
-        return coord;        
+        return new double[] { x, y};
     }
 
     @Override

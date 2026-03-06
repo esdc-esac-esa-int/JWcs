@@ -174,7 +174,7 @@ public class Main {
                 .append("  -e, --extension          HDU number starting at 0 when --file argument is used. If not set, 0 is default\n")
                 .append("  -r, --precision          Precision such as %.6f. By default, precision is set to %.15f\n");
 
-        System.out.println(sb.toString());
+        System.out.println(sb);
         System.exit(EXIT.OK.getCode());
     }
 

@@ -107,7 +107,7 @@ public class SIN extends AbstractZenithalProjection {
     }
 
     @Override
-    public double[] project(final double x, final double y) throws BadProjectionParameterException, PixelBeyondProjectionException {
+    public double[] project(final double x, final double y) throws PixelBeyondProjectionException {
         final double xr = FastMath.toRadians(x);
         final double yr = FastMath.toRadians(y);
         final double phi;
@@ -133,8 +133,7 @@ public class SIN extends AbstractZenithalProjection {
             phi = NumericalUtility.aatan2(xr - getKsi() * (1 - FastMath.sin(theta)), -(yr - eta * (1 - FastMath.sin(theta))));
         }
 
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
     
     /**
@@ -168,8 +167,7 @@ public class SIN extends AbstractZenithalProjection {
         }
         final double x = FastMath.cos(theta) * FastMath.sin(phi) + getKsi() * (1 - FastMath.sin(theta));
         final double y = -FastMath.cos(theta) * FastMath.cos(phi) + getEta() * (1 - FastMath.sin(theta));
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
     
     @Override

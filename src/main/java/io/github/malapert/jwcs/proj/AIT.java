@@ -107,8 +107,7 @@ public final class AIT extends AbstractCylindricalProjection {
         if(Double.isNaN(theta)) {
             throw new PixelBeyondProjectionException(this, x, y, true);
         }
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     /**
@@ -135,8 +134,7 @@ public final class AIT extends AbstractCylindricalProjection {
         final double gamma = FastMath.toDegrees(FastMath.sqrt(2.0d / d));        
         final double x = 2 * gamma * FastMath.cos(theta) * FastMath.sin(phi * 0.5d);
         final double y = gamma * FastMath.sin(theta);
-        final double[] coord = {x, y};
-        return coord;
+        return new double[] { x, y};
     }
 
     @Override

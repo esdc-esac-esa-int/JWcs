@@ -207,8 +207,7 @@ public class SZP extends AbstractZenithalProjection {
             throw new PixelBeyondProjectionException(this, x, y, ex.getMessage(), true);
         }
         final double phi = computePhi(X - X1 * (1 - FastMath.sin(theta)), Y - Y1 * (1 - FastMath.sin(theta)), 1);
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     /**
@@ -235,8 +234,7 @@ public class SZP extends AbstractZenithalProjection {
         }
         final double x = (zp * FastMath.cos(theta) * FastMath.sin(phi) - xp * (1 - FastMath.sin(theta)))/denom;
         final double y = -(zp * FastMath.cos(theta) * FastMath.cos(phi) + yp * (1 - FastMath.sin(theta)))/denom;
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }  
     
     /**

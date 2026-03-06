@@ -10,7 +10,7 @@ JWcs is a pure JAVA library, that implements the "World Coordinate System" (WCS)
 This library allows to convert pixel <--> world coordinates. In addition, it handles sky system conversion.
 
 ## Requirements
-JAVA >= 8
+JAVA >= 11
 
 ## Installation
 
@@ -43,7 +43,7 @@ The documentation will be generated in the directory target/site/
 ### Utility tool
 
 ```console
-	$ java -jar target/JWcs-1.2.2.jar -h
+	$ java -jar target/JWcs-2.0.0.jar -h
 	Usage: java -jar JWcs.jar -g PROG [OPTIONS]
 	    or java -jar JWcs.jar --file HDR_FILE --project X,Y [OPTIONS]
 	    or java -jar JWcs.jar --file HDR_FILE --unproject RA,DEC [OPTIONS]

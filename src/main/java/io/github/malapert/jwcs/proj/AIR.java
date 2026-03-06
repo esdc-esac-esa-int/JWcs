@@ -71,7 +71,7 @@ public final class AIR extends AbstractZenithalProjection {
      * </ul>
      * @see io.github.malapert.jwcs.utility.AiryFunction
      */
-    private AiryFunction airyFunction;
+    private final AiryFunction airyFunction;
     
     /**
      * Creates a new AIR projection based on the default \u03B8<sub>b</sub> 

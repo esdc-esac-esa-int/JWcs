@@ -117,8 +117,7 @@ public final class BON extends AbstractPolyConicProjection {
             } else {
                 phi = aphi * r_theta / cos_theta;
             }
-            final double[] pos = {phi, theta};
-            result = pos;
+            result = new double[] { phi, theta};
         } else {
             result = this.sfl.project(x, y);
         }
@@ -169,8 +168,7 @@ public final class BON extends AbstractPolyConicProjection {
             }
             final double x = r_theta * FastMath.sin(aphi);
             final double y = -r_theta * FastMath.cos(aphi) + y0;
-            final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-            result = coord;
+            result = new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
         } else {
             result = sfl.projectInverse(phi, theta);
         }

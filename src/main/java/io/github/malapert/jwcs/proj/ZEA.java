@@ -90,9 +90,8 @@ public class ZEA extends AbstractZenithalProjection {
 	    theta = -HALF_PI;
 	} else {
 	    theta = HALF_PI - 2*NumericalUtility.aasin(r_theta * 0.5);
-	}        
-        final double[] pos = {phi, theta};
-        return pos;      
+	}
+        return new double[] { phi, theta};
     }
 
     /**
@@ -115,8 +114,7 @@ public class ZEA extends AbstractZenithalProjection {
         final double r = 2 * FastMath.sin((HALF_PI-theta)*0.5d);
         final double x = computeX(r, phi);
         final double y = computeY(r, phi);
-        final double[] pos = {FastMath.toDegrees(x),FastMath.toDegrees(y)};
-        return pos;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
 
     @Override

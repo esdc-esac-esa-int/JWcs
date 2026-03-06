@@ -182,7 +182,7 @@ public interface CoordinateReferenceFrame {
             }
             return result;
         }                
-    };    
+    }
    
     /**
      * Returns the reference frame that is used.

@@ -172,7 +172,7 @@ public final class DMS implements Serializable {
 
         val = (sec / 60.0 + min) / 60.0;
 
-        if (degrees < 0.0 || new Double(degrees).equals(MINUS_ZERO)) {
+        if (degrees < 0.0 || Double.compare(degrees, MINUS_ZERO) == 0) {
             val = degrees - val;
             this.degrees = -this.degrees;
             sign = -1;
@@ -191,7 +191,7 @@ public final class DMS implements Serializable {
         this.val = val;
 
         double v = val; // check also for neg zero
-        if (v < 0.0 || new Double(v).equals(MINUS_ZERO)) {
+        if (v < 0.0 || Double.compare(v, MINUS_ZERO) == 0) {
             sign = -1;
             v = -v;
         } else {

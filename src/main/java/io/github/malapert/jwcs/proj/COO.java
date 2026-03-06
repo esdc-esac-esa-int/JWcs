@@ -123,8 +123,7 @@ public class COO extends AbstractConicProjection {
         final double r_theta = FastMath.signum(getThetaA()) * FastMath.sqrt(FastMath.pow(xr, 2) + FastMath.pow(y0 - yr, 2));
         final double phi = computePhi(xr, yr, r_theta, y0, getC());
         final double theta = HALF_PI - 2 * FastMath.atan(FastMath.pow(r_theta / psi, 1.0 / getC()));
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     @Override
@@ -137,8 +136,7 @@ public class COO extends AbstractConicProjection {
         final double r_theta = psi * FastMath.pow(FastMath.tan((HALF_PI - theta) * 0.5), getC());
         final double x = computeX(phi, r_theta, getC());
         final double y = computeY(phi, r_theta, getC(), y0);
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
 
     @Override

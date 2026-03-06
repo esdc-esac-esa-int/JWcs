@@ -137,8 +137,7 @@ public class CEA extends AbstractCylindricalProjection {
         if(Double.isNaN(theta)) {
             throw new PixelBeyondProjectionException(this, x, y, true);
         }
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     /**
@@ -159,8 +158,7 @@ public class CEA extends AbstractCylindricalProjection {
     protected double[] projectInverse(final double phi, final double theta) {
         final double x = FastMath.toDegrees(phi);
         final double y = FastMath.toDegrees(FastMath.sin(theta) / getLambda());
-        final double[] coord = {x, y};
-        return coord;
+        return new double[] { x, y};
     }
 
     /**

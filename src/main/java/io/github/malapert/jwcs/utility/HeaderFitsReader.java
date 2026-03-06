@@ -31,6 +31,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,7 +49,7 @@ public class HeaderFitsReader {
     /**
      * Separator between keyword/value.
      */
-    private final static String SEPARATOR = "=";
+    private static final String SEPARATOR = "=";
 
     /**
      * Reader.
@@ -69,8 +70,7 @@ public class HeaderFitsReader {
      * @throws FileNotFoundException File not found
      */
     public HeaderFitsReader(final File file) throws FileNotFoundException {
-        final Reader reader = new FileReader(file);        
-        this.source = reader;
+        this.source = new FileReader(file);
     }    
     
     /**
@@ -79,8 +79,7 @@ public class HeaderFitsReader {
      * @throws FileNotFoundException  File not found
      */
     public HeaderFitsReader(final URI uri) throws FileNotFoundException {
-        final Reader reader = new FileReader(new File(uri));
-        this.source = reader;
+        this.source = new FileReader(new File(uri));
     }            
     
     /**
@@ -89,8 +88,7 @@ public class HeaderFitsReader {
      * @throws IOException File not found
      */
     public HeaderFitsReader(final URL url) throws IOException  {
-        final Reader reader = new InputStreamReader(url.openStream(), Charset.defaultCharset());
-        this.source = reader;
+        this.source = new InputStreamReader(url.openStream(), Charset.defaultCharset());
     }      
 
     /**
@@ -101,8 +99,7 @@ public class HeaderFitsReader {
      */
     public HeaderFitsReader(final String filename) throws URISyntaxException, IOException  {
         final Path path = Paths.get(new URI(filename));
-        final Reader reader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
-        this.source = reader;
+        this.source = Files.newBufferedReader(path, StandardCharsets.UTF_8);
     }
 
     /**

@@ -315,9 +315,8 @@ public final class AZP extends AbstractZenithalProjection {
         final double yr = computeYr(FastMath.toRadians(y));
         final double r = computeRadius(xr, yr);
         final double theta = computeTheta(xr, yr, r);
-        final double phi = computePhi(xr, yr, r);              
-        final double[] pos = {phi, theta};
-        return pos;
+        final double phi = computePhi(xr, yr, r);
+        return new double[] { phi, theta};
     }
 
     /**
@@ -341,8 +340,7 @@ public final class AZP extends AbstractZenithalProjection {
         final double r = computeRadiusFrom(phi, theta);
         final double x = computeX(r, phi);
         final double y = computeY(r / FastMath.cos(getGamma()), phi);
-        final double[] pos = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return pos;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
     
     /**

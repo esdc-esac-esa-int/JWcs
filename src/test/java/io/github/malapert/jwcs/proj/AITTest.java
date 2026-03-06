@@ -79,7 +79,7 @@ public class AITTest extends AbstractProjectionTest {
     @Test
     public void testProjectAIT() throws ProjectionException { 
         System.out.println("project AIT for particular points");
-        final double expectedResults[][] = {
+        final double[][] expectedResults = {
             {268.56813922635888, -73.498459842570668},
             {269.173590441019542,  -60.701745163311294},
             {293.585024918963427,  -57.985930606481887},
@@ -105,7 +105,7 @@ public class AITTest extends AbstractProjectionTest {
     @Test
     public void testProjectInverseAIT() throws ProjectionException {
         System.out.println("projectInverse AIT for particular points");
-        final double expectedResults[][] = {
+        final double[][] expectedResults = {
             {1.0d, 1.0d},
             {192.d, 1.0d},
             {192.d, 192d},

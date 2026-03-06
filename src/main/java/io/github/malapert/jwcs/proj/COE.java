@@ -143,9 +143,8 @@ public class COE extends AbstractConicProjection {
         final double theta = NumericalUtility.aasin(w);
         if (Double.isNaN(theta)) {
             throw new PixelBeyondProjectionException(this, x, y, true);
-        }        
-        final double[] pos = {phi, theta};
-        return pos;
+        }
+        return new double[] { phi, theta};
     }
 
     /**

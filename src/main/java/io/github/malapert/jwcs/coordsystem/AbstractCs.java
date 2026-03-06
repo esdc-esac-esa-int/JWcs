@@ -25,8 +25,8 @@ package io.github.malapert.jwcs.coordsystem;
  */
 public abstract class AbstractCs {   
 
-    private Axis[] axes;
-    private int dimension;
+    private final Axis[] axes;
+    private final int dimension;
     
     protected AbstractCs(int dimension) {
         this.dimension = dimension;

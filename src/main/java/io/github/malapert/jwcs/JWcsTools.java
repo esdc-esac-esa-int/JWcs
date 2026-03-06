@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,15 +19,6 @@
  */
 package io.github.malapert.jwcs;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.text.ParseException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import io.github.malapert.jwcs.crs.AbstractCrs;
 import io.github.malapert.jwcs.crs.Ecliptic;
 import io.github.malapert.jwcs.crs.Equatorial;
@@ -38,21 +29,26 @@ import io.github.malapert.jwcs.datum.ICRS;
 import io.github.malapert.jwcs.datum.J2000;
 import io.github.malapert.jwcs.position.SkyPosition;
 import io.github.malapert.jwcs.proj.exception.JWcsException;
-import io.github.malapert.jwcs.utility.DMS;
-import io.github.malapert.jwcs.utility.HMS;
-import io.github.malapert.jwcs.utility.HeaderFitsReader;
-import io.github.malapert.jwcs.utility.NumericalUtility;
-import io.github.malapert.jwcs.utility.TimeUtility;
+import io.github.malapert.jwcs.utility.*;
 import nom.tam.fits.Fits;
 import nom.tam.fits.Header;
 import nom.tam.fits.HeaderCard;
 import nom.tam.util.Cursor;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Tools to perform common operations without knowing the internals of JWcs. This class is a 
  * very basic summary of what can be done with JWcs, other specific transformations can use 
  * a similar code respect the one implemented here.<BR>
- * 
+ *
  * The tools provided are: conversion between different angle units (not specific to JWcs), 
  * conversion between different coordinate systems, precession between two epochs for coordinates 
  * referred to a given coordinate frame, conversions between B1950 and ICRS or FK5 frames, 
@@ -64,7 +60,7 @@ import nom.tam.util.Cursor;
  * @author T. Alonso Albi (tomas.alonsoalbi@esa.int)
  */
 public class JWcsTools {
-    
+
     private static final String B1950 = "B1950";
     private static final int FIFTEEN = 15;
     private static final int SIXTY = 60;
@@ -80,7 +76,7 @@ public class JWcsTools {
         ECLIPTIC,
         GALACTIC
     }
-    
+
     /**
      * Basic coordinate frames.
      */
@@ -89,36 +85,35 @@ public class JWcsTools {
         FK5,
         J2000
     }
-    
+
     /**
      * Angle units to convert between units or arc and time.
      */
     public enum ANGLE {
-        DEGREES (FIFTEEN),
-        ARCMINUTES ((double) FIFTEEN * SIXTY),
-        ARCSECONDS ((double) FIFTEEN * SIXTY * SIXTY),
-        HOURS (ONE),
-        MINUTES (SIXTY),
-        SECONDS ((double) SIXTY * SIXTY),
-        RADIANS (Math.toRadians(FIFTEEN))
-        ;
-                
-        private double relativeConversionFactor;
-        
-        private ANGLE(double c) {
+        DEGREES(FIFTEEN),
+        ARCMINUTES((double)FIFTEEN * SIXTY),
+        ARCSECONDS((double)FIFTEEN * SIXTY * SIXTY),
+        HOURS(ONE),
+        MINUTES(SIXTY),
+        SECONDS((double)SIXTY * SIXTY),
+        RADIANS(Math.toRadians(FIFTEEN));
+
+        private final double relativeConversionFactor;
+
+        ANGLE(double c) {
             relativeConversionFactor = c;
         }
-        
+
         /**
          * Return the conversion factor for this specific unit into another unit.
          * @param to Desired output unit.
          * @return Conversion factor to that unit.
          */
         public double getConversionFactorTo(ANGLE to) {
-            return to.relativeConversionFactor / relativeConversionFactor;            
+            return to.relativeConversionFactor / relativeConversionFactor;
         }
     }
-    
+
     /**
      * Converts an angle from some unit into another.
      * @param angle The angle value.
@@ -129,7 +124,7 @@ public class JWcsTools {
     public static double convertAngle(double angle, ANGLE from, ANGLE to) {
         return angle * from.getConversionFactorTo(to);
     }
-    
+
     /**
      * Returns the {@linkplain SkyPosition} object for a given direction and coordinate system.
      * @param lon Longitude or Ra in degrees.
@@ -154,7 +149,7 @@ public class JWcsTools {
         }
         return input;
     }
-    
+
     /**
      * Transforms a given position in some coordinate system into another coordinate system.
      * @param input Input sky position in some coordinate system.
@@ -170,10 +165,10 @@ public class JWcsTools {
         case GALACTIC:
             return AbstractCrs.convertTo(new Galactic(), input);
         }
-        
+
         return null; // Will never happen
     }
-    
+
     /**
      * Computes the sky separation between two sky positions, possible defined respect different 
      * coordinate systems. See also {@linkplain NumericalUtility#distAngle(double[], double[])}.
@@ -201,25 +196,25 @@ public class JWcsTools {
         AbstractCrs output = null;
         switch (frame) {
         case FK4:
-            input = new Equatorial(new FK4(B1950, "B"+inputEpoch));
-            output = new Equatorial(new FK4(B1950, "B"+outputEpoch));
+            input = new Equatorial(new FK4(B1950, "B" + inputEpoch));
+            output = new Equatorial(new FK4(B1950, "B" + outputEpoch));
             break;
         case FK5:
-            input = new Equatorial(new FK5("J"+inputEpoch));
-            output = new Equatorial(new FK5("J"+outputEpoch));
+            input = new Equatorial(new FK5("J" + inputEpoch));
+            output = new Equatorial(new FK5("J" + outputEpoch));
             break;
         case J2000:
             J2000 in = new J2000();
             J2000 out = new J2000();
-            in.setEquinox("J"+inputEpoch);
-            out.setEquinox("J"+outputEpoch);
+            in.setEquinox("J" + inputEpoch);
+            out.setEquinox("J" + outputEpoch);
             input = new Equatorial(in);
             output = new Equatorial(out);
             break;
         }
         return AbstractCrs.convertTo(output, new SkyPosition(ra, dec, input)).getDoubleArray();
     }
-    
+
     /**
      * Transform B1950 coordinates (equinox and epoch B1950) to ICRS.
      * @param ra Ra in degrees.
@@ -242,10 +237,10 @@ public class JWcsTools {
     public static double[] convertBxxxToICRS(double ra, double dec, double epochObs) {
         if (ra < 0 || ra > 360)
             ra = Math.toDegrees(NumericalUtility.normalizeLongitude(Math.toRadians(ra)));
-        SkyPosition pBxxxx = new SkyPosition(ra, dec, new Equatorial(new FK4(B1950, "B"+epochObs)));
+        SkyPosition pBxxxx = new SkyPosition(ra, dec, new Equatorial(new FK4(B1950, "B" + epochObs)));
         SkyPosition pICRS = AbstractCrs.convertTo(new Equatorial(new ICRS()), pBxxxx);
 
-        return new double[] {pICRS.getLongitude(), pICRS.getLatitude()};
+        return new double[] { pICRS.getLongitude(), pICRS.getLatitude() };
     }
 
     /**
@@ -260,9 +255,9 @@ public class JWcsTools {
         SkyPosition pB1950 = new SkyPosition(ra, dec, new Equatorial(new FK4()));
         SkyPosition pJ2000 = AbstractCrs.convertTo(new Equatorial(new FK5()), pB1950);
 
-        return new double[] {pJ2000.getLongitude(), pJ2000.getLatitude()};
+        return new double[] { pJ2000.getLongitude(), pJ2000.getLatitude() };
     }
-        
+
     /**
      * Transform a Julian date to ISO date, for instance 2456915 to 2014-09-14T12:00:00.
      * @param jd Julian day number.
@@ -271,7 +266,7 @@ public class JWcsTools {
     public static String julianDateToISO(double jd) {
         return TimeUtility.convertJulianDateToISO(jd);
     }
-    
+
     /**
      * Transform an ISO date to a Julian day, for instance 2014-09-14T12:00:00 to 2456915.
      * @param iso The ISO date.
@@ -280,7 +275,7 @@ public class JWcsTools {
     public static double isoToJulianDate(String iso) throws ParseException {
         return TimeUtility.convertISOToJulianDate(iso);
     }
-    
+
     /**
      * Reads a fits file and returns the {@linkplain JWcsMap} object to perform 
      * pixel <--> sky coordinate conversions.
@@ -291,8 +286,8 @@ public class JWcsTools {
      * @throws URISyntaxException
      * @throws FileNotFoundException
      */
-    public static JWcsMap readFits(String url, int hdu) throws JWcsException, URISyntaxException, 
-        FileNotFoundException {
+    public static JWcsMap readFits(String url, int hdu)
+            throws JWcsException, URISyntaxException, FileNotFoundException {
         final Map<String, String> keyMap = new HashMap<>();
         final URI uri = new URI(url);
         try (Fits fits = new Fits(uri.toURL())) {
@@ -306,15 +301,13 @@ public class JWcsTools {
             ex.printStackTrace();
             final HeaderFitsReader hdr = new HeaderFitsReader(uri);
             final List<List<String>> listKeywords = hdr.readKeywords();
-            listKeywords.stream().forEach(keywordLine -> 
-                keyMap.put(keywordLine.get(0), keywordLine.get(1))
-            );
+            listKeywords.stream().forEach(keywordLine -> keyMap.put(keywordLine.get(0), keywordLine.get(1)));
         }
         final JWcsMap wcs = new JWcsMap(keyMap);
         wcs.doInit();
         return wcs;
     }
-    
+
     /**
      * Reads a fits file and returns the {@linkplain JWcsMap} object to perform 
      * pixel <--> sky coordinate conversions.
@@ -324,8 +317,7 @@ public class JWcsTools {
      * @throws JWcsException
      * @throws FileNotFoundException
      */
-    public static JWcsMap readFits(File file, int hdu) throws JWcsException, 
-        FileNotFoundException {
+    public static JWcsMap readFits(File file, int hdu) throws JWcsException, FileNotFoundException {
         final Map<String, String> keyMap = new HashMap<>();
         try (Fits fits = new Fits(file)) {
             final Header hdr = fits.getHDU(hdu).getHeader();
@@ -338,9 +330,7 @@ public class JWcsTools {
             ex.printStackTrace();
             final HeaderFitsReader hdr = new HeaderFitsReader(file);
             final List<List<String>> listKeywords = hdr.readKeywords();
-            listKeywords.stream().forEach(keywordLine -> 
-                keyMap.put(keywordLine.get(0), keywordLine.get(1))
-            );
+            listKeywords.stream().forEach(keywordLine -> keyMap.put(keywordLine.get(0), keywordLine.get(1)));
         }
         final JWcsMap wcs = new JWcsMap(keyMap);
         wcs.doInit();
@@ -356,14 +346,14 @@ public class JWcsTools {
     public static DMS getDMS(String dms) {
         return new DMS(dms);
     }
-    
+
     /**
      * Reads a String with hours, minutes, and seconds of time to get those 
      * individual fields. Format can be hh mm ss.ss, hh:mm:ss.ss, hh, or d.ddd.
      * IMPORTANT: In case of d.ddd input, with decimal point, the value is 
      * assumed to be in degrees. Otherwise, for a integer value, is assumed 
      * to be in hours.
-     * @param dms The String with degrees, minutes, and arcseconds.
+     * @param hms The String with degrees, minutes, and arcseconds.
      * @return The instance of {@linkplain HMS}.
      */
     public static HMS getHMS(String hms) {

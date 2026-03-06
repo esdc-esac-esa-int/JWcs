@@ -91,8 +91,7 @@ public final class ARC extends AbstractZenithalProjection {
         final double r_theta = computeRadius(xr, yr);
         final double phi = computePhi(xr, yr, r_theta);
         final double theta = HALF_PI - r_theta;
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     /**
@@ -115,8 +114,7 @@ public final class ARC extends AbstractZenithalProjection {
         final double r = FastMath.toDegrees(HALF_PI - theta);  // theta between [-HALF_PI, HALF_PI] => no need to test
         final double x = computeX(r, phi);
         final double y = computeY(r, phi);
-        final double[] pos = {x, y};
-        return pos;
+        return new double[] { x, y};
     }  
     
     @Override

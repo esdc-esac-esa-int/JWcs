@@ -66,8 +66,7 @@ public class ProjectionFactory {
         Class cls = (Class) registry.get(name);
         if (cls != null) {
             try {
-                AbstractProjection projection = (AbstractProjection) cls.newInstance();
-                return projection;
+                return (AbstractProjection) cls.newInstance();
             } catch (IllegalAccessException | InstantiationException e) {
             }
         }

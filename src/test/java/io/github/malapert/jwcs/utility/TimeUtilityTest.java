@@ -120,17 +120,17 @@ public class TimeUtilityTest {
         String dateObs = "10/03/78";        
         double result = TimeUtility.convertISOToModifiedJulianDate(dateObs);
         String expResult = TimeUtility.convertModifiedJulianDateToISO(result);
-        assertEquals(expResult, "1978-03-10T00:00:00");       
+        assertEquals("1978-03-10T00:00:00", expResult);
         
         dateObs = "1978-03-10";        
         result = TimeUtility.convertISOToModifiedJulianDate(dateObs);
         expResult = TimeUtility.convertModifiedJulianDateToISO(result);
-        assertEquals(expResult, "1978-03-10T00:00:00");        
+        assertEquals("1978-03-10T00:00:00", expResult);
         
         dateObs = "1978-03-10T10:20:02";        
         result = TimeUtility.convertISOToModifiedJulianDate(dateObs);
         expResult = TimeUtility.convertModifiedJulianDateToISO(result);
-        assertEquals(expResult, dateObs);           
+        assertEquals(dateObs, expResult);
     }
 
     /**
