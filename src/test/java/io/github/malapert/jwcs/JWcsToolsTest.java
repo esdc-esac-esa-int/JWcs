@@ -82,6 +82,7 @@ public class JWcsToolsTest {
    public void convertSkyPositionTest() {
        SkyPosition pos = JWcsTools.getSkyPosition(90, 0, COORD_SYS.EQUATORIAL);
        SkyPosition out = JWcsTools.convert(pos, COORD_SYS.ECLIPTIC);
+       Assert.assertNotNull(out);
        assertEquals(90, out.getLongitude(), 1E-12);
        assertEquals(-23.4392911111111, out.getLatitude(), 1E-12);
    }

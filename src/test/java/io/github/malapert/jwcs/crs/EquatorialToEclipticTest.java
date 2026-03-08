@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,24 +19,19 @@
  */
 package io.github.malapert.jwcs.crs;
 
-import io.github.malapert.jwcs.crs.Ecliptic;
-import io.github.malapert.jwcs.crs.Equatorial;
-import io.github.malapert.jwcs.proj.exception.JWcsException;
-
 /**
  *
  * @author malapert
  */
 public class EquatorialToEclipticTest extends ConverterTest {
-    
+
     /**
      *
-     * @throws JWcsException
      */
-    public EquatorialToEclipticTest() throws JWcsException {
+    public EquatorialToEclipticTest() {
         super();
         this.source = new Equatorial();
-        this.target = new Ecliptic();        
-        
+        this.target = new Ecliptic();
+
     }
 }

@@ -140,7 +140,6 @@ public class ICRSTest {
     @Test
     public void testEquals() {
         System.out.println("equals");
-        Object obj = null;
         ICRS instance1 = new ICRS();
         ICRS instance2 = new ICRS();
         boolean result = instance1.equals(instance2);

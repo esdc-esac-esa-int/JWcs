@@ -698,6 +698,7 @@ public class AbstractCrsTest {
         } catch (JWcsError error) {
             result = error;
         } finally {
+            assertNotNull(result);
             assertEquals(expected.toString(), result.toString());
         }
         
@@ -708,6 +709,7 @@ public class AbstractCrsTest {
         } catch (JWcsError error) {
             result = error;
         } finally {
+            assertNotNull(result);
             assertEquals(expected.toString(), result.toString());
         }  
         
@@ -718,6 +720,7 @@ public class AbstractCrsTest {
         } catch (JWcsError error) {
             result = error;
         } finally {
+            assertNotNull(result);
             assertEquals(expected.toString(), result.toString());
         }         
     }    

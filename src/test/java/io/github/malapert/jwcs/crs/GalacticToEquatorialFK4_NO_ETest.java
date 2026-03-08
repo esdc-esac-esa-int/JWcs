@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,27 +19,23 @@
  */
 package io.github.malapert.jwcs.crs;
 
-import io.github.malapert.jwcs.crs.Equatorial;
-import io.github.malapert.jwcs.crs.Galactic;
 import io.github.malapert.jwcs.datum.CoordinateReferenceFrame;
 import io.github.malapert.jwcs.datum.FK4NoEterms;
-import io.github.malapert.jwcs.proj.exception.JWcsException;
 
 /**
  *
  * @author malapert
  */
 public class GalacticToEquatorialFK4_NO_ETest extends ConverterTest {
-    
+
     /**
      *
-     * @throws JWcsException
      */
-    public GalacticToEquatorialFK4_NO_ETest() throws JWcsException {
+    public GalacticToEquatorialFK4_NO_ETest() {
         super();
         final CoordinateReferenceFrame fk4 = new FK4NoEterms();
         this.source = new Galactic();
-        this.target = new Equatorial(fk4);        
-        
+        this.target = new Equatorial(fk4);
+
     }
 }

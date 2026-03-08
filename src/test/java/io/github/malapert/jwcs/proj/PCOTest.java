@@ -22,7 +22,8 @@ package io.github.malapert.jwcs.proj;
 import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.JWcsFits;
 import java.io.IOException;
-import java.net.URL;
+import java.util.Objects;
+
 import nom.tam.fits.Fits;
 import nom.tam.fits.FitsException;
 import org.junit.After;
@@ -43,9 +44,10 @@ public class PCOTest extends AbstractProjectionTest {
      * @throws JWcsException
      */
     public PCOTest() throws FitsException, IOException, JWcsException {
-        super(new JWcsFits(new Fits(new URL("http://tdc-www.harvard.edu/wcstools/samples/1904-66_PCO.fits"))), 1e-9);
+        super(new JWcsFits(new Fits(
+                Objects.requireNonNull(PCOTest.class.getClassLoader().getResource("1904-66_PCO.fits")).toString())), 1e-9);
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
         //do nothing

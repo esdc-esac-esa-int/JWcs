@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,18 +19,16 @@
  */
 package io.github.malapert.jwcs.crs;
 
-import io.github.malapert.jwcs.crs.Equatorial;
-
 /**
  *
  * @author malapert
  */
-public class EquatorialToEquatorialTest extends ConverterTest{
-    
+public class EquatorialToEquatorialTest extends ConverterTest {
+
     public EquatorialToEquatorialTest() {
         super();
         this.source = new Equatorial();
-        this.target = new Equatorial();         
+        this.target = new Equatorial();
     }
-    
+
 }

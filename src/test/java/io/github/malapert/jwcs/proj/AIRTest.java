@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -21,19 +21,21 @@ package io.github.malapert.jwcs.proj;
 
 import io.github.malapert.jwcs.JWcsFits;
 import io.github.malapert.jwcs.proj.exception.JWcsException;
-import java.io.IOException;
-import java.net.URL;
 import nom.tam.fits.Fits;
 import nom.tam.fits.FitsException;
+
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  *
  * @author malapert
  */
 public class AIRTest extends AbstractProjectionTest {
-    
+
     public AIRTest() throws JWcsException, FitsException, IOException {
-        super(new JWcsFits(new Fits(new URL("http://tdc-www.harvard.edu/wcstools/samples/1904-66_AIR.fits"))));
+        super(new JWcsFits(new Fits(
+                Objects.requireNonNull(AIRTest.class.getClassLoader().getResource("1904-66_AIR.fits")).toString())));
     }
-    
+
 }

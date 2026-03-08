@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,9 +19,6 @@
  */
 package io.github.malapert.jwcs.crs;
 
-import io.github.malapert.jwcs.crs.Equatorial;
-import io.github.malapert.jwcs.crs.SuperGalactic;
-import io.github.malapert.jwcs.proj.exception.JWcsException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,13 +27,13 @@ import org.junit.Test;
  * @author malapert
  */
 public class SuperGalacticToSuperGalacticTest extends ConverterTest {
-    
-    public SuperGalacticToSuperGalacticTest() throws JWcsException {
+
+    public SuperGalacticToSuperGalacticTest() {
         super();
         this.source = new SuperGalactic();
-        this.target = new SuperGalactic();                
-    }  
-    
+        this.target = new SuperGalactic();
+    }
+
     @Test
     public void testSetCoordinateReferenceFrame() {
         System.out.println("setCoordinateReferenceFrame");

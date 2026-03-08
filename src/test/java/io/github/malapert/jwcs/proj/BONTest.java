@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,25 +19,23 @@
  */
 package io.github.malapert.jwcs.proj;
 
-import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.JWcsFits;
+import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.proj.exception.ProjectionException;
-import java.io.IOException;
-import java.net.URL;
 import nom.tam.fits.Fits;
 import nom.tam.fits.FitsException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.*;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  * BON unit test.
  * @author Jean-Christophe Malapert
  */
-public class BONTest extends AbstractProjectionTest{
+public class BONTest extends AbstractProjectionTest {
 
     /**
      *
@@ -46,7 +44,8 @@ public class BONTest extends AbstractProjectionTest{
      * @throws JWcsException
      */
     public BONTest() throws FitsException, IOException, JWcsException {
-        super(new JWcsFits(new Fits(new URL("http://tdc-www.harvard.edu/wcstools/samples/1904-66_BON.fits"))));
+        super(new JWcsFits(new Fits(
+                Objects.requireNonNull(BONTest.class.getClassLoader().getResource("1904-66_BON.fits")).toString())));
     }
 
     @BeforeClass
@@ -58,13 +57,12 @@ public class BONTest extends AbstractProjectionTest{
     public static void tearDownClass() {
         //do nothing
     }
-   
+
     @Before
     public void setUp() {
         //do nothing
     }
 
-    
     @After
     public void tearDown() {
         //do nothing
@@ -78,12 +76,9 @@ public class BONTest extends AbstractProjectionTest{
     @Test
     public void testProjectBON() throws ProjectionException {
         System.out.println("project BON");
-        final double expectedResults[][] = {
-            { 273.393413003838305,  -73.624666333473925},
-            {266.237211427240538,  -60.534492822654933},
-            {289.996444429144617,  -58.437400650158317},
-            {309.662280407939761,  -68.545004618933845}
-        };
+        final double[][] expectedResults =
+                { { 273.393413003838305, -73.624666333473925 }, { 266.237211427240538, -60.534492822654933 },
+                  { 289.996444429144617, -58.437400650158317 }, { 309.662280407939761, -68.545004618933845 } };
         double[] result = wcs.pix2wcs(1, 1);
         assertArrayEquals(expectedResults[0], result, 1e-13);
 
@@ -94,7 +89,7 @@ public class BONTest extends AbstractProjectionTest{
         assertArrayEquals(expectedResults[2], result, 1e-13);
 
         result = wcs.pix2wcs(1, 192);
-        assertArrayEquals(expectedResults[3], result, 1e-13);    
+        assertArrayEquals(expectedResults[3], result, 1e-13);
     }
 
     /**
@@ -104,18 +99,13 @@ public class BONTest extends AbstractProjectionTest{
     @Test
     public void testProjectInverseBON() throws ProjectionException {
         System.out.println("projectInverse BON");
-        final double expectedResults[][] = {
-            {1.0d, 1.0d},
-            {192.d, 1.0d},
-            {192.d, 192d},
-            {1.0d, 192d}
-        };   
+        final double[][] expectedResults = { { 1.0d, 1.0d }, { 192.d, 1.0d }, { 192.d, 192d }, { 1.0d, 192d } };
         double[] result;
         for (final double[] expectedResult : expectedResults) {
             result = wcs.pix2wcs(expectedResult);
             result = wcs.wcs2pix(result);
-             assertArrayEquals(expectedResult, result, 1e-12);
-        }  
+            assertArrayEquals(expectedResult, result, 1e-12);
+        }
     }
-    
+
 }

@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,26 +19,24 @@
  */
 package io.github.malapert.jwcs.proj;
 
-import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.JWcsFits;
+import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.proj.exception.ProjectionException;
-import java.io.IOException;
-import java.net.URL;
 import nom.tam.fits.Fits;
 import nom.tam.fits.FitsException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.*;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  * COD unit test.
  * @author Jean-Christophe Malapert
  */
 public class CODTest extends AbstractProjectionTest {
-    
+
     /**
      *
      * @throws FitsException
@@ -46,24 +44,25 @@ public class CODTest extends AbstractProjectionTest {
      * @throws JWcsException
      */
     public CODTest() throws FitsException, IOException, JWcsException {
-        super(new JWcsFits(new Fits(new URL("http://tdc-www.harvard.edu/wcstools/samples/1904-66_COD.fits"))));
+        super(new JWcsFits(new Fits(
+                Objects.requireNonNull(CODTest.class.getClassLoader().getResource("1904-66_COD.fits")).toString())));
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
         //do nothing
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
         //do nothing
     }
-    
+
     @Before
     public void setUp() {
         //do nohting
     }
-   
+
     @After
     public void tearDown() {
         //do nothing
@@ -76,12 +75,9 @@ public class CODTest extends AbstractProjectionTest {
     @Test
     public void testProjectCOD() throws ProjectionException {
         System.out.println("project COD");
-        final double expectedResults[][] = {
-            { 267.309578535993637,  -74.137108175375658},
-            { 269.351969696756669,  -60.380228694474155},
-            { 294.132127989407252,  -57.419282231058872},
-            { 307.692564276298128,  -69.931506669073997}
-        };
+        final double[][] expectedResults =
+                { { 267.309578535993637, -74.137108175375658 }, { 269.351969696756669, -60.380228694474155 },
+                  { 294.132127989407252, -57.419282231058872 }, { 307.692564276298128, -69.931506669073997 } };
         double[] result = wcs.pix2wcs(1, 1);
         assertArrayEquals(expectedResults[0], result, 1e-13);
 
@@ -102,18 +98,13 @@ public class CODTest extends AbstractProjectionTest {
     @Test
     public void testProjectInverseCOD() throws ProjectionException {
         System.out.println("projectInverse COD");
-        final double expectedResults[][] = {
-            {1.0d, 1.0d},
-            {192.d, 1.0d},
-            {192.d, 192d},
-            {1.0d, 192d}
-        };   
+        final double[][] expectedResults = { { 1.0d, 1.0d }, { 192.d, 1.0d }, { 192.d, 192d }, { 1.0d, 192d } };
         double[] result;
         for (final double[] expectedResult : expectedResults) {
             result = wcs.pix2wcs(expectedResult);
             result = wcs.wcs2pix(result);
-             assertArrayEquals(expectedResult, result, 1e-12);
-        }  
+            assertArrayEquals(expectedResult, result, 1e-12);
+        }
     }
 
 }
