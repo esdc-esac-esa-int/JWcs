@@ -37,24 +37,24 @@ public class PCO extends AbstractPolyConicProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Polyconic";
+    private static final String NAME_PROJECTION = "Polyconic";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";
+    private static final String DESCRIPTION = "no limits";
 
     /**
      * Default tolerance for the approximative solution of the inverse
      * projection.
      */
-    public final static double DEFAULT_TOLERANCE = 1E-16;
+    public static final double DEFAULT_TOLERANCE = 1E-16;
 
     /**
      * Default maximum iterations for the approximative solution of the inverse
      * projection.
      */
-    public final static int DEFAULT_MAX_ITER = 1000;
+    public static final int DEFAULT_MAX_ITER = 1000;
 
     /**
      * Number of iterations for the approximative solution.

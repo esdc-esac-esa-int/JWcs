@@ -41,17 +41,17 @@ public final class AIR extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Airy projection";
+    private static final String NAME_PROJECTION = "Airy projection";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03B8b=%s";
+    private static final String DESCRIPTION = "\u03B8b=%s";
 
     /**
      * Default value for \u03B8b sets to 90&deg;.
      */
-    public final static double DEFAULT_VALUE_THETHAB = 90;
+    public static final double DEFAULT_VALUE_THETHAB = 90;
 
     /**
      * \u03B8<SUB>b</SUB> value.

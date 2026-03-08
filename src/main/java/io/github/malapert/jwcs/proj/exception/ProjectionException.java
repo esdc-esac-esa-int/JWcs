@@ -26,7 +26,7 @@ import io.github.malapert.jwcs.proj.AbstractProjection;
  * @author Jean-Christophe Malapert (jcmalapert@gmail.com)
  */
 public class ProjectionException extends JWcsException {
-    private final static long serialVersionUID = 3428780035222139573L;
+    private static final long serialVersionUID = 3428780035222139573L;
     
     /**
      * Class where the exception happens.

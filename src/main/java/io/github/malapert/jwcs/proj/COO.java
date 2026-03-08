@@ -37,12 +37,12 @@ public class COO extends AbstractConicProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = " Conic orthomorphic";
+    private static final String NAME_PROJECTION = " Conic orthomorphic";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03B8a=%s \u03B7=%s";
+    private static final String DESCRIPTION = "\u03B8a=%s \u03B7=%s";
 
     /**
      * Constant of the cone.

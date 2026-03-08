@@ -39,12 +39,12 @@ public final class CAR extends AbstractCylindricalProjection{
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Plate carrée";
+    private static final String NAME_PROJECTION = "Plate carrée";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";
+    private static final String DESCRIPTION = "no limits";
     
     /**
      * Constructs a CAR based on the default celestial longitude and 

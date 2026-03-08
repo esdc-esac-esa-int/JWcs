@@ -20,7 +20,6 @@
 package io.github.malapert.jwcs.proj;
 
 import io.github.malapert.jwcs.AbstractJWcs;
-import io.github.malapert.jwcs.proj.exception.BadProjectionParameterException;
 import io.github.malapert.jwcs.proj.exception.MathematicalSolutionException;
 import io.github.malapert.jwcs.proj.exception.PixelBeyondProjectionException;
 import io.github.malapert.jwcs.utility.NumericalUtility;
@@ -41,17 +40,17 @@ public class SIN extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Slant orthographic";
+    private static final String NAME_PROJECTION = "Slant orthographic";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u046F=%s \u03B7=%s";
+    private static final String DESCRIPTION = "\u046F=%s \u03B7=%s";
 
     /**
      * Default value.
      */
-    public final static double DEFAULT_VALUE = 0;
+    public static final double DEFAULT_VALUE = 0;
 
     /**
      * \u03BE is defined as \u03BE = cot\u03B8<sub>c</sub>sin\u03D5<sub>c</sub>.    

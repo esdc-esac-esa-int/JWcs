@@ -41,17 +41,17 @@ public class MOL extends AbstractCylindricalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Mollweide’s";
+    private static final String NAME_PROJECTION = "Mollweide’s";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";
+    private static final String DESCRIPTION = "no limits";
 
     /**
      * Default maximum iteration for the iterative solution.
      */
-    public final static int DEFAULT_MAX_ITER = 1000;
+    public static final int DEFAULT_MAX_ITER = 1000;
 
     /**
      * Maximum iteration for the iterative solution.

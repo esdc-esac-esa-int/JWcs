@@ -46,8 +46,8 @@ import io.github.malapert.jwcs.proj.exception.JWcsError;
  */
 public class ConvertSelectionPanel extends javax.swing.JPanel {
     
-    private final static String DEFAULT_PRECISION = "%.10f";
-    
+    private static final String DEFAULT_PRECISION = "%.10f";
+
     private String precision = DEFAULT_PRECISION;
 
     /**
@@ -525,9 +525,7 @@ public class ConvertSelectionPanel extends javax.swing.JPanel {
      * @param args arguments
      */
     public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(() -> {
-            createWindow();
-        });
+        java.awt.EventQueue.invokeLater(ConvertSelectionPanel::createWindow);
     }
 
     /**
@@ -544,11 +542,8 @@ public class ConvertSelectionPanel extends javax.swing.JPanel {
     }
 
     private void updateConvertButton() {
-        if (this.originLong.getText() == null || this.originLat.getText() == null || this.originLong.getText().isEmpty() || this.originLat.getText().isEmpty()) {
-            this.convertButton.setEnabled(false);
-        } else {
-            this.convertButton.setEnabled(true);
-        }
+        this.convertButton.setEnabled(this.originLong.getText() != null && this.originLat.getText() != null &&
+                                      !this.originLong.getText().isEmpty() && !this.originLat.getText().isEmpty());
     }
     
     private void updateOriginSexagecimalCoordinates() {
@@ -600,8 +595,8 @@ public class ConvertSelectionPanel extends javax.swing.JPanel {
         }
         AbstractCrs tgetSkySystem = createSkySystem(targetSkySystemC, targetRefFrame);
 
-        double longitude = Double.valueOf(originLong.getText());
-        double latitude = Double.valueOf(originLat.getText());
+        double longitude = Double.parseDouble(originLong.getText());
+        double latitude = Double.parseDouble(originLat.getText());
 
         SkyPosition skyPosition = originSkySystem.convertTo(tgetSkySystem, longitude, latitude);
         targetLong.setText(String.format(getPrecision(),skyPosition.getLongitude()));

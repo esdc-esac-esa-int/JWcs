@@ -54,28 +54,28 @@ public abstract class AbstractProjection {
     /**
      * Default native latitude of the celestial pole (\u03B8<sub>p</sub>) sets to {@link NumericalUtility#HALF_PI}.
      */
-    public final static double DEFAULT_THETAP = HALF_PI;
+    public static final double DEFAULT_THETAP = HALF_PI;
 
     /**
      * Default native longitude of the celestial pole (\u03D5<sub>p</sub>) sets to 0.     
      */
-    public final static double DEFAULT_PHIP = 0;
+    public static final double DEFAULT_PHIP = 0;
     /**
      * Logger.
      */
-    private final static Logger LOG = Logger.getLogger(AbstractProjection.class.getName());
+    private static final Logger LOG = Logger.getLogger(AbstractProjection.class.getName());
 
     /**
      * Native longitude in radians of the celestial pole for \u03B4<sub>0</sub>
      * &lt; \u03B8<sub>0</sub>.
      */
-    protected final static double LONPOLE_PI = FastMath.PI;
+    protected static final double LONPOLE_PI = FastMath.PI;
 
     /**
      * Native longitude in radians of the celestial pole for \u03B4<sub>0</sub>
      * &ge; \u03B8<sub>0</sub>.
      */
-    protected final static double LONPOLE_0 = 0;
+    protected static final double LONPOLE_0 = 0;
 
     /**
      * Celestial longitude \u03B1<sub>0</sub> in radians of the fiducial point.

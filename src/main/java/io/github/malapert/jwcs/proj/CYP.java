@@ -42,22 +42,22 @@ public class CYP extends AbstractCylindricalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Cylindrical perspective";
+    private static final String NAME_PROJECTION = "Cylindrical perspective";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03BC=%s \u03BB=%s";     
+    private static final String DESCRIPTION = "\u03BC=%s \u03BB=%s";
 
     /**
      * Default value for \u03BC.
      */
-    public final static double DEFAULT_MU = 1;
+    public static final double DEFAULT_MU = 1;
 
     /**
      * Default value for \u03BB.
      */
-    public final static double DEFAULT_LAMBDA = FastMath.sqrt(2)/2;
+    public static final double DEFAULT_LAMBDA = FastMath.sqrt(2)/2;
     
     /**
      * \u03BC: distance in spherical radii from the center of the sphere to the equatorial plane of the native system. 
@@ -142,9 +142,8 @@ public class CYP extends AbstractCylindricalProjection {
         final double yr = FastMath.toRadians(y);
         final double phi = xr / getLambda();        
         final double eta = yr / (getMu() + getLambda());
-        final double theta = NumericalUtility.aatan2(eta, 1) + NumericalUtility.aasin(getMu() * eta / FastMath.sqrt(FastMath.pow(eta, 2) + 1));       
-        final double[] pos = {phi, theta};
-        return pos;
+        final double theta = NumericalUtility.aatan2(eta, 1) + NumericalUtility.aasin(getMu() * eta / FastMath.sqrt(FastMath.pow(eta, 2) + 1));
+        return new double[] { phi, theta};
     }
 
     @Override
@@ -155,8 +154,7 @@ public class CYP extends AbstractCylindricalProjection {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);
         }
         final double y = (getMu()+getLambda())/(getMu() + ctheta) * FastMath.sin(theta);
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
 
     /**

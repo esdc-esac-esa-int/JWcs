@@ -28,7 +28,7 @@ import java.util.logging.Level;
  * @author Jean-Christophe Malapert (jcmalapert@gmail.com)
  */
 public class BadProjectionParameterException extends ProjectionException{
-    private final static long serialVersionUID = -787228345305370079L;
+    private static final long serialVersionUID = -787228345305370079L;
     
     /**
      * Creates a new Exception when the projection parameter are wrong.

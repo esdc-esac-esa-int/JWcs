@@ -45,7 +45,7 @@ public class Equatorial extends AbstractCrs implements CoordinateReferenceFrame 
     /**
      * This coordinate system name.
      */
-    private final static CoordinateReferenceSystem SKY_NAME = CoordinateReferenceSystem.EQUATORIAL;
+    private static final CoordinateReferenceSystem SKY_NAME = CoordinateReferenceSystem.EQUATORIAL;
     
     /**
      * The reference frame of the Equatorial coordinate system.
@@ -55,7 +55,7 @@ public class Equatorial extends AbstractCrs implements CoordinateReferenceFrame 
     /**
      * The coordinate system.
      */
-    private AbstractCs coordinateSystem;
+    private final AbstractCs coordinateSystem;
     
     /**
      * Creates an Equatorial coordinate system based on the coordinate 

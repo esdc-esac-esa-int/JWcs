@@ -58,11 +58,11 @@ public abstract class AbstractConicProjection extends AbstractProjection {
     /**
      * Logger.
      */
-    protected final static Logger LOG = Logger.getLogger(AbstractConicProjection.class.getName());        
+    protected static final Logger LOG = Logger.getLogger(AbstractConicProjection.class.getName());
     /**
      * AbstractProjection name.
      */
-    public final static String NAME = "Conic projections";    
+    public static final String NAME = "Conic projections";
     /**
      * thetaA = (theta1 + theta2) / 2 in radians.
      */
@@ -74,7 +74,7 @@ public abstract class AbstractConicProjection extends AbstractProjection {
     /**
      * Native longitude value in radians for conic projection.
      */
-    protected final static double DEFAULT_PHI0 = 0;        
+    protected static final double DEFAULT_PHI0 = 0;
     /**
      * Native longitude in radians of the ﬁducial point for the conic
      * projection.

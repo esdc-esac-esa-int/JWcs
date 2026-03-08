@@ -46,12 +46,12 @@ public final class AZP extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Zenithal perspective";
+    private static final String NAME_PROJECTION = "Zenithal perspective";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03BC=%s \u0263=%s";
+    private static final String DESCRIPTION = "\u03BC=%s \u0263=%s";
 
     /**
      * \u0263 is the angle between the camera's optical axis and the line to the center of the planet.
@@ -65,7 +65,7 @@ public final class AZP extends AbstractZenithalProjection {
     /**
      * Default value for \u0263 and \u03BC.
      */
-    private final static double DEFAULT_VALUE = 0;
+    private static final double DEFAULT_VALUE = 0;
 
     /**
      * Creates a new AZC projection based on the default celestial longitude and

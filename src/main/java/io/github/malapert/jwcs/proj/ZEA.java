@@ -35,12 +35,12 @@ public class ZEA extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Zenithal equal-area";
+    private static final String NAME_PROJECTION = "Zenithal equal-area";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";         
+    private static final String DESCRIPTION = "no limits";
 
    /**
      * Constructs a ZEA projection based on the default celestial longitude and latitude

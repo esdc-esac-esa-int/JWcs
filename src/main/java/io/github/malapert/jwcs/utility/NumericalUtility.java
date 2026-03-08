@@ -81,7 +81,7 @@ public final class NumericalUtility {
      * @param pos position in the sky
      * @return the position in the cartesian reference system
      */
-    public static double[] radec2xyz(final double pos[]) {
+    public static double[] radec2xyz(final double[] pos) {
         final double[] xyz = new double[3];
         xyz[0] = FastMath.cos(pos[1]) * FastMath.cos(pos[0]);
         xyz[1] = FastMath.cos(pos[1]) * FastMath.sin(pos[0]);
@@ -415,7 +415,7 @@ public final class NumericalUtility {
      * @return a matrix of dimension
      */
     public static RealMatrix createRealIdentityMatrix(final int dimension) {
-        return (RealMatrix) MatrixUtils.createRealIdentityMatrix(3);
+        return MatrixUtils.createRealIdentityMatrix(3);
     }
 
     /**
@@ -425,7 +425,7 @@ public final class NumericalUtility {
      * @return RealMatrix containing the values of the array
      */
     public static RealMatrix createRealMatrix(final double[][] data) {
-        return (RealMatrix) MatrixUtils.createRealMatrix(data);
+        return MatrixUtils.createRealMatrix(data);
     }
 
     /**
@@ -435,7 +435,7 @@ public final class NumericalUtility {
      * @return the inverse matrix
      */
     public static RealMatrix inverse(final RealMatrix matrix) {
-        return (RealMatrix) MatrixUtils.inverse(matrix);
+        return MatrixUtils.inverse(matrix);
     }
 
     /**

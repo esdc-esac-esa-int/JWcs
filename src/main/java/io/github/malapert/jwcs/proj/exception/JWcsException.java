@@ -25,7 +25,7 @@ package io.github.malapert.jwcs.proj.exception;
  * @author Jean-Christophe Malapert (jcmalapert@gmail.com)
  */
 public class JWcsException extends Exception {
-    private final static long serialVersionUID = -4269837119668785840L;
+    private static final long serialVersionUID = -4269837119668785840L;
 
     /**
      * Creates an exception.

@@ -54,22 +54,22 @@ public abstract class AbstractZenithalProjection extends AbstractProjection {
     /**
      * Logger.
      */
-    protected final static Logger LOG = Logger.getLogger(AbstractZenithalProjection.class.getName());
+    protected static final Logger LOG = Logger.getLogger(AbstractZenithalProjection.class.getName());
 
     /**
      * AbstractProjection name.
      */
-    public final static String NAME = "Zenithal (azimuthal) projections";
+    public static final String NAME = "Zenithal (azimuthal) projections";
     /**
      * Default Native longitude (\u03D5<SUB>0</SUB>) value in radians for
      * zenithal projection.
      */
-    public final static double DEFAULT_PHI0 = 0;
+    public static final double DEFAULT_PHI0 = 0;
     /**
      * Default Native latitude (\u03B8<SUB>0</SUB>) value in radians for
      * zenithal projection.
      */
-    public final static double DEFAULT_THETA0 = HALF_PI;
+    public static final double DEFAULT_THETA0 = HALF_PI;
 
     /**
      * Native longitude (\u03D5<SUB>0</SUB>) in radians of the ﬁducial point for 

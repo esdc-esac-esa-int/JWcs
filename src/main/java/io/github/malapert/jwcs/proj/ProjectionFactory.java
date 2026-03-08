@@ -36,11 +36,11 @@ public class ProjectionFactory {
     /**
      * LOG.
      */
-    protected final static Logger LOG = Logger.getLogger(ProjectionFactory.class.getName());
+    protected static final Logger LOG = Logger.getLogger(ProjectionFactory.class.getName());
     
     
-    private static Map registry = new HashMap();
-    private static Map nameMap = new HashMap();    
+    private static final Map registry = new HashMap();
+    private static final Map nameMap = new HashMap();
     
     public static AbstractProjection getNamedProjection(String name) {    
         if (registry.isEmpty()) {

@@ -30,7 +30,7 @@ import java.util.logging.Level;
  */
 public class PixelBeyondProjectionException extends ProjectionException {
 
-    private final static long serialVersionUID = -3719985099230583709L;
+    private static final long serialVersionUID = -3719985099230583709L;
 
     /**
      * x coordinate.

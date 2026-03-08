@@ -37,6 +37,7 @@ import org.apache.commons.math3.util.FastMath;
  */
 public class JWcsMap extends AbstractJWcs {
 
+    private static final String IS_MISSING = " is missing";
     /**
      * WCS keywords provided by the user.
      */
@@ -105,7 +106,7 @@ public class JWcsMap extends AbstractJWcs {
         if (result == null) {
             throw new JWcsError(keyword + " not found");
         } else {
-            return Double.valueOf(result);
+            return Double.parseDouble(result);
         }
     }
 
@@ -122,7 +123,7 @@ public class JWcsMap extends AbstractJWcs {
         if (result == null) {
             throw new JWcsError(keyword + " not found");
         } else {
-            return Float.valueOf(result);
+            return Float.parseFloat(result);
         }
     }
 
@@ -303,22 +304,22 @@ public class JWcsMap extends AbstractJWcs {
             check.add("(CDELT1,CDELT2,CROTA2) or (CD11,C12,CD21,CD22) or (PC11, PC12, P21, PC22, CDELT1, CDELT2) are missing");
         }
         if (!this.hasKeyword(CTYPE1)) {
-            check.add(CTYPE1 + " is missing");
+            check.add(CTYPE1 + IS_MISSING);
         }
         if (!this.hasKeyword(CTYPE2)) {
-            check.add(CTYPE2 + " is missing");
+            check.add(CTYPE2 + IS_MISSING);
         }
         if (!this.hasKeyword(CRPIX1)) {
-            check.add(CRPIX1 + " is missing");
+            check.add(CRPIX1 + IS_MISSING);
         }
         if (!this.hasKeyword(CRPIX2)) {
-            check.add(CRPIX2 + " is missing");
+            check.add(CRPIX2 + IS_MISSING);
         }
         if (!this.hasKeyword(CRVAL1)) {
-            check.add(CRVAL1 + " is missing");
+            check.add(CRVAL1 + IS_MISSING);
         }
         if (!this.hasKeyword(CRVAL2)) {
-            check.add(CRVAL2 + " is missing");
+            check.add(CRVAL2 + IS_MISSING);
         }
         throw new JWcsException(check.toString());
         

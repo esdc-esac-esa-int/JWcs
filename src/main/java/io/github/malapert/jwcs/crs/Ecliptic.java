@@ -49,7 +49,7 @@ public class Ecliptic extends AbstractCrs implements CoordinateReferenceFrame {
     /**
      * This coordinate system name.
      */
-    private final static CoordinateReferenceSystem SKY_NAME = CoordinateReferenceSystem.ECLIPTIC;
+    private static final CoordinateReferenceSystem SKY_NAME = CoordinateReferenceSystem.ECLIPTIC;
 
     /**
      * The coordinate reference system.
@@ -59,7 +59,7 @@ public class Ecliptic extends AbstractCrs implements CoordinateReferenceFrame {
     /**
      * The coordinate system.
      */
-    private AbstractCs coordinateSystem;
+    private final AbstractCs coordinateSystem;
 
     /**
      * Creates the Ecliptic coordinate system based on the reference system.

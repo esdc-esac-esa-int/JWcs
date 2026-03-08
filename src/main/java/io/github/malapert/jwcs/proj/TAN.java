@@ -41,12 +41,12 @@ public class TAN extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Gnomonic";
+    private static final String NAME_PROJECTION = "Gnomonic";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";     
+    private static final String DESCRIPTION = "no limits";
 
    /**
      * Constructs a TAN projection based on the default celestial longitude and latitude
@@ -140,7 +140,7 @@ public class TAN extends AbstractZenithalProjection {
         final double[] nativeSpherical = computeNativeSpherical(raFixed, lat);
         nativeSpherical[0] = phiRange(nativeSpherical[0]);
         final boolean result = NumericalUtility.equal(nativeSpherical[1], 0);
-        return result ? false : super.inside(lon, lat);
+        return !result && super.inside(lon, lat);
     }        
 
     @Override

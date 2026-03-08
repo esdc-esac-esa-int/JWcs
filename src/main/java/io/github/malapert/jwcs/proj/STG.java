@@ -127,7 +127,7 @@ public class STG extends AbstractZenithalProjection {
         final double[] nativeSpherical = computeNativeSpherical(raFixed, lat);
         nativeSpherical[0] = phiRange(nativeSpherical[0]);
         final boolean result = NumericalUtility.equal(nativeSpherical[1], -HALF_PI);
-        return result ? false : super.inside(lon, lat);
+        return !result && super.inside(lon, lat);
     }      
     
     @Override
