@@ -31,7 +31,6 @@ public class GalacticToEclipticFK4Test extends ConverterTest {
 
     /**
      *
-     * @throws JWcsException
      */
     public GalacticToEclipticFK4Test() {
         super();

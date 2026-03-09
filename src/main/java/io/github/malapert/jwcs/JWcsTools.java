@@ -278,7 +278,7 @@ public class JWcsTools {
 
     /**
      * Reads a fits file and returns the {@linkplain JWcsMap} object to perform 
-     * pixel <--> sky coordinate conversions.
+     * pixel to sky coordinate conversions.
      * @param url Path to the fits as a url, with file:// or http://.
      * @param hdu HDU number.
      * @return The instance of {@linkplain JWcsMap}.
@@ -310,7 +310,7 @@ public class JWcsTools {
 
     /**
      * Reads a fits file and returns the {@linkplain JWcsMap} object to perform 
-     * pixel <--> sky coordinate conversions.
+     * pixel to sky coordinate conversions.
      * @param file The fits file to read.
      * @param hdu HDU number.
      * @return The instance of {@linkplain JWcsMap}.

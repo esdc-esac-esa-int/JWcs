@@ -1098,8 +1098,6 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * @param cx the scale factor along X
      * @param cy the scale factor along Y
      * @return the ZPN projection
-     * @throws BadProjectionParameterException when a bad parameter is provided
-     * to the projection
      */
     private AbstractProjection createZPNProjection(final double cx, final double cy) {
         final Iterator<Object> iter = iterator();
