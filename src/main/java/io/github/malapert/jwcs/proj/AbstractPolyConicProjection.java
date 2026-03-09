@@ -83,7 +83,7 @@ public abstract class AbstractPolyConicProjection extends AbstractProjection {
         super(crval1, crval2);
         LOG.log(Level.FINER, "INPUTS[deg] (crval1,crval2,theta1) = ({0},{1},{2})", new Object[]{crval1, crval2, theta1});
 
-        if (NumericalUtility.equal(theta1, 0)) {
+        if (NumericalUtility.equalValues(theta1, 0)) {
             this.theta1 = FastMath.toRadians(45);
             LOG.log(Level.WARNING,"theta1=0 not allowed, reseting to 45");
         } else {

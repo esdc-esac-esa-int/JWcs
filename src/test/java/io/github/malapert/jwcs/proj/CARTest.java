@@ -112,7 +112,7 @@ public class CARTest extends AbstractProjectionTest {
      * Test of description method, of class CAR.
      */
     @Test
-    public void testDescriptionCAR() throws ProjectionException {
+    public void testDescriptionCAR() {
         System.out.println("description CAR");
         final String exptected = "Plate carrée";
         assertEquals(exptected, wcs.getName());

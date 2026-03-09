@@ -128,10 +128,10 @@ public class CYP extends AbstractCylindricalProjection {
      * @throws io.github.malapert.jwcs.proj.exception.BadProjectionParameterException Lambda must be &gt; 0 or Mu must not be -lambda
      */
     protected final void checkParameters(final double mu, final double lambda) throws BadProjectionParameterException {
-        if (getLambda() < 0 || NumericalUtility.equal(getLambda(), 0)) {
+        if (getLambda() < 0 || NumericalUtility.equalValues(getLambda(), 0)) {
             throw new BadProjectionParameterException(this, "Lambda must be > 0");
         }
-        if (NumericalUtility.equal(getMu(),-getLambda())) {
+        if (NumericalUtility.equalValues(getMu(), -getLambda())) {
             throw new BadProjectionParameterException(this, "Mu must not be -lambda");
         }              
     }    
@@ -150,7 +150,7 @@ public class CYP extends AbstractCylindricalProjection {
     public double[] projectInverse(final double phi, final double theta) throws PixelBeyondProjectionException {
         final double x = getLambda() * phi;
         final double ctheta = FastMath.cos(theta);
-        if(NumericalUtility.equal(getMu(), -ctheta)) {
+        if(NumericalUtility.equalValues(getMu(), -ctheta)) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);
         }
         final double y = (getMu()+getLambda())/(getMu() + ctheta) * FastMath.sin(theta);

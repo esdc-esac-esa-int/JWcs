@@ -153,7 +153,7 @@ public abstract class AbstractConicProjection extends AbstractProjection {
      * @return native spherical coordinate (\u03D5) in radians along longitude
      */
     protected double computePhi(final double x, final double y, final double r_theta, final double y0, final double c) {
-        return NumericalUtility.equal(r_theta, 0) ? 0 : NumericalUtility.aatan2(x/r_theta, (y0-y)/r_theta)/c;
+        return NumericalUtility.equalValues(r_theta, 0)? 0 : NumericalUtility.aatan2(x / r_theta, (y0 - y) / r_theta) / c;
     }
     
     /**
@@ -231,7 +231,7 @@ public abstract class AbstractConicProjection extends AbstractProjection {
     public boolean inside(final double lon, final double lat) {     
         final double angle = NumericalUtility.distAngle(new double[]{getCrval1(), getCrval2()}, new double[]{lon, lat});
         LOG.log(Level.FINER, "(lont,lat,distAngle)[deg] = ({0},{1}) {2}", new Object[]{FastMath.toDegrees(lon), FastMath.toDegrees(lat), angle});
-        return NumericalUtility.equal(angle, HALF_PI) || angle <= HALF_PI;
+        return NumericalUtility.equalValues(angle, HALF_PI) || angle <= HALF_PI;
     }   
     
     @Override

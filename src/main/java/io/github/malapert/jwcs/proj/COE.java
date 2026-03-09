@@ -112,7 +112,7 @@ public class COE extends AbstractConicProjection {
      * @throws BadProjectionParameterException Projection parameters: sin(theta1) + sin(theta2) = 0 are not allowed
      */
     private void checkParameters(final double gamma) throws BadProjectionParameterException {
-        if(NumericalUtility.equal(gamma, 0)) {
+        if(NumericalUtility.equalValues(gamma, 0)) {
             throw new BadProjectionParameterException(this, "Projection parameters: sin(theta1) + sin(theta2) = 0 are not allowed");
         }
     }

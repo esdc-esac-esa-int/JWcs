@@ -108,7 +108,7 @@ public final class ZPN extends AbstractZenithalProjection {
      * parameters
      */
     private void check() {
-        if (!NumericalUtility.equal(getPhi0(), 0) || !NumericalUtility.equal(getTheta0(), HALF_PI)) {
+        if (!NumericalUtility.equalValues(getPhi0(), 0) || !NumericalUtility.equalValues(getTheta0(), HALF_PI)) {
             throw new JWcsError("Non-standard PVi_1 and/or PVi_2 values");
         }
     }

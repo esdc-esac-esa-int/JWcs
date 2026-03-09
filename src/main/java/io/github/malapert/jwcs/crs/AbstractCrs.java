@@ -40,7 +40,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.util.FastMath;
 import io.github.malapert.jwcs.utility.TimeUtility;
 import static io.github.malapert.jwcs.utility.NumericalUtility.aatan2;
-import static io.github.malapert.jwcs.utility.NumericalUtility.equal;
+import static io.github.malapert.jwcs.utility.NumericalUtility.equalValues;
 import static io.github.malapert.jwcs.utility.NumericalUtility.isInInterval;
 
 /**
@@ -1287,9 +1287,9 @@ public abstract class AbstractCrs {
      */
     private static RealMatrix convertIAU2006MatrixEpoch12Epoch2(final double epoch1, final double epoch2) {
         final RealMatrix result;
-        if (equal(epoch1, epoch2)) {
+        if (equalValues(epoch1, epoch2)) {
             result = createRealIdentityMatrix(3);
-        } else if (equal(epoch1,2000.0,1e-3)) {
+        } else if (NumericalUtility.equalValues(epoch1, 2000.0, 1e-3)) {
             final double[] precessionAngles = convertIAU2006PrecAngles(epoch2);
             result = precessionMatrix(precessionAngles[0], precessionAngles[1], precessionAngles[2]);
         } else { // If both epochs are not J2000.0

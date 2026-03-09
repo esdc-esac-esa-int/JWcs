@@ -72,7 +72,7 @@ public class SFL extends AbstractCylindricalProjection {
         final double theta = FastMath.toRadians(y);
         final double cosTheta = FastMath.cos(theta);
         final double phi;
-        if(NumericalUtility.equal(cosTheta, 0)) {
+        if(NumericalUtility.equalValues(cosTheta, 0)) {
             phi = 0;
         } else {
             phi = FastMath.toRadians(x) / FastMath.cos(theta);

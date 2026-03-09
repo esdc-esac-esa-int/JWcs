@@ -166,10 +166,10 @@ public class SZP extends AbstractZenithalProjection {
      * @throws JWcsError Non-standard phi0 or theta0 values
      */
     protected final void checkParameters(final double mu, final double phic, final double thetac) throws BadProjectionParameterException {
-        if (!NumericalUtility.equal(getPhi0(), 0) || !NumericalUtility.equal(getTheta0(),HALF_PI)) {
+        if (!NumericalUtility.equalValues(getPhi0(), 0) || !NumericalUtility.equalValues(getTheta0(), HALF_PI)) {
             throw new JWcsError("Non-standard phi0 or theta0 values");
         }
-        if (NumericalUtility.equal(this.zp, 0)) {
+        if (NumericalUtility.equalValues(this.zp, 0)) {
             throw new BadProjectionParameterException(this,"zp = 0. It must be !=0");
         }
     }
@@ -260,7 +260,7 @@ public class SZP extends AbstractZenithalProjection {
      * @return true when it is visible
      */
     private boolean thirdConstraintVisibility(final double denom) {
-        return !NumericalUtility.equal(denom, 0);     
+        return !NumericalUtility.equalValues(denom, 0);
     }
     
     /**

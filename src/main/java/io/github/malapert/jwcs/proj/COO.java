@@ -107,8 +107,8 @@ public class COO extends AbstractConicProjection {
      * @throws BadProjectionParameterException (theta1,theta2). c must be != 0
      */
     private double computeC(final double tan1, final double tan2) throws BadProjectionParameterException {
-        final double cte = NumericalUtility.equal(getTheta1(), getTheta2()) ? FastMath.sin(getTheta1()) : FastMath.log(FastMath.cos(getTheta2()) / FastMath.cos(getTheta1())) / FastMath.log(tan2 / tan1);
-        if (NumericalUtility.equal(cte, 0)) {
+        final double cte = NumericalUtility.equalValues(getTheta1(), getTheta2())? FastMath.sin(getTheta1()) : FastMath.log(FastMath.cos(getTheta2()) / FastMath.cos(getTheta1())) / FastMath.log(tan2 / tan1);
+        if (NumericalUtility.equalValues(cte, 0)) {
             throw new BadProjectionParameterException(this, "(theta1,theta2). c must be != 0");
         }
         return cte;
@@ -118,7 +118,7 @@ public class COO extends AbstractConicProjection {
     protected double[] project(final double x, final double y) {
         final double xr = FastMath.toRadians(x);
         final double yr = FastMath.toRadians(y);
-        final double psi = NumericalUtility.equal(getTan1(), 0) ? FastMath.cos(getTheta2()) / (getC() * FastMath.pow(getTan2(), getC())) : FastMath.cos(getTheta1()) / (getC() * FastMath.pow(getTan1(), getC()));
+        final double psi = NumericalUtility.equalValues(getTan1(), 0)? FastMath.cos(getTheta2()) / (getC() * FastMath.pow(getTan2(), getC())) : FastMath.cos(getTheta1()) / (getC() * FastMath.pow(getTan1(), getC()));
         final double y0 = psi * FastMath.pow(FastMath.tan((HALF_PI - getThetaA()) * 0.5), getC());
         final double r_theta = FastMath.signum(getThetaA()) * FastMath.sqrt(FastMath.pow(xr, 2) + FastMath.pow(y0 - yr, 2));
         final double phi = computePhi(xr, yr, r_theta, y0, getC());
@@ -128,8 +128,8 @@ public class COO extends AbstractConicProjection {
 
     @Override
     protected double[] projectInverse(final double phi, final double theta) throws BadProjectionParameterException {
-        final double psi = NumericalUtility.equal(getTan1(), 0) ? FastMath.cos(getTheta2()) / (getC() * FastMath.pow(getTan2(), getC())) : FastMath.cos(getTheta1()) / (getC() * FastMath.pow(getTan1(), getC()));
-        if (NumericalUtility.equal(psi, 0)) {
+        final double psi = NumericalUtility.equalValues(getTan1(), 0)? FastMath.cos(getTheta2()) / (getC() * FastMath.pow(getTan2(), getC())) : FastMath.cos(getTheta1()) / (getC() * FastMath.pow(getTan1(), getC()));
+        if (NumericalUtility.equalValues(psi, 0)) {
             throw new BadProjectionParameterException(this, "(theta_a, eta) = (" + getThetaA() + ", " + getEta() + ")");
         }
         final double y0 = psi * FastMath.pow(FastMath.tan((HALF_PI - getThetaA()) * 0.5), getC());
@@ -151,8 +151,8 @@ public class COO extends AbstractConicProjection {
 
     @Override
     public boolean inside(final double lon, final double lat) {
-        LOG.log(Level.FINER, "(lon,lat)=({0},{1}) {2}", new Object[]{FastMath.toDegrees(lon), FastMath.toDegrees(lat), super.inside(lon, lat) && !NumericalUtility.equal(lat, -HALF_PI)});
-        return super.inside(lon, lat) && !NumericalUtility.equal(lat, -HALF_PI);
+        LOG.log(Level.FINER, "(lon,lat)=({0},{1}) {2}", new Object[]{FastMath.toDegrees(lon), FastMath.toDegrees(lat), super.inside(lon, lat) && !NumericalUtility.equalValues(lat, -HALF_PI)});
+        return super.inside(lon, lat) && !NumericalUtility.equalValues(lat, -HALF_PI);
     }
 
     @Override

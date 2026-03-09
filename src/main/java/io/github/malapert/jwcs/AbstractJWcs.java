@@ -671,7 +671,8 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * @return the CD matrix
      */
     protected static double[][] pc2cd(final double[][] pc, final double[] cdelt) {
-        return new double[][] { { cdelt[0] * pc[0][0], cdelt[1] * pc[1][0] }, { cdelt[0] * pc[0][1], cdelt[1] * pc[1][1] } };
+        return new double[][] { { cdelt[0] * pc[0][0], cdelt[1] * pc[1][0] },
+                                { cdelt[0] * pc[0][1], cdelt[1] * pc[1][1] } };
     }
 
     /**
@@ -1100,8 +1101,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
      * @throws BadProjectionParameterException when a bad parameter is provided
      * to the projection
      */
-    private AbstractProjection createZPNProjection(final double cx, final double cy)
-            throws BadProjectionParameterException {
+    private AbstractProjection createZPNProjection(final double cx, final double cy) {
         final Iterator<Object> iter = iterator();
         final Map<String, Double> pvMap = new HashMap<>();
         while (iter.hasNext()) {
@@ -1145,7 +1145,7 @@ public abstract class AbstractJWcs implements JWcsKeyProvider {
         final Map<String, Double> pvMap_b = new HashMap<>();
         while (iter.hasNext()) {
             final Object keyObj = iter.next();
-            if (keyObj instanceof HeaderCard headerCard)  {
+            if (keyObj instanceof HeaderCard headerCard) {
                 final String key = headerCard.getKey();
                 if (key.startsWith("PV1_"))
                     pvMap_a.put(key, getValueAsDouble(key));

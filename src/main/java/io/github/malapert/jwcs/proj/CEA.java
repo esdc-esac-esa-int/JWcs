@@ -107,7 +107,7 @@ public class CEA extends AbstractCylindricalProjection {
      * @throws BadProjectionParameterException lambda not in ]0,1]
      */
     private void checkParameter(final double lambda) throws BadProjectionParameterException {
-        if (NumericalUtility.equal(lambda, 0) || lambda < 0 || lambda > 1.0) {
+        if (NumericalUtility.equalValues(lambda, 0) || lambda < 0 || lambda > 1.0) {
             throw new BadProjectionParameterException(this,"lambda =" + lambda + " - lambda outside the range ]0,1]");
         }        
     }

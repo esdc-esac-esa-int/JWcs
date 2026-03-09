@@ -86,7 +86,7 @@ public class ZEA extends AbstractZenithalProjection {
         final double r_theta = computeRadius(xr, yr);
         final double phi = computePhi(xr, yr, r_theta);        
         final double theta;
-	if (NumericalUtility.equal(r_theta, 2)) {
+	if (NumericalUtility.equalValues(r_theta, 2)) {
 	    theta = -HALF_PI;
 	} else {
 	    theta = HALF_PI - 2*NumericalUtility.aasin(r_theta * 0.5);

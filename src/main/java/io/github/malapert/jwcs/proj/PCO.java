@@ -115,10 +115,10 @@ public class PCO extends AbstractPolyConicProjection {
         final double yr = FastMath.toRadians(y);
         final double phi;
         final double theta;
-        if (NumericalUtility.equal(yr, 0)) {
+        if (NumericalUtility.equalValues(yr, 0)) {
             phi = xr;
             theta = 0.0;
-        } else if (NumericalUtility.equal(yr, HALF_PI)) {
+        } else if (NumericalUtility.equalValues(yr, HALF_PI)) {
             phi = 0.0;
             theta = yr < 0.0 ? -HALF_PI : HALF_PI;
         } else {
@@ -137,7 +137,7 @@ public class PCO extends AbstractPolyConicProjection {
         final double a = phi * sinthe;
         double x;
         double y;
-        if (NumericalUtility.equal(sinthe, 0.0)) {
+        if (NumericalUtility.equalValues(sinthe, 0.0)) {
             x = phi;
             y = 0.0;
         } else {
@@ -172,7 +172,7 @@ public class PCO extends AbstractPolyConicProjection {
         final double xp = 1 - (yr - theta) * tanthe;
         final double yp = xr * tanthe;
         final double phi;
-        if (NumericalUtility.equal(xp, 0) && NumericalUtility.equal(yp, 0)) {
+        if (NumericalUtility.equalValues(xp, 0) && NumericalUtility.equalValues(yp, 0)) {
             phi = 0.0;
         } else {
             phi = NumericalUtility.aatan2(yp, xp) / FastMath.sin(theta);

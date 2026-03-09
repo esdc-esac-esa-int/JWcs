@@ -75,7 +75,7 @@ public final class BON extends AbstractPolyConicProjection {
     public BON(final double crval1, final double crval2, final double theta1) {
         super(crval1, crval2, theta1);
         LOG.log(Level.FINER, "INPUTS[Deg] (crval1,crval2,theta1)=({0},{1},{2})", new Object[]{crval1,crval2,theta1});                
-        if (NumericalUtility.equal(theta1,0)) {
+        if (NumericalUtility.equalValues(theta1, 0)) {
             this.sfl = new SFL(crval1, crval2);
         }
     }
@@ -112,7 +112,7 @@ public final class BON extends AbstractPolyConicProjection {
             final double aphi = NumericalUtility.aatan2(xr / r_theta, (y0 - yr) / r_theta);
             final double cos_theta = FastMath.cos(theta);
             final double phi;
-            if (NumericalUtility.equal(cos_theta,0)) {
+            if (NumericalUtility.equalValues(cos_theta, 0)) {
                 phi = 0;
             } else {
                 phi = aphi * r_theta / cos_theta;
@@ -161,7 +161,7 @@ public final class BON extends AbstractPolyConicProjection {
             final double r_theta = y0 - theta;
             // computes x and y
             final double aphi;
-            if (NumericalUtility.equal(r_theta, 0)) {
+            if (NumericalUtility.equalValues(r_theta, 0)) {
                 aphi=0;
             } else {
                 aphi = phi * FastMath.cos(theta) / r_theta;

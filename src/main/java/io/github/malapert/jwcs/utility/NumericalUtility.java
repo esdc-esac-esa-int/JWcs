@@ -51,17 +51,17 @@ public final class NumericalUtility {
     /**
      * Double tolerance for numerical precision operations sets to 1e-12.
      */
-    public final static double DOUBLE_TOLERANCE = 1e-12;
+    public static final double DOUBLE_TOLERANCE = 1e-12;
 
     /**
      * Half PI value.
      */
-    public final static double HALF_PI = FastMath.PI * 0.5d;
+    public static final double HALF_PI = FastMath.PI * 0.5d;
 
     /**
      * Two Pi value.
      */
-    public final static double TWO_PI = FastMath.PI * 2.0d;
+    public static final double TWO_PI = FastMath.PI * 2.0d;
 
     /**
      * Compares two doubles.
@@ -71,7 +71,7 @@ public final class NumericalUtility {
      * @param precision precision for the comparison
      * @return True when <code>val1</code> and <code>val2</code> are equals.
      */
-    public static boolean equal(final double val1, final double val2, final double precision) {
+    public static boolean equalValues(final double val1, final double val2, final double precision) {
         return FastMath.abs(val2 - val1) <= precision;
     }
 
@@ -110,7 +110,7 @@ public final class NumericalUtility {
         final double[] xyzPos1 = radec2xyz(pos1);
         final double[] xyzPos2 = radec2xyz(pos2);
         double dot = xyzPos1[0] * xyzPos2[0] + xyzPos1[1] * xyzPos2[1] + xyzPos1[2] * xyzPos2[2];
-        if (NumericalUtility.equal(dot, 0, 1e-13)) {
+        if (NumericalUtility.equalValues(dot, 0, 1e-13)) {
             dot = 0;
         }
         return NumericalUtility.aacos(dot / (normVector(xyzPos1) * normVector(xyzPos2)));
@@ -157,9 +157,9 @@ public final class NumericalUtility {
      * @return the arc sine of the argument.
      */
     public static double aasin(final double v) {
-        if (equal(v, 1, DOUBLE_TOLERANCE)) {
+        if (equalValues(v, 1, DOUBLE_TOLERANCE)) {
             return FastMath.PI / 2;
-        } else if (equal(v, -1, DOUBLE_TOLERANCE)) {
+        } else if (equalValues(v, -1, DOUBLE_TOLERANCE)) {
             return -FastMath.PI / 2;
         } else {
             return FastMath.asin(v);
@@ -190,10 +190,10 @@ public final class NumericalUtility {
         if (Double.isInfinite(resut) || Double.isNaN(resut)) {
             throw new JWcsError("Infinite latitude");
         }
-        if (equal(resut,HALF_PI)) {
+        if (equalValues(resut, HALF_PI)) {
             return HALF_PI;
         }
-        if (equal(resut,-HALF_PI)) {
+        if (equalValues(resut, -HALF_PI)) {
             return -HALF_PI;
         }
 
@@ -278,10 +278,10 @@ public final class NumericalUtility {
         if (Double.isNaN(number)) {
             return false;
         }
-        if (NumericalUtility.equal(number, min, precision)) {
+        if (NumericalUtility.equalValues(number, min, precision)) {
             return minIsClosed;
         }
-        if (NumericalUtility.equal(number, max, precision)) {
+        if (NumericalUtility.equalValues(number, max, precision)) {
             return maxIsClosed;
         }
         return min < number && number < max;
@@ -302,10 +302,10 @@ public final class NumericalUtility {
         if (Double.isNaN(number)) {
             return false;
         }
-        if (NumericalUtility.equal(number, min)) {
+        if (NumericalUtility.equalValues(number, min)) {
             return minIsClosed;
         }
-        if (NumericalUtility.equal(number, max)) {
+        if (NumericalUtility.equalValues(number, max)) {
             return maxIsClosed;
         }
         return min < number && number < max;
@@ -319,8 +319,8 @@ public final class NumericalUtility {
      * @param val2 second double
      * @return True when <code>val1</code> and <code>val2</code> are equals.
      */
-    public static boolean equal(final double val1, final double val2) {
-        return equal(val1, val2, DOUBLE_TOLERANCE);
+    public static boolean equalValues(final double val1, final double val2) {
+        return equalValues(val1, val2, DOUBLE_TOLERANCE);
     }
 
     /**
@@ -528,10 +528,10 @@ public final class NumericalUtility {
      */
     public static int getPolynomialOrder(final Object f) {
         final int result;
-        if (f instanceof PolynomialFunction) {
-            result = ((PolynomialFunction)f).degree();
-        } else if (f instanceof double[]) {
-            final PolynomialFunction fNew = new PolynomialFunction((double[])f);
+        if (f instanceof PolynomialFunction fPolynomialFunction) {
+            result = fPolynomialFunction.degree();
+        } else if (f instanceof double[] fDouble) {
+            final PolynomialFunction fNew = new PolynomialFunction(fDouble);
             result = fNew.degree();
         } else {
             throw new JWcsError("f is not a polynomialFunction or a an array of polynomial coefficients");

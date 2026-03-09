@@ -178,7 +178,7 @@ public abstract class AbstractProjection {
      */
     protected final double computeDefaultValueForPhip() {
         final double phi_p;
-        if (NumericalUtility.equal(getCrval2(), getTheta0())) {
+        if (NumericalUtility.equalValues(getCrval2(), getTheta0())) {
             phi_p = LONPOLE_0;
         } else if (getCrval2() > getTheta0()) {
             phi_p = LONPOLE_0;
@@ -224,10 +224,10 @@ public abstract class AbstractProjection {
         final double deltap = getCoordNativePole()[1];
         LOG.log(Level.FINEST, "CoordinateNativePole[deg]: (alphap,deltap)=({0},{1})", new Object[]{FastMath.toDegrees(alphap),FastMath.toDegrees(deltap)});        
         
-        if (NumericalUtility.equal(deltap, HALF_PI)) {
+        if (NumericalUtility.equalValues(deltap, HALF_PI)) {
             ra = alphap + phi - getPhip() - FastMath.PI;
             dec = theta;
-        } else if (NumericalUtility.equal(deltap, -HALF_PI)) {
+        } else if (NumericalUtility.equalValues(deltap, -HALF_PI)) {
             ra = alphap - phi + getPhip();
             dec = -theta;
         } else {            
@@ -274,10 +274,10 @@ public abstract class AbstractProjection {
         
         final double phi;
         final double theta;
-        if (NumericalUtility.equal(dec_p, HALF_PI)) {
+        if (NumericalUtility.equalValues(dec_p, HALF_PI)) {
             phi = getPhip() + ra - ra_p;
             theta = dec;
-        } else if (NumericalUtility.equal(dec_p, -HALF_PI)) {
+        } else if (NumericalUtility.equalValues(dec_p, -HALF_PI)) {
             phi = getPhip() - ra + ra_p;
             theta = -dec;            
         } else {
@@ -311,8 +311,8 @@ public abstract class AbstractProjection {
      */
     protected double[] computeCoordNativePole(final double phi_p) {
 
-        if (NumericalUtility.equal(getPhi0(), 0)
-                && NumericalUtility.equal(getTheta0(), HALF_PI)) {
+        if (NumericalUtility.equalValues(getPhi0(), 0)
+                && NumericalUtility.equalValues(getTheta0(), HALF_PI)) {
             LOG.log(Level.FINEST,"No need to compute the coordinates of the native pole");
             return new double[]{getCrval1(), getCrval2()};
         }
@@ -334,7 +334,7 @@ public abstract class AbstractProjection {
      */
     private double computeLatitudeNativePole(final double phi_p) {
         final double deltap;
-        if (NumericalUtility.equal(getTheta0(), 0.0d) && NumericalUtility.equal(getCrval2(), 0) && NumericalUtility.equal(FastMath.abs(phi_p - getPhi0()), HALF_PI)) {
+        if (NumericalUtility.equalValues(getTheta0(), 0.0d) && NumericalUtility.equalValues(getCrval2(), 0) && NumericalUtility.equalValues(FastMath.abs(phi_p - getPhi0()), HALF_PI)) {
             deltap = getThetap();
         } else {
             final double deltap_arg = NumericalUtility.aatan2(FastMath.sin(getTheta0()), FastMath.cos(getTheta0()) * FastMath.cos(phi_p - getPhi0()));
@@ -342,9 +342,9 @@ public abstract class AbstractProjection {
             final double deltap1 = deltap_arg + deltap_acos;
             final double deltap2 = deltap_arg - deltap_acos;
 
-            if (NumericalUtility.equal(getTheta0(), 0)
-                    && NumericalUtility.equal(getCrval2(), 0)
-                    && NumericalUtility.equal(FastMath.abs(getPhip()-getPhi0()), HALF_PI)) {
+            if (NumericalUtility.equalValues(getTheta0(), 0)
+                    && NumericalUtility.equalValues(getCrval2(), 0)
+                    && NumericalUtility.equalValues(FastMath.abs(getPhip() - getPhi0()), HALF_PI)) {
                 deltap = getThetap();
             } else {
                 deltap = findTheValidDeltap(deltap1, deltap2);
@@ -398,11 +398,11 @@ public abstract class AbstractProjection {
      */    
     private double computeLongitudeNativePole(final double deltap, final double phi_p) {
         final double alphap;
-        if (NumericalUtility.equal(FastMath.abs(getCrval2()), HALF_PI)) {
+        if (NumericalUtility.equalValues(FastMath.abs(getCrval2()), HALF_PI)) {
             alphap = getCrval1();
-        } else if (NumericalUtility.equal(deltap, HALF_PI)) {
+        } else if (NumericalUtility.equalValues(deltap, HALF_PI)) {
             alphap = getCrval1() + phi_p - getPhi0() - FastMath.PI;
-        } else if (NumericalUtility.equal(deltap, -HALF_PI)) {
+        } else if (NumericalUtility.equalValues(deltap, -HALF_PI)) {
             alphap = getCrval1() - phi_p + getPhi0();      
         } else {
             final double das = FastMath.sin(phi_p - getPhi0()) * FastMath.cos(getTheta0()) / FastMath.cos(getCrval2());

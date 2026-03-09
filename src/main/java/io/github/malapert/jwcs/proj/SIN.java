@@ -111,7 +111,7 @@ public class SIN extends AbstractZenithalProjection {
         final double yr = FastMath.toRadians(y);
         final double phi;
         final double theta;
-        if (NumericalUtility.equal(getKsi(), DEFAULT_VALUE) && NumericalUtility.equal(getEta(), DEFAULT_VALUE)) {
+        if (NumericalUtility.equalValues(getKsi(), DEFAULT_VALUE) && NumericalUtility.equalValues(getEta(), DEFAULT_VALUE)) {
             final double r_theta = computeRadius(xr, yr);
             phi = computePhi(xr, yr, r_theta);
             

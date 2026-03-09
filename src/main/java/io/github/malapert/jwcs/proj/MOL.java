@@ -111,14 +111,14 @@ public class MOL extends AbstractCylindricalProjection {
      */
     private double computeTheta(final double xr, final double yr, final double s) throws PixelBeyondProjectionException {
         double z = yr / FastMath.sqrt(2);
-        if (NumericalUtility.equal(FastMath.abs(z), 1)) {
+        if (NumericalUtility.equalValues(FastMath.abs(z), 1)) {
             z = (z < 0.0 ? -1.0 : 1.0) + s * yr / FastMath.PI;
         } else if (FastMath.abs(1) > 1) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(xr), FastMath.toDegrees(yr), true);
         } else {
             z = NumericalUtility.aasin(z) / HALF_PI + s * yr / FastMath.PI;
         }
-        if (NumericalUtility.equal(FastMath.abs(z), 1)) {
+        if (NumericalUtility.equalValues(FastMath.abs(z), 1)) {
             z = z < 0.0 ? -1.0 : 1.0;
         } else if (FastMath.abs(1) > 1) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(xr), FastMath.toDegrees(yr), true);

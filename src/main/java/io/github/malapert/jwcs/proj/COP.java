@@ -85,7 +85,7 @@ public class COP extends AbstractConicProjection {
     public COP(final double crval1, final double crval2, final double theta_a, final double eta) throws BadProjectionParameterException {
         super(crval1, crval2, theta_a, eta);
         LOG.log(Level.FINER, "INPUTS[Deg] (crval1,crval2,theta_a,eta)=({0},{1},{2},{3})", new Object[]{crval1, crval2, theta_a, eta});
-        checkParameters(theta_a, eta);
+        checkParametersCOP(theta_a, eta);
         this.c = FastMath.sin(getThetaA());
     }
     
@@ -95,17 +95,17 @@ public class COP extends AbstractConicProjection {
      * @param eta value to check
      * @throws BadProjectionParameterException \u03B7 cannot be 0 or \u03B7 + \u03B8<sub>a</sub> cannot be 0
      */
-    private void checkParameters(final double theta_a, final double eta) throws BadProjectionParameterException {
-        if(NumericalUtility.equal(eta, 0)) {
+    private void checkParametersCOP(final double theta_a, final double eta) throws BadProjectionParameterException {
+        if(NumericalUtility.equalValues(eta, 0)) {
             throw new BadProjectionParameterException(this, "\u03B7 cannot be 0");
         }
-        if(NumericalUtility.equal(eta, 90) || eta > 90) {
+        if(NumericalUtility.equalValues(eta, 90) || eta > 90) {
             throw new BadProjectionParameterException(this, "\u03B7 cannot be >= 90");
         }        
-        if(NumericalUtility.equal(theta_a, 0)) {
+        if(NumericalUtility.equalValues(theta_a, 0)) {
             throw new BadProjectionParameterException(this, "\u03B8 cannot be 0");
         }
-        if(NumericalUtility.equal(theta_a, 90) || theta_a > 90) {
+        if(NumericalUtility.equalValues(theta_a, 90) || theta_a > 90) {
             throw new BadProjectionParameterException(this, "\u03B8 cannot be >= 90");
         }  
     }    

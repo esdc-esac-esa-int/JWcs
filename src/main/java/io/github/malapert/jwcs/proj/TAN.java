@@ -115,7 +115,7 @@ public class TAN extends AbstractZenithalProjection {
     @Override
     public double[] projectInverse(final double phi, final double theta) throws PixelBeyondProjectionException {        
         final double s = FastMath.sin(theta);
-        if (NumericalUtility.equal(s, 0)) {
+        if (NumericalUtility.equalValues(s, 0)) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);
         }
         final double r_theta = FastMath.cos(theta) / s;
@@ -139,7 +139,7 @@ public class TAN extends AbstractZenithalProjection {
         final double raFixed = NumericalUtility.normalizeLongitude(lon);
         final double[] nativeSpherical = computeNativeSpherical(raFixed, lat);
         nativeSpherical[0] = phiRange(nativeSpherical[0]);
-        final boolean result = NumericalUtility.equal(nativeSpherical[1], 0);
+        final boolean result = NumericalUtility.equalValues(nativeSpherical[1], 0);
         return !result && super.inside(lon, lat);
     }        
 
