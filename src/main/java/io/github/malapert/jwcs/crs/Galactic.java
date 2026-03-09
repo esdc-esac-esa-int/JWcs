@@ -44,12 +44,12 @@ public class Galactic extends AbstractCrs {
     /**
      * Name of this coordinate system.
      */
-    private final static CoordinateReferenceSystem SKY_NAME = CoordinateReferenceSystem.GALACTIC;       
+    private static final CoordinateReferenceSystem SKY_NAME = CoordinateReferenceSystem.GALACTIC;
     
     /**
      * The coordinate system.
      */
-    private AbstractCs coordinateSystem;    
+    private final AbstractCs coordinateSystem;
     
     public Galactic() {
         this.coordinateSystem = CsFactory.create(AbstractCs.CoordinateSystem.SPHERICAL2D);

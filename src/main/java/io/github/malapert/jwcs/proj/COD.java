@@ -44,12 +44,12 @@ public class COD extends AbstractConicProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Conic equidistant";        
+    private static final String NAME_PROJECTION = "Conic equidistant";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03B8a=%s \u03B7=%s"; 
+    private static final String DESCRIPTION = "\u03B8a=%s \u03B7=%s";
 
     /**
      * Constant of the cone in radians.
@@ -90,9 +90,9 @@ public class COD extends AbstractConicProjection {
     public COD(final double crval1, final double crval2, final double theta_a, final double eta) throws BadProjectionParameterException {
         super(crval1, crval2, theta_a, eta);
         LOG.log(Level.FINER, "INPUTS[Deg] (crval1,crval2,theta_a,eta)=({0},{1},{2},{3})", new Object[]{crval1,crval2,theta_a,eta});                        
-        checkParameters(theta_a, eta);  
+        checkParametersCOD(theta_a, eta);
         this.c = FastMath.sin(getThetaA()) * FastMath.sin(getEta()) / getEta();   
-        if (NumericalUtility.equal(this.c, 0)) {
+        if (NumericalUtility.equalValues(this.c, 0)) {
             throw new BadProjectionParameterException(this,"c must be != 0");
         } 
         this.y0 = getEta() / (FastMath.tan(getEta()) * FastMath.tan(getThetaA()));                
@@ -104,17 +104,17 @@ public class COD extends AbstractConicProjection {
      * @param eta value to check
      * @throws BadProjectionParameterException \u03B7,\u03B8 cannot be 0 or \u03B7,\u03B8&ge;90
      */
-    private void checkParameters(final double theta_a, final double eta) throws BadProjectionParameterException {
-        if(NumericalUtility.equal(eta, 0)) {
+    private void checkParametersCOD(final double theta_a, final double eta) throws BadProjectionParameterException {
+        if(NumericalUtility.equalValues(eta, 0)) {
             throw new BadProjectionParameterException(this, "\u03B7 cannot be 0");
         }
-        if(NumericalUtility.equal(eta, 90) || eta > 90) {
+        if(NumericalUtility.equalValues(eta, 90) || eta > 90) {
             throw new BadProjectionParameterException(this, "\u03B7 cannot be >= 90");
         }        
-        if(NumericalUtility.equal(theta_a, 0)) {
+        if(NumericalUtility.equalValues(theta_a, 0)) {
             throw new BadProjectionParameterException(this, "\u03B8 cannot be 0");
         }
-        if(NumericalUtility.equal(theta_a, 90) || theta_a > 90) {
+        if(NumericalUtility.equalValues(theta_a, 90) || theta_a > 90) {
             throw new BadProjectionParameterException(this, "\u03B8 cannot be >= 90");
         }   
     }
@@ -142,8 +142,7 @@ public class COD extends AbstractConicProjection {
         final double r_theta = FastMath.signum(getThetaA()) * FastMath.sqrt(FastMath.pow(xr, 2) + FastMath.pow(getY0() - yr, 2));
         final double phi = computePhi(xr, yr, r_theta, getY0(), getC());
         final double theta = getThetaA() + getY0() - r_theta;
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     /**
@@ -167,8 +166,7 @@ public class COD extends AbstractConicProjection {
         final double r_theta = getThetaA() + getY0() - theta;       
         final double x = computeX(phi, r_theta, getC());
         final double y = computeY(phi, r_theta, getC(), getY0());
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
         
     /**

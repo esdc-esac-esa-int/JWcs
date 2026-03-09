@@ -36,11 +36,11 @@ public class ProjectionFactory {
     /**
      * LOG.
      */
-    protected final static Logger LOG = Logger.getLogger(ProjectionFactory.class.getName());
+    protected static final Logger LOG = Logger.getLogger(ProjectionFactory.class.getName());
     
     
-    private static Map registry = new HashMap();
-    private static Map nameMap = new HashMap();    
+    private static final Map registry = new HashMap();
+    private static final Map nameMap = new HashMap();
     
     public static AbstractProjection getNamedProjection(String name) {    
         if (registry.isEmpty()) {
@@ -66,8 +66,7 @@ public class ProjectionFactory {
         Class cls = (Class) registry.get(name);
         if (cls != null) {
             try {
-                AbstractProjection projection = (AbstractProjection) cls.newInstance();
-                return projection;
+                return (AbstractProjection) cls.newInstance();
             } catch (IllegalAccessException | InstantiationException e) {
             }
         }

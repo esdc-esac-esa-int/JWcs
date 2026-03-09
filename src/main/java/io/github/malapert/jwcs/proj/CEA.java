@@ -40,12 +40,12 @@ public class CEA extends AbstractCylindricalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Cylindrical equal area";
+    private static final String NAME_PROJECTION = "Cylindrical equal area";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03BB=%s";
+    private static final String DESCRIPTION = "\u03BB=%s";
 
     /**
      * \u03BB Scaling parameter.
@@ -55,7 +55,7 @@ public class CEA extends AbstractCylindricalProjection {
     /**
      * Default value for \u03BB.
      */
-    private final static int DEFAULT_VALUE = 1;
+    private static final int DEFAULT_VALUE = 1;
     
     /**
      * Constructs a CEA based on the default celestial longitude and latitude of the
@@ -107,7 +107,7 @@ public class CEA extends AbstractCylindricalProjection {
      * @throws BadProjectionParameterException lambda not in ]0,1]
      */
     private void checkParameter(final double lambda) throws BadProjectionParameterException {
-        if (NumericalUtility.equal(lambda, 0) || lambda < 0 || lambda > 1.0) {
+        if (NumericalUtility.equalValues(lambda, 0) || lambda < 0 || lambda > 1.0) {
             throw new BadProjectionParameterException(this,"lambda =" + lambda + " - lambda outside the range ]0,1]");
         }        
     }
@@ -137,8 +137,7 @@ public class CEA extends AbstractCylindricalProjection {
         if(Double.isNaN(theta)) {
             throw new PixelBeyondProjectionException(this, x, y, true);
         }
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     /**
@@ -159,8 +158,7 @@ public class CEA extends AbstractCylindricalProjection {
     protected double[] projectInverse(final double phi, final double theta) {
         final double x = FastMath.toDegrees(phi);
         final double y = FastMath.toDegrees(FastMath.sin(theta) / getLambda());
-        final double[] coord = {x, y};
-        return coord;
+        return new double[] { x, y};
     }
 
     /**

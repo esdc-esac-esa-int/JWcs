@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,10 +19,8 @@
  */
 package io.github.malapert.jwcs.crs;
 
-import io.github.malapert.jwcs.crs.Ecliptic;
-import io.github.malapert.jwcs.crs.Galactic;
-import io.github.malapert.jwcs.datum.FK4;
 import io.github.malapert.jwcs.datum.CoordinateReferenceFrame;
+import io.github.malapert.jwcs.datum.FK4;
 import io.github.malapert.jwcs.proj.exception.JWcsException;
 
 /**
@@ -30,16 +28,16 @@ import io.github.malapert.jwcs.proj.exception.JWcsException;
  * @author malapert
  */
 public class GalacticToEclipticFK4Test extends ConverterTest {
-    
+
     /**
      *
      * @throws JWcsException
      */
-    public GalacticToEclipticFK4Test() throws JWcsException {
+    public GalacticToEclipticFK4Test() {
         super();
         final CoordinateReferenceFrame fk4 = new FK4();
         this.source = new Galactic();
-        this.target = new Ecliptic(fk4);        
-        
+        this.target = new Ecliptic(fk4);
+
     }
 }

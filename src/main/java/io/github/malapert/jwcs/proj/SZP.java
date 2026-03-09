@@ -44,12 +44,27 @@ public class SZP extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Slant zenithal perspective";
+    private static final String NAME_PROJECTION = "Slant zenithal perspective";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03BC=%s \u03C6c=%s \u03B8c=%s";      
+    private static final String DESCRIPTION = "\u03BC=%s \u03C6c=%s \u03B8c=%s";
+
+    /**
+     * Default value for \u03BC.
+     */
+    public static final double DEFAULT_VALUE_MU = 0;
+
+    /**
+     * Default value for \u03D5<sub>c</sub>.
+     */
+    public static final double DEFAULT_VALUE_PHIC = 0;
+
+    /**
+     * Default value for \u03B8<sub>c</sub>.
+     */
+    public static final double DEFAULT_VALUE_THETAC = 90;
 
     /**
      * \u03BC : Distance in spherical radii from the center of the sphere to the source of the projection.
@@ -78,21 +93,6 @@ public class SZP extends AbstractZenithalProjection {
      * Z coordinate of P.
      */
     private double zp;
-
-    /**
-     * Default value for \u03BC.
-     */
-    public final static double DEFAULT_VALUE_MU = 0;
-
-    /**
-     * Default value for \u03D5<sub>c</sub>.
-     */
-    public final static double DEFAULT_VALUE_PHIC = 0;
-
-    /**
-     * Default value for \u03B8<sub>c</sub>.
-     */
-    public final static double DEFAULT_VALUE_THETAC = 90;
 
    /**
      * Constructs a SZP projection based on the default celestial longitude and latitude
@@ -166,10 +166,10 @@ public class SZP extends AbstractZenithalProjection {
      * @throws JWcsError Non-standard phi0 or theta0 values
      */
     protected final void checkParameters(final double mu, final double phic, final double thetac) throws BadProjectionParameterException {
-        if (!NumericalUtility.equal(getPhi0(), 0) || !NumericalUtility.equal(getTheta0(),HALF_PI)) {
+        if (!NumericalUtility.equalValues(getPhi0(), 0) || !NumericalUtility.equalValues(getTheta0(), HALF_PI)) {
             throw new JWcsError("Non-standard phi0 or theta0 values");
         }
-        if (NumericalUtility.equal(this.zp, 0)) {
+        if (NumericalUtility.equalValues(this.zp, 0)) {
             throw new BadProjectionParameterException(this,"zp = 0. It must be !=0");
         }
     }
@@ -207,8 +207,7 @@ public class SZP extends AbstractZenithalProjection {
             throw new PixelBeyondProjectionException(this, x, y, ex.getMessage(), true);
         }
         final double phi = computePhi(X - X1 * (1 - FastMath.sin(theta)), Y - Y1 * (1 - FastMath.sin(theta)), 1);
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     /**
@@ -235,8 +234,7 @@ public class SZP extends AbstractZenithalProjection {
         }
         final double x = (zp * FastMath.cos(theta) * FastMath.sin(phi) - xp * (1 - FastMath.sin(theta)))/denom;
         final double y = -(zp * FastMath.cos(theta) * FastMath.cos(phi) + yp * (1 - FastMath.sin(theta)))/denom;
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }  
     
     /**
@@ -262,7 +260,7 @@ public class SZP extends AbstractZenithalProjection {
      * @return true when it is visible
      */
     private boolean thirdConstraintVisibility(final double denom) {
-        return !NumericalUtility.equal(denom, 0);     
+        return !NumericalUtility.equalValues(denom, 0);
     }
     
     /**

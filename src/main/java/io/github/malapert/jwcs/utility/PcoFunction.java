@@ -65,9 +65,8 @@ public class PcoFunction implements UnivariateFunction {
         final double tanthe = FastMath.tan(theta);
         final double cothe = 1/tanthe;
         final double xx = getX()*getX();
-        final double ymthe = getY()- theta;        
-        final double f = xx + ymthe * (ymthe - 2 *cothe);
-        return f;
+        final double ymthe = getY()- theta;
+        return xx + ymthe * (ymthe - 2 *cothe);
     }
 
     /**

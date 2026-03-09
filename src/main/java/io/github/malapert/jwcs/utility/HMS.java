@@ -44,20 +44,20 @@ public final class HMS implements Serializable {
      * <p>This case shows up in HMS values with zero hours and negative values,
      * such as "-00 24 32"
      */
-    private final static Double MINUS_ZERO = -0.0;
+    private static final Double MINUS_ZERO = -0.0;
 
     /**
      * Number formats for 2 digit hours and minutes.
      */
-    private final static NumberFormat NF = NumberFormat.getInstance(Locale.US);
+    private static final NumberFormat NF = NumberFormat.getInstance(Locale.US);
 
     /**
      * Number formats for seconds.
      */
-    private final static NumberFormat NF_SEC = NumberFormat.getInstance(Locale.US);
-    private final static long serialVersionUID = 6425466963081211760L;
-    
-    private final static double EPSILON = 1E-14;
+    private static final NumberFormat NF_SEC = NumberFormat.getInstance(Locale.US);
+    private static final long serialVersionUID = 6425466963081211760L;
+
+    private static final double EPSILON = 1E-14;
 
     static {
         NF.setMinimumIntegerDigits(2);
@@ -167,7 +167,7 @@ public final class HMS implements Serializable {
         final StringTokenizer tok = new StringTokenizer(valueProcessed, ": ");
         int n = 0;
         while (n < 3 && tok.hasMoreTokens()) {
-            vals[n++] = Double.valueOf(tok.nextToken());
+            vals[n++] = Double.parseDouble(tok.nextToken());
         }
 
         if (n >= 2) {
@@ -196,7 +196,7 @@ public final class HMS implements Serializable {
 
         val = (sec / 60.0 + min) / 60.0;
 
-        if (hours < 0.0 || new Double(hours).equals(MINUS_ZERO)) {
+        if (hours < 0.0 || Double.compare(hours, MINUS_ZERO) == 0) {
             val = hours - val;
             this.hours = -this.hours;
             sign = -1;
@@ -215,7 +215,7 @@ public final class HMS implements Serializable {
         this.val = val;
 
         double v = val; // check also for neg zero
-        if (v < 0.0 || new Double(v).equals(MINUS_ZERO)) {
+        if (v < 0.0 || Double.compare(v, MINUS_ZERO) == 0) {
             sign = -1;
             v = -v;
         } else {

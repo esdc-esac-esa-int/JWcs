@@ -43,17 +43,17 @@ public final class ZPN extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Zenithal polynomial";
+    private static final String NAME_PROJECTION = "Zenithal polynomial";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "poly=(%s)";
+    private static final String DESCRIPTION = "poly=(%s)";
 
     /**
      * Default maximum iteration for iterative solution.
      */
-    public final static int DEFAULT_MAX_ITER = 1000;
+    public static final int DEFAULT_MAX_ITER = 1000;
 
     /**
      * Maximum iteration for iterative solution.
@@ -89,11 +89,8 @@ public final class ZPN extends AbstractZenithalProjection {
      * @param crval2 Celestial longitude \u03B4<sub>0</sub> in degrees of the
      * fiducial point
      * @param pv projection parameters
-     * @throws
-     * io.github.malapert.jwcs.proj.exception.BadProjectionParameterException
-     * when a parameter projection is wrong
      */
-    public ZPN(final double crval1, final double crval2, final double[] pv) throws BadProjectionParameterException {
+    public ZPN(final double crval1, final double crval2, final double[] pv) {
         super(crval1, crval2);
         LOG.log(Level.FINER, "INPUTS[Deg] (crval1,crval2)=({0},{1} PV={2})", new Object[]{crval1, crval2, Arrays.toString(pv)});
         setPv(pv);
@@ -111,7 +108,7 @@ public final class ZPN extends AbstractZenithalProjection {
      * parameters
      */
     private void check() {
-        if (!NumericalUtility.equal(getPhi0(), 0) || !NumericalUtility.equal(getTheta0(), HALF_PI)) {
+        if (!NumericalUtility.equalValues(getPhi0(), 0) || !NumericalUtility.equalValues(getTheta0(), HALF_PI)) {
             throw new JWcsError("Non-standard PVi_1 and/or PVi_2 values");
         }
     }
@@ -194,8 +191,7 @@ public final class ZPN extends AbstractZenithalProjection {
      */
     private double polynomialSolution(final Object f) {
         final double[] coeff = NumericalUtility.getPolynomialCoefficients(f);
-        final double result = coeff[0] > 0 ? 0 : NumericalUtility.computePolynomialSolution(this.getMaxIter(), f, 0, FastMath.PI);
-        return result;
+        return coeff[0] > 0? 0 : NumericalUtility.computePolynomialSolution(this.getMaxIter(), f, 0, FastMath.PI);
     }
 
     /**
@@ -248,8 +244,7 @@ public final class ZPN extends AbstractZenithalProjection {
             final Object polynomialFunction = NumericalUtility.createPolynomialFunction(coeffPolynomial);
             final double phi = computePhi(xr, yr, r_theta);
             final double theta = HALF_PI - computeSolution(polynomialFunction);
-            final double[] pos = {phi, theta};
-            return pos;
+            return new double[] { phi, theta};
         } catch (MathematicalSolutionException ex) {
             throw new PixelBeyondProjectionException(this, x, y, ex.getMessage(), true);
         }
@@ -275,8 +270,7 @@ public final class ZPN extends AbstractZenithalProjection {
         final double r_theta = FastMath.toDegrees(polyEval(HALF_PI - theta, getPv()));        
         final double x = computeX(r_theta, phi);
         final double y = computeY(r_theta, phi);
-        final double[] coord = {x, y};
-        return coord;
+        return new double[] { x, y};
     }
 
     @Override

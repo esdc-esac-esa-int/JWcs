@@ -44,12 +44,12 @@ public class MER extends AbstractCylindricalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Mercator";
+    private static final String NAME_PROJECTION = "Mercator";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";       
+    private static final String DESCRIPTION = "no limits";
 
    /**
      * Constructs a MER projection based on the default celestial longitude and latitude
@@ -79,27 +79,25 @@ public class MER extends AbstractCylindricalProjection {
         final double yr = FastMath.toRadians(y);
         final double phi = xr;
         final double theta = 2*FastMath.atan(FastMath.exp(yr)) - HALF_PI;
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     @Override
     protected double[] projectInverse(final double phi, final double theta) throws PixelBeyondProjectionException  {
         final double x = phi;
-        if (NumericalUtility.equal(FastMath.abs(theta), HALF_PI)) {
+        if (NumericalUtility.equalValues(FastMath.abs(theta), HALF_PI)) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);            
         }
         final double angle = (HALF_PI + theta) * 0.5d;
-        if(NumericalUtility.equal(FastMath.abs(angle), HALF_PI)) {
+        if(NumericalUtility.equalValues(FastMath.abs(angle), HALF_PI)) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);      
         }
         final double d = FastMath.tan(angle);
-        if (d<0 || NumericalUtility.equal(d, 0)) {
+        if (d<0 || NumericalUtility.equalValues(d, 0)) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);     
         }
         final double y = FastMath.log(d);
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;        
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
 
     @Override
@@ -114,6 +112,6 @@ public class MER extends AbstractCylindricalProjection {
         
     @Override
     public boolean inside(final double lon, final double lat) {
-        return super.inside(lon, lat) && !NumericalUtility.equal(FastMath.abs(lat), HALF_PI);   
+        return super.inside(lon, lat) && !NumericalUtility.equalValues(FastMath.abs(lat), HALF_PI);
     }
 }

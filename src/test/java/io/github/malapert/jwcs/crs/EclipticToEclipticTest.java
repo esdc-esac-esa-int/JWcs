@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,18 +19,16 @@
  */
 package io.github.malapert.jwcs.crs;
 
-import io.github.malapert.jwcs.crs.Ecliptic;
-
 /**
  *
  * @author malapert
  */
 public class EclipticToEclipticTest extends ConverterTest {
-    
+
     public EclipticToEclipticTest() {
         super();
         this.source = new Ecliptic();
-        this.target = new Ecliptic();         
+        this.target = new Ecliptic();
     }
-    
+
 }

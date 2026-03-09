@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,24 +19,17 @@
  */
 package io.github.malapert.jwcs.utility;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Reads data from a HeaderFits map.
@@ -48,7 +41,7 @@ public class HeaderFitsReader {
     /**
      * Separator between keyword/value.
      */
-    private final static String SEPARATOR = "=";
+    private static final String SEPARATOR = "=";
 
     /**
      * Reader.
@@ -62,36 +55,33 @@ public class HeaderFitsReader {
     public HeaderFitsReader(final Reader source) {
         this.source = source;
     }
-    
+
     /**
      * Constructs a HeaderFitsReader based on a file.
      * @param file file
      * @throws FileNotFoundException File not found
      */
     public HeaderFitsReader(final File file) throws FileNotFoundException {
-        final Reader reader = new FileReader(file);        
-        this.source = reader;
-    }    
-    
+        this.source = new FileReader(file);
+    }
+
     /**
      * Constructs a HeaderFitsReader based on a URI.
      * @param uri uri of the file
      * @throws FileNotFoundException  File not found
      */
     public HeaderFitsReader(final URI uri) throws FileNotFoundException {
-        final Reader reader = new FileReader(new File(uri));
-        this.source = reader;
-    }            
-    
+        this.source = new FileReader(new File(uri));
+    }
+
     /**
      * Constructs a HeaderFitsReader based on a URL.     
      * @param url URL
      * @throws IOException File not found
      */
-    public HeaderFitsReader(final URL url) throws IOException  {
-        final Reader reader = new InputStreamReader(url.openStream(), Charset.defaultCharset());
-        this.source = reader;
-    }      
+    public HeaderFitsReader(final URL url) throws IOException {
+        this.source = new InputStreamReader(url.openStream(), Charset.defaultCharset());
+    }
 
     /**
      * Constructs a HeaderFitsReader based on a filename.     
@@ -99,10 +89,9 @@ public class HeaderFitsReader {
      * @throws URISyntaxException URI syntax problem
      * @throws IOException File not found
      */
-    public HeaderFitsReader(final String filename) throws URISyntaxException, IOException  {
+    public HeaderFitsReader(final String filename) throws URISyntaxException, IOException {
         final Path path = Paths.get(new URI(filename));
-        final Reader reader = Files.newBufferedReader(path, Charset.forName("UTF-8"));
-        this.source = reader;
+        this.source = Files.newBufferedReader(path, StandardCharsets.UTF_8);
     }
 
     /**
@@ -111,16 +100,13 @@ public class HeaderFitsReader {
      */
     public List<List<String>> readKeywords() {
         try (BufferedReader reader = new BufferedReader(source)) {
-            return reader.lines()
-                    .filter(line -> line.contains("="))
-                    .map(line -> Arrays.asList(line.split(SEPARATOR)))
-                    .map(line -> {
-                        final String keyword = line.get(0);
-                        final String[]valComm = line.get(1).split(" /");
-                        final String value = valComm[0].replace("'", "");
-                        return Arrays.asList(keyword.trim(),value.trim());
-                    })
-                    .collect(Collectors.toList());
+            return reader.lines().filter(line -> line.contains("=")).map(line -> Arrays.asList(line.split(SEPARATOR)))
+                         .map(line -> {
+                             final String keyword = line.get(0);
+                             final String[] valComm = line.get(1).split(" /");
+                             final String value = valComm[0].replace("'", "");
+                             return Arrays.asList(keyword.trim(), value.trim());
+                         }).toList();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

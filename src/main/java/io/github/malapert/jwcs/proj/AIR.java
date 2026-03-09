@@ -41,17 +41,17 @@ public final class AIR extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Airy projection";
+    private static final String NAME_PROJECTION = "Airy projection";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03B8b=%s";
+    private static final String DESCRIPTION = "\u03B8b=%s";
 
     /**
      * Default value for \u03B8b sets to 90&deg;.
      */
-    public final static double DEFAULT_VALUE_THETHAB = 90;
+    public static final double DEFAULT_VALUE_THETHAB = 90;
 
     /**
      * \u03B8<SUB>b</SUB> value.
@@ -71,7 +71,7 @@ public final class AIR extends AbstractZenithalProjection {
      * </ul>
      * @see io.github.malapert.jwcs.utility.AiryFunction
      */
-    private AiryFunction airyFunction;
+    private final AiryFunction airyFunction;
     
     /**
      * Creates a new AIR projection based on the default \u03B8<sub>b</sub> 
@@ -185,7 +185,7 @@ public final class AIR extends AbstractZenithalProjection {
     protected double[] projectInverse(final double phi, final double theta) throws PixelBeyondProjectionException  {
         final double c = computeC();
         final double zeta = 0.5 * (NumericalUtility.HALF_PI - theta);
-        if (NumericalUtility.equal(zeta, 0)) {
+        if (NumericalUtility.equalValues(zeta, 0)) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);
         }
         final double term1 = FastMath.log(FastMath.cos(zeta)) / FastMath.tan(zeta);
@@ -209,9 +209,9 @@ public final class AIR extends AbstractZenithalProjection {
         final double zetab = 0.5 * (NumericalUtility.HALF_PI - getThetab());
         final double cos_zetab = FastMath.cos(zetab); 
         final double c;
-        if (NumericalUtility.equal(cos_zetab, 0)) {
+        if (NumericalUtility.equalValues(cos_zetab, 0)) {
             c = 0d;
-        } else if (NumericalUtility.equal(cos_zetab, 1) || NumericalUtility.equal(FastMath.tan(zetab), 0)) {
+        } else if (NumericalUtility.equalValues(cos_zetab, 1) || NumericalUtility.equalValues(FastMath.tan(zetab), 0)) {
             c = -0.5d;
         } else {
             c = FastMath.log(FastMath.cos(zetab))/FastMath.pow(FastMath.tan(zetab), 2);
@@ -224,7 +224,7 @@ public final class AIR extends AbstractZenithalProjection {
         final double raFixed = NumericalUtility.normalizeLongitude(lon);
         final double[] nativeSpherical = computeNativeSpherical(raFixed, lat);
         nativeSpherical[0] = phiRange(nativeSpherical[0]);
-        return !NumericalUtility.equal(nativeSpherical[1], -NumericalUtility.HALF_PI);
+        return !NumericalUtility.equalValues(nativeSpherical[1], -NumericalUtility.HALF_PI);
     }    
 
     @Override

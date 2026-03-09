@@ -21,11 +21,7 @@ package io.github.malapert.jwcs;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import io.github.malapert.jwcs.JWcsTools.ANGLE;
 import io.github.malapert.jwcs.JWcsTools.COORD_SYS;
@@ -33,6 +29,8 @@ import io.github.malapert.jwcs.JWcsTools.FRAME;
 import io.github.malapert.jwcs.position.SkyPosition;
 import io.github.malapert.jwcs.utility.DMS;
 import io.github.malapert.jwcs.utility.HMS;
+
+import java.net.URL;
 
 /**
  *
@@ -84,6 +82,7 @@ public class JWcsToolsTest {
    public void convertSkyPositionTest() {
        SkyPosition pos = JWcsTools.getSkyPosition(90, 0, COORD_SYS.EQUATORIAL);
        SkyPosition out = JWcsTools.convert(pos, COORD_SYS.ECLIPTIC);
+       Assert.assertNotNull(out);
        assertEquals(90, out.getLongitude(), 1E-12);
        assertEquals(-23.4392911111111, out.getLatitude(), 1E-12);
    }
@@ -99,15 +98,15 @@ public class JWcsToolsTest {
    public void precessTest() {
        double ra = 0;
        double dec = 0;
-       double out[] = JWcsTools.precessEquinox(ra, dec, 2000, 2050, FRAME.FK5);
+       double[] out = JWcsTools.precessEquinox(ra, dec, 2000, 2050, FRAME.FK5);
        assertEquals(0.6407181591449038, out[0], 1E-12);
        assertEquals(0.2783410827199949, out[1], 1E-12);
    }
    
    @Test
    public void convertB1950Test() {
-       double out1[] = JWcsTools.convertB1950ToICRS(0, 0);
-       double out2[] = JWcsTools.convertB1950ToFK5(0, 0);
+       double[] out1 = JWcsTools.convertB1950ToICRS(0, 0);
+       double[] out2 = JWcsTools.convertB1950ToFK5(0, 0);
        assertEquals(0.6406846124680589, out1[0], 1E-12);
        assertEquals(0.27840696926887554, out1[1], 1E-12);
        assertEquals(0.6406910005754157, out2[0], 1E-12);
@@ -124,7 +123,7 @@ public class JWcsToolsTest {
    }
    
    @Test
-   public void convertDMSandHMSTest() throws Exception {
+   public void convertDMSandHMSTest() {
        String sdms = "10 20 30";
        String shms = "-15.2";
        DMS dms = JWcsTools.getDMS(sdms);
@@ -141,8 +140,10 @@ public class JWcsToolsTest {
    
    @Test
    public void readFitsTest() throws Exception {
-       JWcsMap wcs = JWcsTools.readFits("http://fits.gsfc.nasa.gov/registry/tpvwcs/tpv.fits", 0);
-       double sky[] = wcs.pix2wcs(0, 0);
+       URL url = getClass().getClassLoader().getResource("tpv.fits");
+       Assert.assertNotNull(url);
+       JWcsMap wcs = JWcsTools.readFits(url.toString(), 0);
+       double[] sky = wcs.pix2wcs(0, 0);
        assertEquals(52.53373984070186, sky[0], 1E-12);
        assertEquals(-28.760675854311447, sky[1], 1E-12);
    }

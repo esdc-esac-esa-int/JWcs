@@ -41,17 +41,17 @@ public class MOL extends AbstractCylindricalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Mollweide’s";
+    private static final String NAME_PROJECTION = "Mollweide’s";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";
+    private static final String DESCRIPTION = "no limits";
 
     /**
      * Default maximum iteration for the iterative solution.
      */
-    public final static int DEFAULT_MAX_ITER = 1000;
+    public static final int DEFAULT_MAX_ITER = 1000;
 
     /**
      * Maximum iteration for the iterative solution.
@@ -95,8 +95,7 @@ public class MOL extends AbstractCylindricalProjection {
         final double phi = phis[0];
         final double s = phis[1];
         final double theta = computeTheta(xr, yr, s);
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     /**
@@ -112,14 +111,14 @@ public class MOL extends AbstractCylindricalProjection {
      */
     private double computeTheta(final double xr, final double yr, final double s) throws PixelBeyondProjectionException {
         double z = yr / FastMath.sqrt(2);
-        if (NumericalUtility.equal(FastMath.abs(z), 1)) {
+        if (NumericalUtility.equalValues(FastMath.abs(z), 1)) {
             z = (z < 0.0 ? -1.0 : 1.0) + s * yr / FastMath.PI;
         } else if (FastMath.abs(1) > 1) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(xr), FastMath.toDegrees(yr), true);
         } else {
             z = NumericalUtility.aasin(z) / HALF_PI + s * yr / FastMath.PI;
         }
-        if (NumericalUtility.equal(FastMath.abs(z), 1)) {
+        if (NumericalUtility.equalValues(FastMath.abs(z), 1)) {
             z = z < 0.0 ? -1.0 : 1.0;
         } else if (FastMath.abs(1) > 1) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(xr), FastMath.toDegrees(yr), true);
@@ -166,8 +165,7 @@ public class MOL extends AbstractCylindricalProjection {
         final double gamma = computeGamma(theta);
         final double x = FastMath.toDegrees((FastMath.sqrt(2.0d) / HALF_PI) * phi * FastMath.cos(gamma));
         final double y = FastMath.toDegrees(FastMath.sqrt(2.0d) * FastMath.sin(gamma));
-        final double[] coord = {x, y};
-        return coord;
+        return new double[] { x, y};
     }
 
     /**

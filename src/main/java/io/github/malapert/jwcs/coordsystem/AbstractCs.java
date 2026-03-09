@@ -25,8 +25,8 @@ package io.github.malapert.jwcs.coordsystem;
  */
 public abstract class AbstractCs {   
 
-    private Axis[] axes;
-    private int dimension;
+    private final Axis[] axes;
+    private final int dimension;
     
     protected AbstractCs(int dimension) {
         this.dimension = dimension;
@@ -68,7 +68,7 @@ public abstract class AbstractCs {
         private String abbreviation;
         private String name;
         private AxisDirection direction;
-        public Unit unit;        
+        private Unit unit;
         
         public Axis(final String abbreviation, final String name, final AxisDirection direction, final Unit unit) {
             this.abbreviation = abbreviation;

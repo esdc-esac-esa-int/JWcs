@@ -39,13 +39,13 @@ import org.apache.commons.math3.util.FastMath;
 public class FK4 implements CoordinateReferenceFrame {
     /**
      * The name of this reference frame.
-     */     
-    private final static CoordinateReferenceFrame.ReferenceFrame REF_SYSTEM = CoordinateReferenceFrame.ReferenceFrame.FK4;
+     */
+    private static final CoordinateReferenceFrame.ReferenceFrame REF_SYSTEM = CoordinateReferenceFrame.ReferenceFrame.FK4;
     
     /**
      * The default value of the epoch set to B1950.
-     */      
-    private final static String DEFAULT_EPOCH = "B1950";   
+     */
+    private static final String DEFAULT_EPOCH = "B1950";
     
     /**
      * The epoch of the equinox.
@@ -124,7 +124,7 @@ public class FK4 implements CoordinateReferenceFrame {
      * @param epoch A Besselian epoch
      * @return A tuple containing the e-terms vector (DeltaD,DeltaC,DeltaC.tan(e0))
      */
-    public final static RealMatrix getEterms(final double epoch) {
+    public static RealMatrix getEterms(final double epoch) {
         //Julian centuries since B1950
         final double T = (epoch-1950.0d)*1.00002135903d/100.0d;
         //Eccentricity of the Earth's orbit

@@ -20,7 +20,6 @@
 package io.github.malapert.jwcs.proj;
 
 import io.github.malapert.jwcs.AbstractJWcs;
-import io.github.malapert.jwcs.proj.exception.BadProjectionParameterException;
 import io.github.malapert.jwcs.proj.exception.MathematicalSolutionException;
 import io.github.malapert.jwcs.proj.exception.PixelBeyondProjectionException;
 import io.github.malapert.jwcs.utility.NumericalUtility;
@@ -41,17 +40,17 @@ public class SIN extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Slant orthographic";
+    private static final String NAME_PROJECTION = "Slant orthographic";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u046F=%s \u03B7=%s";
+    private static final String DESCRIPTION = "\u046F=%s \u03B7=%s";
 
     /**
      * Default value.
      */
-    public final static double DEFAULT_VALUE = 0;
+    public static final double DEFAULT_VALUE = 0;
 
     /**
      * \u03BE is defined as \u03BE = cot\u03B8<sub>c</sub>sin\u03D5<sub>c</sub>.    
@@ -107,12 +106,12 @@ public class SIN extends AbstractZenithalProjection {
     }
 
     @Override
-    public double[] project(final double x, final double y) throws BadProjectionParameterException, PixelBeyondProjectionException {
+    public double[] project(final double x, final double y) throws PixelBeyondProjectionException {
         final double xr = FastMath.toRadians(x);
         final double yr = FastMath.toRadians(y);
         final double phi;
         final double theta;
-        if (NumericalUtility.equal(getKsi(), DEFAULT_VALUE) && NumericalUtility.equal(getEta(), DEFAULT_VALUE)) {
+        if (NumericalUtility.equalValues(getKsi(), DEFAULT_VALUE) && NumericalUtility.equalValues(getEta(), DEFAULT_VALUE)) {
             final double r_theta = computeRadius(xr, yr);
             phi = computePhi(xr, yr, r_theta);
             
@@ -133,8 +132,7 @@ public class SIN extends AbstractZenithalProjection {
             phi = NumericalUtility.aatan2(xr - getKsi() * (1 - FastMath.sin(theta)), -(yr - eta * (1 - FastMath.sin(theta))));
         }
 
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
     
     /**
@@ -168,8 +166,7 @@ public class SIN extends AbstractZenithalProjection {
         }
         final double x = FastMath.cos(theta) * FastMath.sin(phi) + getKsi() * (1 - FastMath.sin(theta));
         final double y = -FastMath.cos(theta) * FastMath.cos(phi) + getEta() * (1 - FastMath.sin(theta));
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
     
     @Override

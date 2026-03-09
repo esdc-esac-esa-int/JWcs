@@ -42,22 +42,22 @@ public class CYP extends AbstractCylindricalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Cylindrical perspective";
+    private static final String NAME_PROJECTION = "Cylindrical perspective";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03BC=%s \u03BB=%s";     
+    private static final String DESCRIPTION = "\u03BC=%s \u03BB=%s";
 
     /**
      * Default value for \u03BC.
      */
-    public final static double DEFAULT_MU = 1;
+    public static final double DEFAULT_MU = 1;
 
     /**
      * Default value for \u03BB.
      */
-    public final static double DEFAULT_LAMBDA = FastMath.sqrt(2)/2;
+    public static final double DEFAULT_LAMBDA = FastMath.sqrt(2)/2;
     
     /**
      * \u03BC: distance in spherical radii from the center of the sphere to the equatorial plane of the native system. 
@@ -128,10 +128,10 @@ public class CYP extends AbstractCylindricalProjection {
      * @throws io.github.malapert.jwcs.proj.exception.BadProjectionParameterException Lambda must be &gt; 0 or Mu must not be -lambda
      */
     protected final void checkParameters(final double mu, final double lambda) throws BadProjectionParameterException {
-        if (getLambda() < 0 || NumericalUtility.equal(getLambda(), 0)) {
+        if (getLambda() < 0 || NumericalUtility.equalValues(getLambda(), 0)) {
             throw new BadProjectionParameterException(this, "Lambda must be > 0");
         }
-        if (NumericalUtility.equal(getMu(),-getLambda())) {
+        if (NumericalUtility.equalValues(getMu(), -getLambda())) {
             throw new BadProjectionParameterException(this, "Mu must not be -lambda");
         }              
     }    
@@ -142,21 +142,19 @@ public class CYP extends AbstractCylindricalProjection {
         final double yr = FastMath.toRadians(y);
         final double phi = xr / getLambda();        
         final double eta = yr / (getMu() + getLambda());
-        final double theta = NumericalUtility.aatan2(eta, 1) + NumericalUtility.aasin(getMu() * eta / FastMath.sqrt(FastMath.pow(eta, 2) + 1));       
-        final double[] pos = {phi, theta};
-        return pos;
+        final double theta = NumericalUtility.aatan2(eta, 1) + NumericalUtility.aasin(getMu() * eta / FastMath.sqrt(FastMath.pow(eta, 2) + 1));
+        return new double[] { phi, theta};
     }
 
     @Override
     public double[] projectInverse(final double phi, final double theta) throws PixelBeyondProjectionException {
         final double x = getLambda() * phi;
         final double ctheta = FastMath.cos(theta);
-        if(NumericalUtility.equal(getMu(), -ctheta)) {
+        if(NumericalUtility.equalValues(getMu(), -ctheta)) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);
         }
         final double y = (getMu()+getLambda())/(getMu() + ctheta) * FastMath.sin(theta);
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
 
     /**

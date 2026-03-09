@@ -281,38 +281,38 @@ public final class TimeUtility {
         double rjd;
         switch (epochPrefix) {
             case "B":
-                b = Double.valueOf(epochValue);
+                b = Double.parseDouble(epochValue);
                 jd = convertEpochBessel2JD(b);
                 j = convertJD2epochJulian(jd);
                 break;
             case "-B":
-                b = -Double.valueOf(epochValue);
+                b = -Double.parseDouble(epochValue);
                 jd = convertEpochBessel2JD(b);
                 j = convertJD2epochJulian(jd);
                 break;
             case "J":
-                j = Double.valueOf(epochValue);
+                j = Double.parseDouble(epochValue);
                 jd = convertEpochJulian2JD(j);
                 b = convertJD2epochBessel(jd);
                 break;
             case "-J":
-                j = -Double.valueOf(epochValue);
+                j = -Double.parseDouble(epochValue);
                 jd = convertEpochJulian2JD(j);
                 b = convertJD2epochBessel(jd);
                 break;
             case "JD":
-                jd = Double.valueOf(epochValue);
+                jd = Double.parseDouble(epochValue);
                 b = convertJD2epochBessel(jd);
                 j = convertJD2epochJulian(jd);
                 break;
             case "MJD":
-                mjd = Double.valueOf(epochValue);
+                mjd = Double.parseDouble(epochValue);
                 jd = mjd + 2400000.5d;
                 b = convertJD2epochBessel(jd);
                 j = convertJD2epochJulian(jd);
                 break;
             case "RJD":
-                rjd = Double.valueOf(epochValue);
+                rjd = Double.parseDouble(epochValue);
                 jd = rjd + 2400000d;
                 b = convertJD2epochBessel(jd);
                 j = convertJD2epochJulian(jd);
@@ -355,7 +355,7 @@ public final class TimeUtility {
      */
     private static String extractValueFromEpoch(final String epoch, final String prefix) {
         final String val = epoch.replace(prefix, "");
-        if (val == null || val.isEmpty()) {
+        if (val.isEmpty()) {
             throw new JWcsError("Cannot convert epoch to a number");
         }
         return val;

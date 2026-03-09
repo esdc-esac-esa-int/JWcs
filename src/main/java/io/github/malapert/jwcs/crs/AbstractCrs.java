@@ -40,7 +40,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.util.FastMath;
 import io.github.malapert.jwcs.utility.TimeUtility;
 import static io.github.malapert.jwcs.utility.NumericalUtility.aatan2;
-import static io.github.malapert.jwcs.utility.NumericalUtility.equal;
+import static io.github.malapert.jwcs.utility.NumericalUtility.equalValues;
 import static io.github.malapert.jwcs.utility.NumericalUtility.isInInterval;
 
 /**
@@ -218,7 +218,7 @@ public abstract class AbstractCrs {
      * @return the elliptical terms of aberration matrix
      * @see FK4#getEterms(double) 
      */
-    protected static final RealMatrix getEterms(final AbstractCrs crs) {
+    protected static RealMatrix getEterms(final AbstractCrs crs) {
         RealMatrix eterms = null;
         final CoordinateReferenceFrame refFrame = crs.getCoordinateReferenceFrame();        
         if (refFrame!=null && CoordinateReferenceFrame.ReferenceFrame.FK4.equals(refFrame.getReferenceFrame())) {
@@ -357,7 +357,7 @@ public abstract class AbstractCrs {
      * @param position position in a CRS
      * @return a SkyPosition to a target CRS
      */
-    public static final SkyPosition convertTo(final AbstractCrs targetCrs, final SkyPosition position) {
+    public static SkyPosition convertTo(final AbstractCrs targetCrs, final SkyPosition position) {
         final double longitude = position.getLongitude();
         final double latitude = position.getLatitude();
         final AbstractCrs sourceCrs = position.getCrs();
@@ -370,7 +370,7 @@ public abstract class AbstractCrs {
      * @param positions the difference position in different CRS
      * @return an array of sky positions to a target CRS
      */
-    public static final SkyPosition[] convertTo(final AbstractCrs targetCrs, final SkyPosition[] positions) {
+    public static SkyPosition[] convertTo(final AbstractCrs targetCrs, final SkyPosition[] positions) {
         final SkyPosition[] targetPositions = new SkyPosition[positions.length];
         int i =0;
         for (final SkyPosition position:positions) {
@@ -799,7 +799,7 @@ public abstract class AbstractCrs {
      *
      * @return 3x3 RealMatrix M as in XYZgal = M * XYZb1950
      */
-    protected static final RealMatrix convertMatrixEqB19502Gal() {
+    protected static RealMatrix convertMatrixEqB19502Gal() {
         return rotZ(180d - 123.0d).multiply(rotY(90d - 27.4d)).multiply(rotZ(192.25d));
     }
 
@@ -833,7 +833,7 @@ public abstract class AbstractCrs {
      *
      * @return RealMatrix M as in <code>XYZsgal = M * XYZgal</code>
      */
-    protected static final RealMatrix convertMatrixGal2Sgal() {
+    protected static RealMatrix convertMatrixGal2Sgal() {
         return rotZ(90.0d).multiply(rotY(90d - 6.32d)).multiply(rotZ(47.37d));
     }
 
@@ -859,13 +859,12 @@ public abstract class AbstractCrs {
     private static double obliquity2000(final double jd) {
         // T = (Date - 1 jan, 2000, 12h noon)
         final double T = (jd - 2451545.0d) / 36525.0d;
-        final double eps = (84381.406d
+        return (84381.406d
                 + (-46.836769d
                 + (-0.0001831d
                 + (0.00200340d
                 + (-0.000000576d
                 + (-0.0000000434d) * T) * T) * T) * T) * T) / 3600.0d;
-        return eps;
     }
 
     /**
@@ -953,7 +952,8 @@ public abstract class AbstractCrs {
      * or J coordinates
      * @return 3x3 RealMatrix M as in <code>XYZecl = M * XYZeq</code>
      */
-    protected static final RealMatrix convertMatrixEq2Ecl(final double epoch, final CoordinateReferenceFrame.ReferenceFrame refSystem) {
+    protected static RealMatrix convertMatrixEq2Ecl(final double epoch,
+                                                    final CoordinateReferenceFrame.ReferenceFrame refSystem) {
         final double jd;
         if (CoordinateReferenceFrame.ReferenceFrame.FK4.equals(refSystem)) {
             jd = convertEpochBessel2JD(epoch);
@@ -1287,9 +1287,9 @@ public abstract class AbstractCrs {
      */
     private static RealMatrix convertIAU2006MatrixEpoch12Epoch2(final double epoch1, final double epoch2) {
         final RealMatrix result;
-        if (equal(epoch1, epoch2)) {
+        if (equalValues(epoch1, epoch2)) {
             result = createRealIdentityMatrix(3);
-        } else if (equal(epoch1,2000.0,1e-3)) {
+        } else if (NumericalUtility.equalValues(epoch1, 2000.0, 1e-3)) {
             final double[] precessionAngles = convertIAU2006PrecAngles(epoch2);
             result = precessionMatrix(precessionAngles[0], precessionAngles[1], precessionAngles[2]);
         } else { // If both epochs are not J2000.0

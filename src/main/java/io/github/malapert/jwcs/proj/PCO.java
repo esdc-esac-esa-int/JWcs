@@ -37,24 +37,24 @@ public class PCO extends AbstractPolyConicProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Polyconic";
+    private static final String NAME_PROJECTION = "Polyconic";
 
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";
+    private static final String DESCRIPTION = "no limits";
 
     /**
      * Default tolerance for the approximative solution of the inverse
      * projection.
      */
-    public final static double DEFAULT_TOLERANCE = 1E-16;
+    public static final double DEFAULT_TOLERANCE = 1E-16;
 
     /**
      * Default maximum iterations for the approximative solution of the inverse
      * projection.
      */
-    public final static int DEFAULT_MAX_ITER = 1000;
+    public static final int DEFAULT_MAX_ITER = 1000;
 
     /**
      * Number of iterations for the approximative solution.
@@ -115,10 +115,10 @@ public class PCO extends AbstractPolyConicProjection {
         final double yr = FastMath.toRadians(y);
         final double phi;
         final double theta;
-        if (NumericalUtility.equal(yr, 0)) {
+        if (NumericalUtility.equalValues(yr, 0)) {
             phi = xr;
             theta = 0.0;
-        } else if (NumericalUtility.equal(yr, HALF_PI)) {
+        } else if (NumericalUtility.equalValues(yr, HALF_PI)) {
             phi = 0.0;
             theta = yr < 0.0 ? -HALF_PI : HALF_PI;
         } else {
@@ -127,8 +127,7 @@ public class PCO extends AbstractPolyConicProjection {
             theta = position[1];
         }
 
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     @Override
@@ -138,7 +137,7 @@ public class PCO extends AbstractPolyConicProjection {
         final double a = phi * sinthe;
         double x;
         double y;
-        if (NumericalUtility.equal(sinthe, 0.0)) {
+        if (NumericalUtility.equalValues(sinthe, 0.0)) {
             x = phi;
             y = 0.0;
         } else {
@@ -146,8 +145,7 @@ public class PCO extends AbstractPolyConicProjection {
             x = cotthe * FastMath.sin(a);
             y = cotthe * (1.0 - FastMath.cos(a)) + theta;
         }
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
     
     /**
@@ -157,9 +155,8 @@ public class PCO extends AbstractPolyConicProjection {
      * @param xr projection plane coordinate along X in radians
      * @param yr projection plane coordinate along Y in radians
      * @return an array representing in the order phi and theta
-     * @throws PixelBeyondProjectionException Not defined for (x,y) value
      */
-    private double[] computeIterativeSolution(final double xr, final double yr) throws PixelBeyondProjectionException {
+    private double[] computeIterativeSolution(final double xr, final double yr) {
         final double min;
         final double max;        
         if (yr > 0.0) {
@@ -175,7 +172,7 @@ public class PCO extends AbstractPolyConicProjection {
         final double xp = 1 - (yr - theta) * tanthe;
         final double yp = xr * tanthe;
         final double phi;
-        if (NumericalUtility.equal(xp, 0) && NumericalUtility.equal(yp, 0)) {
+        if (NumericalUtility.equalValues(xp, 0) && NumericalUtility.equalValues(yp, 0)) {
             phi = 0.0;
         } else {
             phi = NumericalUtility.aatan2(yp, xp) / FastMath.sin(theta);

@@ -21,7 +21,6 @@ package io.github.malapert.jwcs.proj;
 
 import io.github.malapert.jwcs.proj.exception.BadProjectionParameterException;
 import io.github.malapert.jwcs.utility.NumericalUtility;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -63,9 +62,8 @@ public class AbstractZenithalProjectionTest {
     @Test
     public void testGetPhi0() {
         System.out.println("getPhi0");
-        AbstractZenithalProjection instance = proj;
         double expResult = 0.0;
-        double result = instance.getPhi0();
+        double result = proj.getPhi0();
         assertEquals(expResult, result, 0.0);
     }
 
@@ -75,9 +73,8 @@ public class AbstractZenithalProjectionTest {
     @Test
     public void testGetTheta0() {
         System.out.println("getTheta0");
-        AbstractZenithalProjection instance = proj;
         double expResult = NumericalUtility.HALF_PI;
-        double result = instance.getTheta0();
+        double result = proj.getTheta0();
         assertEquals(expResult, result, 0.001);
     }
 
@@ -90,9 +87,8 @@ public class AbstractZenithalProjectionTest {
         double phi0 = 2.0;
         AbstractZenithalProjection instance = proj;
         instance.setPhi0(phi0);
-        double expResult = phi0;
-        double result = instance.getPhi0();        
-        assertEquals(expResult, result, 0.001);
+        double result = instance.getPhi0();
+        assertEquals(phi0, result, 0.001);
     }
 
     /**
@@ -115,9 +111,8 @@ public class AbstractZenithalProjectionTest {
     @Test
     public void testGetNameFamily() {
         System.out.println("getNameFamily");
-        AbstractZenithalProjection instance = proj;
         String expResult = "Zenithal (azimuthal) projections";
-        String result = instance.getNameFamily();
+        String result = proj.getNameFamily();
         assertEquals(expResult, result);
     }  
 }

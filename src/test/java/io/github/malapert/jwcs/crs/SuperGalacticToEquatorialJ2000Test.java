@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,27 +19,23 @@
  */
 package io.github.malapert.jwcs.crs;
 
-import io.github.malapert.jwcs.crs.Equatorial;
-import io.github.malapert.jwcs.crs.SuperGalactic;
 import io.github.malapert.jwcs.datum.CoordinateReferenceFrame;
 import io.github.malapert.jwcs.datum.J2000;
-import io.github.malapert.jwcs.proj.exception.JWcsException;
 
 /**
  *
  * @author malapert
  */
 public class SuperGalacticToEquatorialJ2000Test extends ConverterTest {
-    
+
     /**
      *
-     * @throws JWcsException
      */
-    public SuperGalacticToEquatorialJ2000Test() throws JWcsException {
+    public SuperGalacticToEquatorialJ2000Test() {
         super();
         final CoordinateReferenceFrame j2000 = new J2000();
         this.source = new SuperGalactic();
-        this.target = new Equatorial(j2000);        
-        
+        this.target = new Equatorial(j2000);
+
     }
 }

@@ -102,7 +102,7 @@ public class TPV extends AbstractZenithalProjection {
      * parameters
      */
     private void check() {
-        if (!NumericalUtility.equal(getPhi0(), 0) || !NumericalUtility.equal(getTheta0(), HALF_PI)) {
+        if (!NumericalUtility.equalValues(getPhi0(), 0) || !NumericalUtility.equalValues(getTheta0(), HALF_PI)) {
             throw new JWcsError("Non-standard PVi_1 and/or PVi_2 values");
         }
     }
@@ -155,7 +155,7 @@ public class TPV extends AbstractZenithalProjection {
     @Override
     public double[] projectInverse(final double phi, final double theta) throws ProjectionException {        
         final double s = FastMath.sin(theta);
-        if (NumericalUtility.equal(s, 0)) {
+        if (NumericalUtility.equalValues(s, 0)) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);
         }
         final double r_theta = FastMath.cos(theta) / s;
@@ -182,7 +182,7 @@ public class TPV extends AbstractZenithalProjection {
         final double raFixed = NumericalUtility.normalizeLongitude(lon);
         final double[] nativeSpherical = computeNativeSpherical(raFixed, lat);
         nativeSpherical[0] = phiRange(nativeSpherical[0]);
-        final boolean result = NumericalUtility.equal(nativeSpherical[1], 0);
+        final boolean result = NumericalUtility.equalValues(nativeSpherical[1], 0);
         return !result && super.inside(lon, lat);
     }        
 

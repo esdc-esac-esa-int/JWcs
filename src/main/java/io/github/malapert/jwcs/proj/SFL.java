@@ -38,12 +38,12 @@ public class SFL extends AbstractCylindricalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Sanson-Flamsteed";
+    private static final String NAME_PROJECTION = "Sanson-Flamsteed";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";     
+    private static final String DESCRIPTION = "no limits";
 
    /**
      * Constructs a SFL projection based on the default celestial longitude and latitude
@@ -72,21 +72,19 @@ public class SFL extends AbstractCylindricalProjection {
         final double theta = FastMath.toRadians(y);
         final double cosTheta = FastMath.cos(theta);
         final double phi;
-        if(NumericalUtility.equal(cosTheta, 0)) {
+        if(NumericalUtility.equalValues(cosTheta, 0)) {
             phi = 0;
         } else {
             phi = FastMath.toRadians(x) / FastMath.cos(theta);
         }
-        final double[] pos = {phi, theta};
-        return pos;
+        return new double[] { phi, theta};
     }
 
     @Override
     protected double[] projectInverse(final double phi, final double theta) {
         final double x = FastMath.toDegrees(phi * FastMath.cos(theta));
         final double y = FastMath.toDegrees(theta);
-        final double[] coord = {x, y};
-        return coord;        
+        return new double[] { x, y};
     }
 
     @Override

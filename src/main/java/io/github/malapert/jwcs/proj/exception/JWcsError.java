@@ -32,8 +32,8 @@ public class JWcsError extends RuntimeException {
     /**
      * Logger.
      */
-    private final static Logger LOG = Logger.getLogger(JWcsError.class.getName());
-    private final static long serialVersionUID = 2694328832860861046L;
+    private static final Logger LOG = Logger.getLogger(JWcsError.class.getName());
+    private static final long serialVersionUID = 2694328832860861046L;
 
     /**
      * Creates an error.

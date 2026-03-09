@@ -46,12 +46,12 @@ public final class AZP extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Zenithal perspective";
+    private static final String NAME_PROJECTION = "Zenithal perspective";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03BC=%s \u0263=%s";
+    private static final String DESCRIPTION = "\u03BC=%s \u0263=%s";
 
     /**
      * \u0263 is the angle between the camera's optical axis and the line to the center of the planet.
@@ -65,7 +65,7 @@ public final class AZP extends AbstractZenithalProjection {
     /**
      * Default value for \u0263 and \u03BC.
      */
-    private final static double DEFAULT_VALUE = 0;
+    private static final double DEFAULT_VALUE = 0;
 
     /**
      * Creates a new AZC projection based on the default celestial longitude and
@@ -134,7 +134,7 @@ public final class AZP extends AbstractZenithalProjection {
      * @throws BadProjectionParameterException \u03BC must be != -1
      */
     private void checkParameterMu(final double mu) throws BadProjectionParameterException {
-        if (NumericalUtility.equal(mu, -1)) {
+        if (NumericalUtility.equalValues(mu, -1)) {
             throw new BadProjectionParameterException(this, "\u0263 must be != -1");
         }
     }
@@ -145,7 +145,7 @@ public final class AZP extends AbstractZenithalProjection {
      * @throws BadProjectionParameterException \u0263 must be != +/-HALF_PI
      */
     private void checkParameterGamma(final double gamma) throws BadProjectionParameterException {
-        if(NumericalUtility.equal(FastMath.abs(gamma), HALF_PI)) {
+        if(NumericalUtility.equalValues(FastMath.abs(gamma), HALF_PI)) {
             throw new BadProjectionParameterException(this, "\u03BC must be != +/-HALF_PI");
         }        
     }
@@ -187,7 +187,7 @@ public final class AZP extends AbstractZenithalProjection {
      */
     private double computeRho(final double y, final double radius) throws BadProjectionParameterException {
         final double denom = getMu() + 1 + y * FastMath.tan(getGamma());
-        if (NumericalUtility.equal(denom,0)) {
+        if (NumericalUtility.equalValues(denom, 0)) {
             throw new BadProjectionParameterException(this,"(mu,gamma) = (" + getMu() + ", " + getGamma()+"). (mu + 1) + y * tan(gamma) must be !=0");
         }    
         return radius / denom;        
@@ -315,9 +315,8 @@ public final class AZP extends AbstractZenithalProjection {
         final double yr = computeYr(FastMath.toRadians(y));
         final double r = computeRadius(xr, yr);
         final double theta = computeTheta(xr, yr, r);
-        final double phi = computePhi(xr, yr, r);              
-        final double[] pos = {phi, theta};
-        return pos;
+        final double phi = computePhi(xr, yr, r);
+        return new double[] { phi, theta};
     }
 
     /**
@@ -341,8 +340,7 @@ public final class AZP extends AbstractZenithalProjection {
         final double r = computeRadiusFrom(phi, theta);
         final double x = computeX(r, phi);
         final double y = computeY(r / FastMath.cos(getGamma()), phi);
-        final double[] pos = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return pos;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
     
     /**
@@ -373,7 +371,7 @@ public final class AZP extends AbstractZenithalProjection {
      */
     private boolean isVisible(final double theta, final double denom) {
         final double thetax;
-        if (NumericalUtility.equal(getMu(), 0)) {
+        if (NumericalUtility.equalValues(getMu(), 0)) {
             thetax = 0;
         } else if (FastMath.abs(getMu()) > 1) {
             thetax = NumericalUtility.aasin(-1.0d / getMu());
@@ -381,7 +379,7 @@ public final class AZP extends AbstractZenithalProjection {
             thetax = NumericalUtility.aasin(-getMu());
         }        
         final boolean result;
-        result = !(NumericalUtility.equal(denom, 0) || theta < thetax);        
+        result = !(NumericalUtility.equalValues(denom, 0) || theta < thetax);
         return result;
     }
     

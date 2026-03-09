@@ -43,21 +43,21 @@ public abstract class AbstractPolyConicProjection extends AbstractProjection {
     /**
      * Logger.
      */
-    protected final static Logger LOG = Logger.getLogger(AbstractPolyConicProjection.class.getName());
+    protected static final Logger LOG = Logger.getLogger(AbstractPolyConicProjection.class.getName());
 
     /**
      * AbstractProjection name.
      */
-    public final static String NAME = "Polyconic and pseudoconic projections";
+    public static final String NAME = "Polyconic and pseudoconic projections";
 
     /**
      * Native longitude value in radians for cylindrical projection.
      */
-    protected final static double DEFAULT_PHI0 = 0;
+    protected static final double DEFAULT_PHI0 = 0;
     /**
      * Native latitude value in radians for cylindrical projection.
      */
-    protected final static double DEFAULT_THETA0 = 0;
+    protected static final double DEFAULT_THETA0 = 0;
 
     /**
      * theta1.
@@ -83,7 +83,7 @@ public abstract class AbstractPolyConicProjection extends AbstractProjection {
         super(crval1, crval2);
         LOG.log(Level.FINER, "INPUTS[deg] (crval1,crval2,theta1) = ({0},{1},{2})", new Object[]{crval1, crval2, theta1});
 
-        if (NumericalUtility.equal(theta1, 0)) {
+        if (NumericalUtility.equalValues(theta1, 0)) {
             this.theta1 = FastMath.toRadians(45);
             LOG.log(Level.WARNING,"theta1=0 not allowed, reseting to 45");
         } else {

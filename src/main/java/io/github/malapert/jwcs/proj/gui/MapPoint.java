@@ -56,8 +56,7 @@ public final class MapPoint {
     @Override
     public boolean equals(final Object obj) {
         final boolean isEqual;
-        if (obj != null && obj instanceof MapPoint) {
-            final MapPoint p = (MapPoint)obj;
+        if (obj != null && obj instanceof MapPoint p) {
             isEqual = x == p.x && y == p.y;
         } else {
             isEqual = false;

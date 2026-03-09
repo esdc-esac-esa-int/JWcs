@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,18 +19,20 @@
  */
 package io.github.malapert.jwcs.proj;
 
-import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.JWcsFits;
+import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.proj.exception.ProjectionException;
-import java.io.IOException;
-import java.net.URL;
 import nom.tam.fits.Fits;
 import nom.tam.fits.FitsException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  * AIT unit test.
@@ -45,7 +47,8 @@ public class AITTest extends AbstractProjectionTest {
      * @throws JWcsException
      */
     public AITTest() throws FitsException, IOException, JWcsException {
-        super(new JWcsFits(new Fits(new URL("http://tdc-www.harvard.edu/wcstools/samples/1904-66_AIT.fits"))));       
+        super(new JWcsFits(new Fits(
+                Objects.requireNonNull(AITTest.class.getClassLoader().getResource("1904-66_AIT.fits")).toString())));
     }
 
     /**
@@ -77,14 +80,11 @@ public class AITTest extends AbstractProjectionTest {
      * @throws io.github.malapert.jwcs.proj.exception.ProjectionException
      */
     @Test
-    public void testProjectAIT() throws ProjectionException { 
+    public void testProjectAIT() throws ProjectionException {
         System.out.println("project AIT for particular points");
-        final double expectedResults[][] = {
-            {268.56813922635888, -73.498459842570668},
-            {269.173590441019542,  -60.701745163311294},
-            {293.585024918963427,  -57.985930606481887},
-            {307.086200231548048,  -69.283421957183037}
-        };
+        final double[][] expectedResults =
+                { { 268.56813922635888, -73.498459842570668 }, { 269.173590441019542, -60.701745163311294 },
+                  { 293.585024918963427, -57.985930606481887 }, { 307.086200231548048, -69.283421957183037 } };
         double[] result = wcs.pix2wcs(1, 1);
         assertArrayEquals(expectedResults[0], result, 1e-13);
 
@@ -105,17 +105,12 @@ public class AITTest extends AbstractProjectionTest {
     @Test
     public void testProjectInverseAIT() throws ProjectionException {
         System.out.println("projectInverse AIT for particular points");
-        final double expectedResults[][] = {
-            {1.0d, 1.0d},
-            {192.d, 1.0d},
-            {192.d, 192d},
-            {1.0d, 192d}
-        };   
+        final double[][] expectedResults = { { 1.0d, 1.0d }, { 192.d, 1.0d }, { 192.d, 192d }, { 1.0d, 192d } };
         double[] result;
         for (final double[] expectedResult : expectedResults) {
             result = wcs.pix2wcs(expectedResult);
             result = wcs.wcs2pix(result);
-             assertArrayEquals(expectedResult, result, 1e-12);
-        }   
+            assertArrayEquals(expectedResult, result, 1e-12);
+        }
     }
 }

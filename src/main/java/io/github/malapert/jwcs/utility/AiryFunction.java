@@ -81,9 +81,9 @@ public class AiryFunction implements UnivariateFunction {
         final double zetab = 0.5 * (NumericalUtility.HALF_PI - getThetab());
         final double cos_zetab = FastMath.cos(zetab); 
         final double c;
-        if (NumericalUtility.equal(cos_zetab, 0)) {
+        if (NumericalUtility.equalValues(cos_zetab, 0)) {
             c = 0d;
-        } else if (NumericalUtility.equal(cos_zetab, 1) || NumericalUtility.equal(FastMath.tan(zetab), 0)) {
+        } else if (NumericalUtility.equalValues(cos_zetab, 1) || NumericalUtility.equalValues(FastMath.tan(zetab), 0)) {
             c = -0.5d;
         } else {
             c = FastMath.log(FastMath.cos(zetab))/FastMath.pow(FastMath.tan(zetab), 2);
@@ -95,7 +95,7 @@ public class AiryFunction implements UnivariateFunction {
     public double value(final double theta) {
         final double c = computeC();
         final double zeta = 0.5 * (NumericalUtility.HALF_PI - theta);        
-        if (NumericalUtility.equal(zeta, 0)) {
+        if (NumericalUtility.equalValues(zeta, 0)) {
             throw new MathematicalSolutionException("zeta cannot be 0");
         }
         final double lncZeta = FastMath.log(FastMath.cos(zeta));

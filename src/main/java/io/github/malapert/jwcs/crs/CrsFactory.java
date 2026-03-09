@@ -31,7 +31,7 @@ public abstract class CrsFactory {
     /**
      * Logger.
      */
-    private final static Logger LOG = Logger.getLogger(CrsFactory.class.getName());
+    private static final Logger LOG = Logger.getLogger(CrsFactory.class.getName());
     
     /**
      * Creates a coordinate reference system based on the coordinate system and 

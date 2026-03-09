@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,26 +19,25 @@
  */
 package io.github.malapert.jwcs.proj;
 
-import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.JWcsFits;
+import io.github.malapert.jwcs.proj.exception.JWcsException;
 import io.github.malapert.jwcs.proj.exception.ProjectionException;
-import java.io.IOException;
-import java.net.URL;
 import nom.tam.fits.Fits;
 import nom.tam.fits.FitsException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.*;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * CAR unit test.
  * @author Jean-Christophe Malapert
  */
 public class CARTest extends AbstractProjectionTest {
-    
+
     /**
      *
      * @throws FitsException
@@ -46,24 +45,25 @@ public class CARTest extends AbstractProjectionTest {
      * @throws JWcsException
      */
     public CARTest() throws FitsException, IOException, JWcsException {
-        super(new JWcsFits(new Fits(new URL("http://tdc-www.harvard.edu/wcstools/samples/1904-66_CAR.fits"))));
+        super(new JWcsFits(new Fits(
+                Objects.requireNonNull(CARTest.class.getClassLoader().getResource("1904-66_CAR.fits")).toString())));
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
         //do nothing
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
         //do nothing
     }
-    
+
     @Before
     public void setUp() {
         //do nothing
     }
-    
+
     @After
     public void tearDown() {
         //do nothing
@@ -76,12 +76,9 @@ public class CARTest extends AbstractProjectionTest {
     @Test
     public void testProjectCAR() throws ProjectionException {
         System.out.println("project CAR");
-        final double expectedResults[][] = {
-            { 268.478505878880298,  -73.379971307720851},
-            { 269.112221261139268,  -60.649236049064662},
-            { 293.979623623082773,  -58.392446908567678},
-            { 307.322999681183376,  -69.432770610508726}
-        };
+        final double[][] expectedResults =
+                { { 268.478505878880298, -73.379971307720851 }, { 269.112221261139268, -60.649236049064662 },
+                  { 293.979623623082773, -58.392446908567678 }, { 307.322999681183376, -69.432770610508726 } };
         double[] result = wcs.pix2wcs(1, 1);
         assertArrayEquals(expectedResults[0], result, 1e-13);
 
@@ -102,27 +99,22 @@ public class CARTest extends AbstractProjectionTest {
     @Test
     public void testProjectInverseCAR() throws ProjectionException {
         System.out.println("projectInverse CAR");
-        final double expectedResults[][] = {
-            {1.0d, 1.0d},
-            {192.d, 1.0d},
-            {192.d, 192d},
-            {1.0d, 192d}
-        };   
+        final double[][] expectedResults = { { 1.0d, 1.0d }, { 192.d, 1.0d }, { 192.d, 192d }, { 1.0d, 192d } };
         double[] result;
         for (final double[] expectedResult : expectedResults) {
             result = wcs.pix2wcs(expectedResult);
             result = wcs.wcs2pix(result);
-             assertArrayEquals(expectedResult, result, 1e-12);
-        }   
+            assertArrayEquals(expectedResult, result, 1e-12);
+        }
     }
-    
+
     /**
      * Test of description method, of class CAR.
      */
     @Test
-    public void testDescriptionCAR() throws ProjectionException {
-        System.out.println("description CAR");        
+    public void testDescriptionCAR() {
+        System.out.println("description CAR");
         final String exptected = "Plate carrée";
         assertEquals(exptected, wcs.getName());
-    }    
+    }
 }

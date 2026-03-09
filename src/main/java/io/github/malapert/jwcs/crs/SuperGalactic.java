@@ -58,12 +58,12 @@ public class SuperGalactic extends AbstractCrs {
     /**
      * Name of this coordinate system.
      */
-    private final static CoordinateReferenceSystem SKY_NAME = CoordinateReferenceSystem.SUPER_GALACTIC;           
+    private static final CoordinateReferenceSystem SKY_NAME = CoordinateReferenceSystem.SUPER_GALACTIC;
     
     /**
      * The coordinate system.
      */
-    private AbstractCs coordinateSystem;
+    private final AbstractCs coordinateSystem;
     
     public SuperGalactic() {
         this.coordinateSystem = CsFactory.create(AbstractCs.CoordinateSystem.SPHERICAL2D);

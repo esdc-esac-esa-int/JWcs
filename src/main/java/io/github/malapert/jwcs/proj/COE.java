@@ -43,12 +43,12 @@ public class COE extends AbstractConicProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Conic equal area";
+    private static final String NAME_PROJECTION = "Conic equal area";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "\u03B8a=%s \u03B7=%s"; 
+    private static final String DESCRIPTION = "\u03B8a=%s \u03B7=%s";
         
     /**
      * Constant in radians.
@@ -112,7 +112,7 @@ public class COE extends AbstractConicProjection {
      * @throws BadProjectionParameterException Projection parameters: sin(theta1) + sin(theta2) = 0 are not allowed
      */
     private void checkParameters(final double gamma) throws BadProjectionParameterException {
-        if(NumericalUtility.equal(gamma, 0)) {
+        if(NumericalUtility.equalValues(gamma, 0)) {
             throw new BadProjectionParameterException(this, "Projection parameters: sin(theta1) + sin(theta2) = 0 are not allowed");
         }
     }
@@ -143,9 +143,8 @@ public class COE extends AbstractConicProjection {
         final double theta = NumericalUtility.aasin(w);
         if (Double.isNaN(theta)) {
             throw new PixelBeyondProjectionException(this, x, y, true);
-        }        
-        final double[] pos = {phi, theta};
-        return pos;
+        }
+        return new double[] { phi, theta};
     }
 
     /**

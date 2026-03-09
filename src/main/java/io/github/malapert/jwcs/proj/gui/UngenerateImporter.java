@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,11 +19,7 @@
  */
 package io.github.malapert.jwcs.proj.gui;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,13 +60,11 @@ public final class UngenerateImporter {
 
         // read lines until we reach the end of the file
         try ( // open the file
-                BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, Charset.
-                        defaultCharset()))) {
+              BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()))) {
             while (in.readLine() != null) {
                 final MapLine line = readLine(in);
-                if (line != null) {
-                    lines.add(line);
-                }
+                lines.add(line);
+
             }
         }
 
@@ -91,7 +85,7 @@ public final class UngenerateImporter {
 
         while (true) {
             str = in.readLine();
-            if (str == null || str.length() == 0) {
+            if (str == null || str.isEmpty()) {
                 break;
             }
             str = str.trim().toLowerCase();
@@ -100,8 +94,8 @@ public final class UngenerateImporter {
             }
             try {
                 final StringTokenizer tokenizer = new StringTokenizer(str, " \t,");
-                double x = Double.parseDouble((String) tokenizer.nextToken());
-                final double y = Double.parseDouble((String) tokenizer.nextToken());
+                double x = Double.parseDouble(tokenizer.nextToken());
+                final double y = Double.parseDouble(tokenizer.nextToken());
                 if (x < 0) {
                     x = 360 + x;
                 }

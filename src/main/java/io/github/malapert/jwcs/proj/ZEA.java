@@ -35,12 +35,12 @@ public class ZEA extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Zenithal equal-area";
+    private static final String NAME_PROJECTION = "Zenithal equal-area";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";         
+    private static final String DESCRIPTION = "no limits";
 
    /**
      * Constructs a ZEA projection based on the default celestial longitude and latitude
@@ -86,13 +86,12 @@ public class ZEA extends AbstractZenithalProjection {
         final double r_theta = computeRadius(xr, yr);
         final double phi = computePhi(xr, yr, r_theta);        
         final double theta;
-	if (NumericalUtility.equal(r_theta, 2)) {
+	if (NumericalUtility.equalValues(r_theta, 2)) {
 	    theta = -HALF_PI;
 	} else {
 	    theta = HALF_PI - 2*NumericalUtility.aasin(r_theta * 0.5);
-	}        
-        final double[] pos = {phi, theta};
-        return pos;      
+	}
+        return new double[] { phi, theta};
     }
 
     /**
@@ -115,8 +114,7 @@ public class ZEA extends AbstractZenithalProjection {
         final double r = 2 * FastMath.sin((HALF_PI-theta)*0.5d);
         final double x = computeX(r, phi);
         final double y = computeY(r, phi);
-        final double[] pos = {FastMath.toDegrees(x),FastMath.toDegrees(y)};
-        return pos;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }
 
     @Override

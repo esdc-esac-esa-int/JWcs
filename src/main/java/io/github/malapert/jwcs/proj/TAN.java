@@ -41,12 +41,12 @@ public class TAN extends AbstractZenithalProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Gnomonic";
+    private static final String NAME_PROJECTION = "Gnomonic";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";     
+    private static final String DESCRIPTION = "no limits";
 
    /**
      * Constructs a TAN projection based on the default celestial longitude and latitude
@@ -92,9 +92,8 @@ public class TAN extends AbstractZenithalProjection {
         final double yr = FastMath.toRadians(y);
         final double r_theta = computeRadius(xr, yr);        
         final double phi = computePhi(x, y, r_theta);       
-        final double theta = NumericalUtility.aatan2(1, r_theta);        
-        final double[] pos = {phi, theta};
-        return pos;
+        final double theta = NumericalUtility.aatan2(1, r_theta);
+        return new double[] { phi, theta};
     }
 
     /**
@@ -116,14 +115,13 @@ public class TAN extends AbstractZenithalProjection {
     @Override
     public double[] projectInverse(final double phi, final double theta) throws PixelBeyondProjectionException {        
         final double s = FastMath.sin(theta);
-        if (NumericalUtility.equal(s, 0)) {
+        if (NumericalUtility.equalValues(s, 0)) {
             throw new PixelBeyondProjectionException(this, FastMath.toDegrees(phi), FastMath.toDegrees(theta), false);
         }
         final double r_theta = FastMath.cos(theta) / s;
         final double x = computeX(r_theta, phi);
         final double y = computeY(r_theta, phi);
-        final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-        return coord;
+        return new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
     }       
 
     @Override
@@ -141,8 +139,8 @@ public class TAN extends AbstractZenithalProjection {
         final double raFixed = NumericalUtility.normalizeLongitude(lon);
         final double[] nativeSpherical = computeNativeSpherical(raFixed, lat);
         nativeSpherical[0] = phiRange(nativeSpherical[0]);
-        final boolean result = NumericalUtility.equal(nativeSpherical[1], 0);
-        return result ? false : super.inside(lon, lat);
+        final boolean result = NumericalUtility.equalValues(nativeSpherical[1], 0);
+        return !result && super.inside(lon, lat);
     }        
 
     @Override

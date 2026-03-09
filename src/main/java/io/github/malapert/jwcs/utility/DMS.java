@@ -44,20 +44,20 @@ public final class DMS implements Serializable {
      * <p>This case shows up in DMS values with zero degrees and negative values,
      * such as "-00 24 32"
      */
-    private final static Double MINUS_ZERO = -0.0;
+    private static final Double MINUS_ZERO = -0.0;
 
     /**
      * Number formats for 2 digit degrees and minutes.
      */
-    private final static NumberFormat NF = NumberFormat.getInstance(Locale.US);
+    private static final NumberFormat NF = NumberFormat.getInstance(Locale.US);
 
     /** 
      * Number formats for seconds.
      */
-    private final static NumberFormat NF_SEC = NumberFormat.getInstance(Locale.US);
-    private final static long serialVersionUID = -6119277651753389123L;
+    private static final NumberFormat NF_SEC = NumberFormat.getInstance(Locale.US);
+    private static final long serialVersionUID = -6119277651753389123L;
 
-    private final static double EPSILON = 1E-14;
+    private static final double EPSILON = 1E-14;
     
     static {
         NF.setMinimumIntegerDigits(2);
@@ -146,7 +146,7 @@ public final class DMS implements Serializable {
         final StringTokenizer tok = new StringTokenizer(valueProcessed, ": ");
         int n = 0;
         while (n < 3 && tok.hasMoreTokens()) {
-            vals[n++] = Double.valueOf(tok.nextToken());
+            vals[n++] = Double.parseDouble(tok.nextToken());
         }
 
         if (n >= 2) {
@@ -172,7 +172,7 @@ public final class DMS implements Serializable {
 
         val = (sec / 60.0 + min) / 60.0;
 
-        if (degrees < 0.0 || new Double(degrees).equals(MINUS_ZERO)) {
+        if (degrees < 0.0 || Double.compare(degrees, MINUS_ZERO) == 0) {
             val = degrees - val;
             this.degrees = -this.degrees;
             sign = -1;
@@ -191,7 +191,7 @@ public final class DMS implements Serializable {
         this.val = val;
 
         double v = val; // check also for neg zero
-        if (v < 0.0 || new Double(v).equals(MINUS_ZERO)) {
+        if (v < 0.0 || Double.compare(v, MINUS_ZERO) == 0) {
             sign = -1;
             v = -v;
         } else {

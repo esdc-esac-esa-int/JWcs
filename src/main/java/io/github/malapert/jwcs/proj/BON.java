@@ -42,12 +42,12 @@ public final class BON extends AbstractPolyConicProjection {
     /**
      * Projection's name.
      */
-    private final static String NAME_PROJECTION = "Bonne’s equal area";
+    private static final String NAME_PROJECTION = "Bonne’s equal area";
     
     /**
      * Projection's description.
      */
-    private final static String DESCRIPTION = "no limits";     
+    private static final String DESCRIPTION = "no limits";
 
     /**
      * SFL projection.
@@ -75,7 +75,7 @@ public final class BON extends AbstractPolyConicProjection {
     public BON(final double crval1, final double crval2, final double theta1) {
         super(crval1, crval2, theta1);
         LOG.log(Level.FINER, "INPUTS[Deg] (crval1,crval2,theta1)=({0},{1},{2})", new Object[]{crval1,crval2,theta1});                
-        if (NumericalUtility.equal(theta1,0)) {
+        if (NumericalUtility.equalValues(theta1, 0)) {
             this.sfl = new SFL(crval1, crval2);
         }
     }
@@ -112,13 +112,12 @@ public final class BON extends AbstractPolyConicProjection {
             final double aphi = NumericalUtility.aatan2(xr / r_theta, (y0 - yr) / r_theta);
             final double cos_theta = FastMath.cos(theta);
             final double phi;
-            if (NumericalUtility.equal(cos_theta,0)) {
+            if (NumericalUtility.equalValues(cos_theta, 0)) {
                 phi = 0;
             } else {
                 phi = aphi * r_theta / cos_theta;
             }
-            final double[] pos = {phi, theta};
-            result = pos;
+            result = new double[] { phi, theta};
         } else {
             result = this.sfl.project(x, y);
         }
@@ -162,15 +161,14 @@ public final class BON extends AbstractPolyConicProjection {
             final double r_theta = y0 - theta;
             // computes x and y
             final double aphi;
-            if (NumericalUtility.equal(r_theta, 0)) {
+            if (NumericalUtility.equalValues(r_theta, 0)) {
                 aphi=0;
             } else {
                 aphi = phi * FastMath.cos(theta) / r_theta;
             }
             final double x = r_theta * FastMath.sin(aphi);
             final double y = -r_theta * FastMath.cos(aphi) + y0;
-            final double[] coord = {FastMath.toDegrees(x), FastMath.toDegrees(y)};
-            result = coord;
+            result = new double[] { FastMath.toDegrees(x), FastMath.toDegrees(y)};
         } else {
             result = sfl.projectInverse(phi, theta);
         }

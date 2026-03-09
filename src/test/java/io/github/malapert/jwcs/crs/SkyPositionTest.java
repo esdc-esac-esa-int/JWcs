@@ -1,8 +1,8 @@
-/* 
+/*
  * Copyright (C) 2014-2022 Jean-Christophe Malapert
  *
  * This file is part of JWcs.
- * 
+ *
  * JWcs is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,38 +19,35 @@
  */
 package io.github.malapert.jwcs.crs;
 
-import io.github.malapert.jwcs.position.SkyPosition;
-import io.github.malapert.jwcs.crs.Equatorial;
 import io.github.malapert.jwcs.datum.FK5;
 import io.github.malapert.jwcs.datum.ICRS;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import io.github.malapert.jwcs.position.SkyPosition;
+import org.junit.*;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
  * @author malapert
  */
 public class SkyPositionTest {
-    
+
     public SkyPositionTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -138,7 +135,7 @@ public class SkyPositionTest {
     public void testGetDoubleArray() {
         System.out.println("getDoubleArray");
         SkyPosition instance = new SkyPosition(10, -20, new Equatorial());
-        double[] expResult = new double[]{10,-20};
+        double[] expResult = new double[] { 10, -20 };
         double[] result = instance.getDoubleArray();
         assertArrayEquals(expResult, result, 1e-13);
     }
@@ -153,11 +150,11 @@ public class SkyPositionTest {
         Object obj2 = new SkyPosition(0, 0, new Equatorial(new FK5()));
         SkyPosition instance = new SkyPosition(0, 0, new Equatorial());
         boolean expResult = true;
-        boolean expResult2 = false;        
+        boolean expResult2 = false;
         boolean result = instance.equals(obj);
         boolean result2 = instance.equals(obj2);
         assertEquals(expResult, result);
         assertEquals(expResult2, result2);
-        
+
     }
 }
