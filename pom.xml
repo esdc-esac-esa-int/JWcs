@@ -263,9 +263,9 @@
                 <version>3.0.0</version>
             </plugin>  
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>3.0.5</version>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>4.9.8.2</version>
                 <configuration>
                     <xmlOutput>true</xmlOutput>
                     <!-- Optional directory to put findbugs xdoc xml report -->
@@ -280,11 +280,11 @@
                     <reportSet>
                         <reports>
                             <report>dependencies</report>
-                            <report>project-team</report>
-                            <report>mailing-list</report>
-                            <report>cim</report>
-                            <report>issue-tracking</report>
-                            <report>license</report>
+                            <report>team</report>
+                            <report>mailing-lists</report>
+                            <report>ci-management</report>
+                            <report>issue-management</report>
+                            <report>licenses</report>
                             <report>scm</report>
                         </reports>
                     </reportSet>
